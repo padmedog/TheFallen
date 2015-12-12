@@ -5,9 +5,18 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\spr_playerobject</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\data_received.gml</script>
+  </scripts>
+  <objects name="objects">
+    <object>objects\obj_playerobject</object>
+    <object>objects\obj_server</object>
+  </objects>
   <help>
     <rtf>help.rtf</rtf>
   </help>
