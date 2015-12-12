@@ -11,12 +11,14 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\data_received.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_client</object>
     <object>objects\obj_playerobject</object>
   </objects>
-  <rooms name="rooms"/>
   <help>
     <rtf>help.rtf</rtf>
   </help>
