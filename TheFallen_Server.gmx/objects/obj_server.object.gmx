@@ -31,32 +31,8 @@ if(server &lt; 0)
     show_message("failed to create server");
     game_end();
 }
-tempArray[0] = -1;
-tempList[0] = -1;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//trigged more than a step after client connection
-
+tempArray[4] = -1;
+tempList[4] = -1;
 </string>
           </argument>
         </arguments>
@@ -131,25 +107,31 @@ tempList[0] = -1;
             <string>var sz_ = ds_list_size(tempList[0]);
 if(sz_ &gt; 0)
 {
+    var id_;
     for(i = 0; i &lt; sz_; i++)
     {
-        var id_   = ds_list_find_value(tempList[0],i);
+        id_ = ds_list_find_value(tempList[0],i);
         var buff_ = buffer_create(256,buffer_grow,1);
-        buffer_write(buff_,buffer_u16,1      ); //data id
-        buffer_write(buff_,buffer_s16,id_.dir); //playerobject dir
-        buffer_write(buff_,buffer_s16,id_.pit); //playerobject pit
-        buffer_write(buff_,buffer_s32,id_.x  ); //playerobject x
-        buffer_write(buff_,buffer_s32,id_.y  ); //playerobject y
-        buffer_write(buff_,buffer_s32,id_.z  ); //playerobject z
+        buffer_write(buff_,buffer_u16,1         ); //data id
+        buffer_write(buff_,buffer_s16,id_.socket); //socket
+        buffer_write(buff_,buffer_f32,id_.dir   ); //playerobject dir
+        buffer_write(buff_,buffer_f32,id_.pit   ); //playerobject pit
+        buffer_write(buff_,buffer_f32,id_.x     ); //playerobject x
+        buffer_write(buff_,buffer_f32,id_.y     ); //playerobject y
+        buffer_write(buff_,buffer_f32,id_.z     ); //playerobject z
         tempList[1] = ds_list_create();
+        tempArray[0] = id_;
         with(obj_playerobject)
         {
-            ds_list_add(obj_server.tempList[1],socket)
+            if(other.tempArray[0] != id)
+            {
+                ds_list_add(obj_server.tempList[1],socket)
+            }
         }
         var nm_ = ds_list_size(tempList[1]);
         for(j = 0; j &lt; nm_; j++)
         {
-            var id2_ = ds_list_find_value(tempList[1],j);
+            id2_ = ds_list_find_value(tempList[1],j);
             if(id2_ != id_)
             {
                 network_send_packet(id2_,buff_,buffer_tell(buff_));
@@ -157,7 +139,17 @@ if(sz_ &gt; 0)
         }
         ds_list_destroy(tempList[1]);
         buffer_delete(buff_);
+        var buff_ = buffer_create(256,buffer_grow,1);
+        buffer_write(buff_,buffer_u16,0      ); //data id
+        buffer_write(buff_,buffer_f32,id_.dir); //playerobject dir
+        buffer_write(buff_,buffer_f32,id_.pit); //playerobject pit
+        buffer_write(buff_,buffer_f32,id_.x  ); //playerobject x
+        buffer_write(buff_,buffer_f32,id_.y  ); //playerobject y
+        buffer_write(buff_,buffer_f32,id_.z  ); //playerobject z
+        network_send_packet(id_.socket,buff_,buffer_tell(buff_));
+        buffer_delete(buff_);
     }
+    
 }
 </string>
           </argument>
@@ -201,6 +193,8 @@ switch(as_type)
         inst_.socket = as_sock;
         inst_.ip     = as_ip;
         inst_.port   = as_port;
+        var inst2_ = instance_create(0,0,obj_server_newplayer);
+        inst2_._inst = inst_;
         break;
     case network_type_disconnect:
         var as_sock = ds_map_find_value(async_load,"socket");

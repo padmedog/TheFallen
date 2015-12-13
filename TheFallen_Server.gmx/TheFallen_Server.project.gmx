@@ -17,7 +17,11 @@
   <objects name="objects">
     <object>objects\obj_playerobject</object>
     <object>objects\obj_server</object>
+    <object>objects\obj_server_newplayer</object>
   </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>

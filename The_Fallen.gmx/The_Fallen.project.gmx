@@ -9,16 +9,31 @@
     <sprite>sprites\spr_player</sprite>
     <sprite>sprites\spr_playerobject</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\tex_whitefloor</background>
+    <background>background\tex_grass</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\data_received.gml</script>
+    <script>scripts\get_playerobject.gml</script>
+    <scripts name="3d positions">
+      <script>scripts\d3d_lengthdir_x.gml</script>
+      <script>scripts\d3d_lengthdir_y.gml</script>
+      <script>scripts\d3d_lengthdir_z.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\obj_client</object>
     <object>objects\obj_playerobject</object>
+    <object>objects\obj_control</object>
+    <object>objects\obj_camera</object>
+    <object>objects\obj_control_load</object>
   </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>

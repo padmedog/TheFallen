@@ -35,6 +35,48 @@ zprevious    = 0;
 dir          = 0;
 pit          = 0;
 speed_factor = 1.6;
+tempArray[4] = -1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>tempArray[0] = socket;
+tempArray[1] = ds_list_create();
+with(obj_playerobject)
+{
+    if(socket != other.tempArray[0])
+    {
+        ds_list_add(other.tempArray[1],socket);
+    }
+}
+var buff_ = buffer_create(256,buffer_grow,1);
+buffer_write(buff_,buffer_u16,3);
+buffer_write(buff_,buffer_s16,socket);
+var sz_ = ds_list_size(tempArray[1]);
+for(i = 0; i &lt; sz_; i++)
+{
+    network_send_packet(ds_list_find_value(tempArray[1],i),buff_,buffer_tell(buff_));
+}
+buffer_delete(buff_);
+ds_list_destroy(tempArray[1]);
 </string>
           </argument>
         </arguments>
@@ -59,8 +101,12 @@ speed_factor = 1.6;
             <kind>1</kind>
             <string>xspeed += bxspeed;
 yspeed += byspeed;
+bxspeed = 0;
+byspeed = 0;
 xspeed /= speed_factor;
 yspeed /= speed_factor;
+x += xspeed;
+y += yspeed;
 var update_ = false;
 if(x != xprevious || y != yprevious || z != zprevious)
 {
@@ -73,6 +119,30 @@ if(update_)
 
 //end
 zprevious = z;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_self();
+draw_text(x+16,y-16,"sock: " + string(socket));
 </string>
           </argument>
         </arguments>

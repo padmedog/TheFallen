@@ -39,7 +39,54 @@ if(client_server &lt; 0)
     show_message("failed to connect to server");
     game_end();
 }
+tempArray[4] = -1;
+can_look = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var lr_ = keyboard_check(ord("D"))-keyboard_check(ord("A"));
+var ud_ = keyboard_check(ord("S"))-keyboard_check(ord("W"));
+if(keyboard_check_pressed(ord("V"))) can_look = !can_look;
+if(can_look)
+{
+    var wd_ = window_get_width()/2;
+    var ht_ = window_get_height()/2;
+    var am_ = 4;
+    obj_player.dir -= (window_mouse_get_x()-wd_)/am_;
+    obj_player.pit -= (window_mouse_get_y()-ht_)/am_;
+    window_mouse_set(wd_,ht_);
+}
 
+if(lr_ != 0 || ud_ != 0 || obj_player.prev_dir != obj_player.dir || obj_player.prev_pit != obj_player.pit)
+{
+    var buff_ = buffer_create(256,buffer_grow,1);
+    buffer_write(buff_,buffer_u16,0             );
+    buffer_write(buff_,buffer_f32,obj_player.dir);
+    buffer_write(buff_,buffer_f32,obj_player.pit);
+    buffer_write(buff_,buffer_s8 ,lr_           );
+    buffer_write(buff_,buffer_s8 ,ud_           );
+    network_send_packet(client_server,buff_,buffer_tell(buff_));
+    buffer_delete(buff_);
+}
 </string>
           </argument>
         </arguments>
