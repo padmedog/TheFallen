@@ -1,0 +1,37 @@
+Title: The Fallen, TheFallen, The_Fallen, The-Fallen, Fallen
+
+Description:
+
+Slogan/Sayings/About: Becoming a survivor in the isolated zombie infested towns... teaming up with your friends to remain among the living. Will you survive?
+
+---
+
+Survival: 
+It is entirely possible to live off in the wild harvesting resources, gathering materials, growing crops and hunting down animals. 
+Any sort of survival stuff is added entirely decided by the community.
+
+Explore: 
+This game takes players where they would like to go. 
+The initial release map is set on "blank blank island"
+but over the next few months, many more locations will arrive for players to explore depending on what the community wants to see. 
+Currently the island has plenty of interesting locations to discover and loot. 
+
+---
+
+System Requirements:
+Windows - 
+
+-MINIMUM: 
+ OS: Windows 7 32-bit 
+ Processor: 2 GHz 
+ Memory: 4 GB RAM 
+ DirectX: Version 9.0c 
+ Storage: 1 GB available space
+
+-RECOMMENDED: 
+ OS: Windows 10 64-bit 
+ Processor: 3 GHz 
+ Memory: 8 GB RAM 
+ DirectX: Version 11 
+ Network: Broadband Internet connection 
+ Storage: 4 GB available space
