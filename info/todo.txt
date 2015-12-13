@@ -1,0 +1,12 @@
+//todo list
+//put items in order based on priority
+//closer to the top is higher priority
+--------------------------------------
+world manipulation
+player stats (hlth,engy,hngr,etc)
+item system (weapons, tools, stat items(food,adrenaline,etc),etc)
+communication (like chat) system
+player models
+player animations
+sloped collisions
+terrain system
