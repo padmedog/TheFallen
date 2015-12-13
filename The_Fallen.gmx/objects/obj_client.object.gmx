@@ -65,6 +65,7 @@ can_look = false;
             <kind>1</kind>
             <string>var lr_ = keyboard_check(ord("D"))-keyboard_check(ord("A"));
 var ud_ = keyboard_check(ord("S"))-keyboard_check(ord("W"));
+var ju_ = keyboard_check(vk_space);
 if(keyboard_check_pressed(ord("V"))) can_look = !can_look;
 if(can_look)
 {
@@ -76,14 +77,15 @@ if(can_look)
     window_mouse_set(wd_,ht_);
 }
 
-if(lr_ != 0 || ud_ != 0 || obj_player.prev_dir != obj_player.dir || obj_player.prev_pit != obj_player.pit)
+if(lr_ != 0 || ud_ != 0 || obj_player.prev_dir != obj_player.dir || obj_player.prev_pit != obj_player.pit || ju_)
 {
     var buff_ = buffer_create(256,buffer_grow,1);
-    buffer_write(buff_,buffer_u16,0             );
-    buffer_write(buff_,buffer_f32,obj_player.dir);
-    buffer_write(buff_,buffer_f32,obj_player.pit);
-    buffer_write(buff_,buffer_s8 ,lr_           );
-    buffer_write(buff_,buffer_s8 ,ud_           );
+    buffer_write(buff_,buffer_u16 ,0             );
+    buffer_write(buff_,buffer_f32 ,obj_player.dir);
+    buffer_write(buff_,buffer_f32 ,obj_player.pit);
+    buffer_write(buff_,buffer_s8  ,lr_           );
+    buffer_write(buff_,buffer_s8  ,ud_           );
+    buffer_write(buff_,buffer_bool,ju_           );
     network_send_packet(client_server,buff_,buffer_tell(buff_));
     buffer_delete(buff_);
 }

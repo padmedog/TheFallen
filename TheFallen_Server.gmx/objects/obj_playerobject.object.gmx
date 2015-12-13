@@ -32,10 +32,14 @@ bxspeed      = 0;
 byspeed      = 0;
 z            = 0;
 zprevious    = 0;
+zheight      = 64;
 dir          = 0;
 pit          = 0;
+dirprev      = 0;
+pitprev      = 0;
 speed_factor = 1.6;
-tempArray[4] = -1;
+tempArray[7] = -1;
+grav         = 1;
 </string>
           </argument>
         </arguments>
@@ -101,14 +105,14 @@ ds_list_destroy(tempArray[1]);
             <kind>1</kind>
             <string>xspeed += bxspeed;
 yspeed += byspeed;
+zspeed -= grav;
 bxspeed = 0;
 byspeed = 0;
 xspeed /= speed_factor;
 yspeed /= speed_factor;
-x += xspeed;
-y += yspeed;
+box_col_dyn();
 var update_ = false;
-if(x != xprevious || y != yprevious || z != zprevious)
+if(x != xprevious || y != yprevious || z != zprevious || dirprev != dir || pitprev != pit)
 {
     update_ = true;
 }
@@ -119,6 +123,8 @@ if(update_)
 
 //end
 zprevious = z;
+dirprev   = dir;
+pitprev   = pit;
 </string>
           </argument>
         </arguments>

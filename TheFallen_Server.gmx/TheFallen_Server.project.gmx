@@ -7,17 +7,22 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\spr_playerobject</sprite>
+    <sprite>sprites\spr_boxcollider</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\data_received.gml</script>
     <script>scripts\get_playerobject.gml</script>
+    <script>scripts\box_in_box.gml</script>
+    <script>scripts\box_in_col.gml</script>
+    <script>scripts\box_col_dyn.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_playerobject</object>
     <object>objects\obj_server</object>
     <object>objects\obj_server_newplayer</object>
+    <object>objects\obj_boxcollider</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

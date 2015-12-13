@@ -31,7 +31,7 @@ if(server &lt; 0)
     show_message("failed to create server");
     game_end();
 }
-tempArray[4] = -1;
+tempArray[7] = -1;
 tempList[4] = -1;
 </string>
           </argument>
