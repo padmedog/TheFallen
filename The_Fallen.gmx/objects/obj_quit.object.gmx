@@ -52,7 +52,7 @@
 {
     if(mouse_check_button_pressed(mb_left))
     {
-    room_goto(rm_main);
+        game_end();
     }
     alpha = 0.6;
 }
@@ -84,7 +84,7 @@ else
             <kind>1</kind>
             <string>draw_set_font(global.font_everything_is_possible_b48);
 draw_set_halign(fa_left);
-draw_text_color(x,y,"Start",c_gray,c_gray,c_gray,c_gray,alpha);
+draw_text_color(x,y,"Quit",c_gray,c_gray,c_gray,c_gray,alpha);
 </string>
           </argument>
         </arguments>
