@@ -25,8 +25,50 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>version="0.0.2a"
+            <string>version   = "0.0.3a"
+rx        = mouse_x;
+ry        = mouse_y;
+prx       = mouse_x;
+pry       = mouse_y;
+viewspeed = 6;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>rx = ((rx*viewspeed)+(window_get_width() /2-mouse_x))/(viewspeed+1);
+ry = ((ry*viewspeed)+(window_get_height()/2-mouse_y))/(viewspeed+1);
+background_x[1] = (rx/8)-170;
+background_x[2] = (rx/6)-128;
+background_y[1] = (ry/8)-170;
+background_y[2] = (ry/6)-128;
+with(obj_graypart)
+{
+    xs += (obj_title.rx-obj_title.prx)/4;
+    ys += (obj_title.ry-obj_title.pry)/4;
+}
 
+
+//end
+prx = rx;
+pry = ry;
 </string>
           </argument>
         </arguments>
@@ -51,11 +93,12 @@
             <kind>1</kind>
             <string>var col_ = draw_get_color();
 draw_set_color(c_gray);
-draw_set_font(global.font_everything_is_possible_b48 );
+draw_set_font(global.font_everything_is_possible_b30);
 draw_set_halign(fa_left);
-draw_text(x+256,y+136,version);
-draw_set_font(global.font_everything_is_possible_b132);
-draw_text(x,y,"The Fallen");
+draw_text(x+672+(rx/18),y+92+(ry/18),version);
+draw_set_color(c_ltgray);
+draw_set_font(global.font_cfgrandnord_regular_b132);
+draw_text(x+16+(rx/16),y+16+(ry/16),"The Fallen");
 draw_set_color(col_);
 </string>
           </argument>

@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>alpha=1;
+            <string>color = c_ltgray;
 </string>
           </argument>
         </arguments>
@@ -52,13 +52,13 @@
 {
     if(mouse_check_button_pressed(mb_left))
     {
-    room_goto(rm_main);
+        room_goto(rm_main);
     }
-    alpha = 0.6;
+    color = c_white;
 }
 else
 {
-    alpha = 1;
+    color = c_ltgray;
 }
 </string>
           </argument>
@@ -84,7 +84,10 @@ else
             <kind>1</kind>
             <string>draw_set_font(global.font_everything_is_possible_b48);
 draw_set_halign(fa_left);
-draw_text_color(x,y,"Start",c_gray,c_gray,c_gray,c_gray,alpha);
+var col_ = draw_get_color();
+draw_set_color(c_gray);
+draw_text_outline(x,y,"Start",3,color,8);
+draw_set_color(col_);
 </string>
           </argument>
         </arguments>
