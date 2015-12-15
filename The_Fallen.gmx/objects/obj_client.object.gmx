@@ -74,11 +74,15 @@ can_look = false;
         var wd_ = window_get_width()/2;
         var ht_ = window_get_height()/2;
         var am_ = 4;
-        obj_player.dir -= (window_mouse_get_x()-wd_)/am_;
-        obj_player.pit -= (window_mouse_get_y()-ht_)/am_;
+        obj_player.rdir -= (window_mouse_get_x()-wd_)/am_;
+        obj_player.rpit -= (window_mouse_get_y()-ht_)/am_;
         window_mouse_set(wd_,ht_);
+        window_set_cursor(cr_none);
     }
-    
+    else
+    {
+        window_set_cursor(cr_default);
+    }
     if(lr_ != 0 || ud_ != 0 || obj_player.prev_dir != obj_player.dir || obj_player.prev_pit != obj_player.pit || ju_)
     {
         var buff_ = buffer_create(256,buffer_grow,1);

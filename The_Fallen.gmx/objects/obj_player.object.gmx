@@ -25,9 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>prev_dir = 0;
-prev_pit = 0;
-zview    = 56;
+            <string>prev_dir  = 0;
+prev_pit  = 0;
+rdir      = 0;
+rpit      = 0;
+adir      = 0;
+apit      = 0;
+zview     = 56;
+viewspeed = 4;
 </string>
           </argument>
         </arguments>
@@ -74,10 +79,14 @@ prev_pit = pit;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>while(dir &lt;  0  ) dir += 360;
-while(dir &gt;= 360) dir -= 360;
-while(pit &lt; -89 ) pit += 1;
-while(pit &gt;  89 ) pit -= 1;
+            <string>dir += angle_difference(rdir,dir)/viewspeed;
+pit += angle_difference(rpit,pit)/viewspeed;
+while(dir  &lt;  0  ) dir  += 360;
+while(dir  &gt;= 360) dir  -= 360;
+while(rdir &lt; 0   ) rdir += 360;
+while(rdir &gt;= 360) rdir -= 360;
+pit  = clamp(pit ,-89,89);
+rpit = clamp(rpit,-89,89);
 </string>
           </argument>
         </arguments>

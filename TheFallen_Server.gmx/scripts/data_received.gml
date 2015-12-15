@@ -21,7 +21,7 @@ switch(dat_id)
             var ht_ = pl_.sprite_height/2;
             if(box_in_col(pl_.x-wd_,pl_.y-ht_,pl_.z-1,pl_.x+wd_,pl_.y+ht_,pl_.z+pl_.zheight-1))
             {
-                pl_.zspeed += 8;
+                pl_.zspeed += 4;
             }
         }
         break;

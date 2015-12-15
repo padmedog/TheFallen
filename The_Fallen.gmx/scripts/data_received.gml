@@ -10,8 +10,8 @@ switch(dat_id)
         var x_   = buffer_read(dat_buff,buffer_f32);
         var y_   = buffer_read(dat_buff,buffer_f32);
         var z_   = buffer_read(dat_buff,buffer_f32);
-        obj_player.dir = dir_;
-        obj_player.pit = pit_;
+        obj_player.adir = dir_;
+        obj_player.apit = pit_;
         obj_player.x   = x_;
         obj_player.y   = y_;
         obj_player.z   = z_;
