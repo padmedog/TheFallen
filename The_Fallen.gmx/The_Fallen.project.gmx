@@ -68,7 +68,6 @@
     </scripts>
     <script>scripts\draw_text_outline.gml</script>
   </scripts>
-  <shaders name="shaders"/>
   <fonts name="fonts">
     <font>fonts\fnt_subtitle</font>
   </fonts>
