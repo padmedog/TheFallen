@@ -30,6 +30,7 @@ yspeed = 0;
 xs     = 0;
 ys     = 0;
 dir    = irandom(360);
+size   = random(1)+0.1;
 </string>
           </argument>
         </arguments>
@@ -83,8 +84,9 @@ if(!point_in_rectangle(x,y,0,0,room_width,room_height))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var dist_ = clamp(point_distance(x+xs,y+ys,room_width/4,room_height/2),0.01,99999);
-var am_ = clamp(128/dist_,0,1);
+            <string>//var dist_ = clamp(point_distance(x+xs,y+ys,room_width/4,room_height/2),0.01,99999);
+//var am_ = clamp(128/dist_,0,1);
+am_ = size;
 image_angle += am_;
 draw_sprite_ext(sprite_index,image_index,x+xs,y+ys,am_*image_xscale,am_*image_xscale,image_angle,image_blend,am_*image_alpha);
 </string>

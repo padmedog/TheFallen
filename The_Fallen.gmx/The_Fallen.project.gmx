@@ -55,6 +55,7 @@
     <background>background\bg_gradground</background>
     <background>background\bg_lamp</background>
     <background>background\bg_abandoned</background>
+    <background>background\bg_autoshop</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -82,7 +83,8 @@
     <object>objects\obj_quit</object>
     <object>objects\obj_control_fonts</object>
     <object>objects\obj_graypart</object>
-    <object>objects\obj_graypartgen</object>
+    <object>objects\obj_snowgen</object>
+    <object>objects\obj_menucam</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_menu</room>
