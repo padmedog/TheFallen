@@ -39,8 +39,9 @@ if(client_server &lt; 0)
     show_message("failed to connect to server");
     game_end();
 }
-tempArray[4] = -1;
-can_look = false;
+tempArray[4]  = -1;
+can_look      = false;
+prev_can_look = false;
 </string>
           </argument>
         </arguments>
@@ -65,17 +66,26 @@ can_look = false;
             <kind>1</kind>
             <string>if(instance_exists(obj_player))
 {
-    var lr_ = keyboard_check(ord("D"))-keyboard_check(ord("A"));
-    var ud_ = keyboard_check(ord("S"))-keyboard_check(ord("W"));
-    var ju_ = keyboard_check(vk_space);
-    if(keyboard_check_pressed(ord("V"))) can_look = !can_look;
+    var lr_   = keyboard_check(ord("D"))-keyboard_check(ord("A"));
+    var ud_   = keyboard_check(ord("S"))-keyboard_check(ord("W"));
+    var ju_   = keyboard_check(vk_space);
+    var trig_ = false;
+    if(keyboard_check_pressed(vk_escape)) trig_ = true;
+    if(trig_)
+    {
+        can_look = !can_look;
+        window_mouse_set(window_get_width()/2,window_get_height()/2);
+    }
     if(can_look)
     {
-        var wd_ = window_get_width()/2;
+        var wd_ = window_get_width() /2;
         var ht_ = window_get_height()/2;
         var am_ = 4;
-        obj_player.rdir -= (window_mouse_get_x()-wd_)/am_;
-        obj_player.rpit -= (window_mouse_get_y()-ht_)/am_;
+        if(prev_can_look == can_look)
+        {
+            obj_player.rdir -= (window_mouse_get_x()-wd_)/am_;
+            obj_player.rpit -= (window_mouse_get_y()-ht_)/am_;
+        }
         window_mouse_set(wd_,ht_);
         window_set_cursor(cr_none);
     }
@@ -96,6 +106,8 @@ can_look = false;
         buffer_delete(buff_);
     }
 }
+//end
+prev_can_look = can_look;
 </string>
           </argument>
         </arguments>
@@ -128,6 +140,46 @@ switch(as_type)
         break;
     default:
         break;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!can_look)
+{
+    var col_, alph_, wd_, ht_, wd2_, ht2_;
+    col_  = draw_get_color();
+    alph_ = draw_get_alpha();
+    wd_   = window_get_width();
+    ht_   = window_get_height();
+    wd2_  = wd_/2;
+    ht2_  = ht_/2;
+    draw_set_color(c_black);
+    draw_set_alpha(0.6);
+    draw_rectangle(0,0,wd_,ht_,false);
+    draw_set_color(c_dkgray);
+    draw_set_alpha(0.9);
+    draw_rectangle(wd2_-96,ht2_-128,wd2_+96,ht2_+128,false);
+    draw_set_color(col_);
+    draw_set_alpha(alph_);
 }
 </string>
           </argument>
