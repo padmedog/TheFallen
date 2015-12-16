@@ -58,7 +58,7 @@ pit = 0;
     y   = obj_player.y;
     z   = obj_player.z+obj_player.zview;
 }
-show_debug_message("X: " + string(x) + " Y: " + string(y) + " Z: " + string(z) + " dir: " + string(dir) + " pit: " + string(pit));
+//show_debug_message("X: " + string(x) + " Y: " + string(y) + " Z: " + string(z) + " dir: " + string(dir) + " pit: " + string(pit));
 </string>
           </argument>
         </arguments>
