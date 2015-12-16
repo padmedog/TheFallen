@@ -1,7 +1,0 @@
-As of 12/16/15 - The Fallen - 0.0.6a (New Todo List)
-
-Today we should be doing Pause Menu (Complete),
-and possibly some Terrain or Menu Updates
-
-- Items, Terrain, Structures, Zombies/Related, etc.
-(45-1 hour each)
