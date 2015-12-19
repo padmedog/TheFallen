@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>global.font_everything_is_possible_b48  = font_add("Everything is possible.ttf",48 ,true,false,32,128);
 global.font_everything_is_possible_b132 = font_add("Everything is possible.ttf",132,true,false,32,128);
-global.font_cfgrandnord_regular_b132    = font_add("CFGrandNord-Regular.ttf"   ,132,true,false,32,128);
+global.font_cfgrandnord_regular_b100    = font_add("CFGrandNord-Regular.ttf"   ,100,true,false,32,128);
 global.font_everything_is_possible_b30  = font_add("Everything is possible.ttf",30 ,true,false,32,128);
 </string>
           </argument>

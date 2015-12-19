@@ -48,8 +48,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>instance_create(irandom(room_width)+view_xview[0],irandom(room_height),obj_graypart);
-alarm[0] = 5;
+            <string>for(i = 0; i &lt; 8; i++)
+    instance_create(irandom(room_width+512)+view_xview[0]-512,irandom(room_height),obj_graypart);
+alarm[0] = 1;
 </string>
           </argument>
         </arguments>

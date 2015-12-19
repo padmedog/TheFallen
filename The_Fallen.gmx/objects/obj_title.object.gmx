@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>version   = "0.0.3a"
+            <string>version   = "0.0.6a"
 rx        = mouse_x;
 ry        = mouse_y;
 prx       = mouse_x;
@@ -69,10 +69,40 @@ with(obj_graypart)
     ys += (obj_title.ry-obj_title.pry)/(7-(size*4));
 }
 
+if(!audio_is_playing(snd_ambience_wind0))
+{
+    audio_play_sound(snd_ambience_wind0,2,true);
+}
 
 //end
 prx = rx;
 pry = ry;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(audio_is_playing(snd_ambience_wind0))
+{
+    audio_stop_sound(snd_ambience_wind0);
+}
 </string>
           </argument>
         </arguments>
@@ -95,15 +125,27 @@ pry = ry;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var col_ = draw_get_color();
-draw_set_color(c_gray);
-draw_set_font(global.font_everything_is_possible_b30);
+            <string>var col_  = draw_get_color();
+var alph_ = draw_get_alpha();
+
 draw_set_halign(fa_left);
-draw_text(x+672+(rx/18),y+92+(ry/18),version);
+var y_ = y+92+(ry/18);
+var x_ = x+16+(rx/16);
+draw_set_font(global.font_cfgrandnord_regular_b100);
+var sz_ = string_height("The Fallen");
+var wt_ = string_width( "The Fallen");
+draw_set_color(c_black);
+draw_set_alpha(0.6);
+draw_rectangle(view_xview[0],y_-96,view_xview[0]+view_wview[0],sz_+y_-92,false);
+draw_set_alpha(1);
+draw_set_font(global.font_everything_is_possible_b30);
+draw_set_color(c_gray);
+draw_text(x_-(rx/14)+wt_,y_,version);
+draw_set_font(global.font_cfgrandnord_regular_b100);
 draw_set_color(c_ltgray);
-draw_set_font(global.font_cfgrandnord_regular_b132);
-draw_text(x+16+(rx/16),y+16+(ry/16),"The Fallen");
+draw_text(x_,y+16+(ry/16),"The Fallen");
 draw_set_color(col_);
+draw_set_alpha(alph_);
 </string>
           </argument>
         </arguments>
