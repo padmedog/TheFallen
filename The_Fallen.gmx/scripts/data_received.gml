@@ -75,6 +75,55 @@ switch(dat_id)
             inst_.pit    = pit_;
             inst_.z      = z_;
         }
+        
+        //create the objects
+        nm_ = buffer_read(dat_buff,buffer_s32);
+        for(i = 0; i < nm_; i++)
+        {
+            var id_  = buffer_read(dat_buff,buffer_u32);
+            var x_   = buffer_read(dat_buff,buffer_s32);
+            var y_   = buffer_read(dat_buff,buffer_s32);
+            var z_   = buffer_read(dat_buff,buffer_s32);
+            var wd_  = buffer_read(dat_buff,buffer_f32);
+            var ht_  = buffer_read(dat_buff,buffer_f32);
+            var zh_  = buffer_read(dat_buff,buffer_s32);
+            var tex_ = buffer_read(dat_buff,buffer_u16);
+            var inst_ = instance_create(x_,y_,obj_box);
+            inst_.z = z_;
+            inst_.image_xscale = wd_;
+            inst_.image_yscale = ht_;
+            inst_.zheight      = zh_;
+            inst_.tex          = tex_;
+            inst_.obj_id       = id_;
+        }
+        
+    case 5: //new object
+        var id_  = buffer_read(dat_buff,buffer_u32);
+        var x_   = buffer_read(dat_buff,buffer_s32);
+        var y_   = buffer_read(dat_buff,buffer_s32);
+        var z_   = buffer_read(dat_buff,buffer_s32);
+        var wd_  = buffer_read(dat_buff,buffer_f32);
+        var ht_  = buffer_read(dat_buff,buffer_f32);
+        var zh_  = buffer_read(dat_buff,buffer_s32);
+        var tex_ = buffer_read(dat_buff,buffer_u16);
+        var inst_ = instance_create(x_,y_,obj_box);
+        inst_.z = z_;
+        inst_.image_xscale = wd_;
+        inst_.image_yscale = ht_;
+        inst_.zheight      = zh_;
+        inst_.tex          = tex_;
+        inst_.obj_id       = id_;
+        break;
+    case 6: //destroy object
+        tempArray[0] = buffer_read(dat_buff,buffer_u32);
+        with(obj_box)
+        {
+            if(obj_id == other.tempArray[0])
+            {
+                instance_destroy();
+            }
+        }
+        break;
     default:
         break;
 }

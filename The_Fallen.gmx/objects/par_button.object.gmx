@@ -8,7 +8,7 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="0" enumb="0">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -25,13 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.font_everything_is_possible_b48  = font_add("Everything is possible.ttf",48 ,true,false,32,128);
-global.font_everything_is_possible_b132 = font_add("Everything is possible.ttf",132,true,false,32,128);
-global.font_cfgrandnord_regular_b100    = font_add("CFGrandNord-Regular.ttf"   ,100,true,false,32,128);
-global.font_everything_is_possible_b30  = font_add("Everything is possible.ttf",30 ,true,false,32,128);
-global.font_australia_title_b52         = font_add("AUSTRALIA-TITLE.otf"       ,52 ,true,false,32,128);
-global.font_puolelta_toiselle_b52       = font_add("Puolelta toiselle.ttf"     ,52 ,true,false,32,128);
-global.font_waste_of_time_b52           = font_add("Waste of time.ttf"         ,52 ,true,false,32,128);
+            <string>draw_line(x,y,room_width/2,room_height/2);
 </string>
           </argument>
         </arguments>

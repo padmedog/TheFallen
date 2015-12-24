@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>par_button</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -31,6 +31,8 @@ height = 64;
 text   = "Quit";
 select = false;
 psel   = false;
+xs     = 0;
+ys     = 0;
 </string>
           </argument>
         </arguments>
@@ -53,7 +55,7 @@ psel   = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(point_in_rectangle(mouse_x,mouse_y,x,y,x+width,y+height))
+            <string>if(point_in_rectangle(mouse_x,mouse_y,x+xs,y+ys,x+width+xs,y+height+ys))
 {
     if(mouse_check_button_pressed(mb_left))
     {
@@ -101,11 +103,11 @@ psel = select;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_font(global.font_everything_is_possible_b48);
+            <string>draw_set_font(global.font_waste_of_time_b52);
 draw_set_halign(fa_left);
 var col_ = draw_get_color();
-draw_set_color(c_gray);
-draw_text_outline(x,y,text,3,color,8);
+draw_set_color(color);
+draw_text(x+xs,y+ys,text);
 width  = string_width( text);
 height = string_height(text);
 draw_set_color(col_);

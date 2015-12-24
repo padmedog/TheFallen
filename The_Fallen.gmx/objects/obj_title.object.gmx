@@ -68,6 +68,11 @@ with(obj_graypart)
     xs += (obj_title.rx-obj_title.prx)/(7-(size*4));
     ys += (obj_title.ry-obj_title.pry)/(7-(size*4));
 }
+with(par_button)
+{
+    xs += (obj_title.rx-obj_title.prx)/24;
+    ys += (obj_title.ry-obj_title.pry)/24;
+}
 
 if(!audio_is_playing(snd_ambience_wind0))
 {
@@ -125,7 +130,8 @@ pry = ry;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var col_  = draw_get_color();
+            <string>draw_background(ef_vignette,view_xview[0],0);
+var col_  = draw_get_color();
 var alph_ = draw_get_alpha();
 
 draw_set_halign(fa_left);
@@ -146,6 +152,7 @@ draw_set_color(c_ltgray);
 draw_text(x_,y+16+(ry/16),"The Fallen");
 draw_set_color(col_);
 draw_set_alpha(alph_);
+
 </string>
           </argument>
         </arguments>

@@ -99,7 +99,27 @@ for(i = 0; i &lt; nm_; i++)
     buffer_write(buff_,buffer_f32,id_.y     );
     buffer_write(buff_,buffer_f32,id_.z     );
 }
-
+ds_list_destroy(tempList[0]);
+tempList[0] = ds_list_create();
+with(obj_boxcollider)
+{
+    ds_list_add(other.tempList[0],id);
+}
+nm_ = ds_list_size(tempList[0]);
+buffer_write(buff_,buffer_u32,nm_);
+for(i = 0; i &lt; nm_; i++)
+{
+    var id_ = ds_list_find_value(tempList[0],i);
+    buffer_write(buff_,buffer_u32,id_.col_id);
+    buffer_write(buff_,buffer_s32,id_.x           );
+    buffer_write(buff_,buffer_s32,id_.y           );
+    buffer_write(buff_,buffer_s32,id_.z           );
+    buffer_write(buff_,buffer_f32,id_.image_xscale);
+    buffer_write(buff_,buffer_f32,id_.image_yscale);
+    buffer_write(buff_,buffer_s32,id_.zheight     );
+    buffer_write(buff_,buffer_u16,id_.tex         );
+}
+ds_list_destroy(tempList[0]);
 network_send_packet(_inst.socket,buff_,buffer_tell(buff_));
 buffer_delete(buff_);
 ds_list_destroy(tempArray[0]);

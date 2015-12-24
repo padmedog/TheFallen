@@ -31,8 +31,17 @@ if(server &lt; 0)
     show_message("failed to create server");
     game_end();
 }
-tempArray[7] = -1;
-tempList[4] = -1;
+tempArray[7]  = -1;
+tempList[4]   = -1;
+place_mode    = 0;
+is_placing    = false;
+place_x1      = 0;
+place_y1      = 0;
+place_x2      = 0;
+place_y2      = 0;
+place_z       = 0;
+place_zheight = 32;
+global.boxcol_id = 0;
 </string>
           </argument>
         </arguments>
@@ -151,6 +160,72 @@ if(sz_ &gt; 0)
     }
     
 }
+
+if(mouse_wheel_up())   place_mode += 1;
+if(mouse_wheel_down()) place_mode -= 1;
+if(mouse_check_button_pressed(mb_left))
+{
+    switch(place_mode)
+    {
+        case 0 or 1: //object_placement
+            place_x1   = mouse_x;
+            place_y1   = mouse_y;
+            is_placing = true;
+            break;
+        default:
+            break;
+    }
+}
+if(mouse_check_button(mb_left))
+{
+    switch(place_mode)
+    {
+        case 0 or 1: //object placement
+            place_x2 = mouse_x;
+            place_y2 = mouse_y;
+            break;
+        default:
+            break;
+    }
+}
+if(mouse_check_button_released(mb_left))
+{
+    switch(place_mode)
+    {
+        case 0 or 1: //object placement
+            is_placing = false;
+            place_x2   = mouse_x;
+            place_y2   = mouse_y;
+            if(place_x1 != place_x2 &amp;&amp; place_y1 != place_y2)
+            {
+                var x1_ = min(place_x1,place_x2);
+                var y1_ = min(place_y1,place_y2);
+                var x2_ = max(place_x1,place_x2);
+                var y2_ = max(place_y1,place_y2);
+                var wd_ = x2_-x1_;
+                var ht_ = y2_-y1_;
+                var inst_ = instance_create(x1_,y1_,obj_boxcollider);
+                inst_.image_xscale = wd_/sprite_get_height(spr_boxcollider);
+                inst_.image_yscale = ht_/sprite_get_width( spr_boxcollider);
+                inst_.zheight      = place_zheight;
+                inst_.z            = place_z;
+                switch(place_mode)
+                {
+                    case 0: //whitewall
+                        inst_.tex = 0;
+                        break;
+                    case 1: //grass
+                        inst_.tex = 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -210,6 +285,50 @@ switch(as_type)
     default:
         break;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var text_ = "[scroll wheel] mode: ";
+switch(place_mode)
+{
+    case 0 or 1: //object placement
+        text_ += "object: ";
+        switch(place_mode)
+        {
+            case 0:
+                text_ += "whitewall";
+                break;
+            case 1:
+                text_ += "grass";
+                break;
+            default:
+                text_ += "{" + string(place_mode) + "}";
+        }
+        break;
+    default:
+        text_ += "{" + string(place_mode) + "}";
+        break;
+}
+draw_text(0,0,text_);
 </string>
           </argument>
         </arguments>
