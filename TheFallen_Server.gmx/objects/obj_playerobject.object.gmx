@@ -34,6 +34,7 @@ bzspeed      = 0;
 z            = 0;
 zprevious    = 0;
 zheight      = 64;
+headz        = 56;
 dir          = 0;
 pit          = 0;
 dirprev      = 0;
@@ -41,6 +42,14 @@ pitprev      = 0;
 speed_factor = 1.6;
 tempArray[7] = -1;
 grav         = 0.25;
+mode         = 1;
+/*  modes:
+0 = idle;
+1 = walking;
+2 = running;
+3 = crouch;
+4 = airborne;
+*/
 </string>
           </argument>
         </arguments>
@@ -105,14 +114,45 @@ ds_list_destroy(tempArray[1]);
           <argument>
             <kind>1</kind>
             <string>var _precision = 4; //must be a whole number
-xspeed += bxspeed;
-yspeed += byspeed;
+if(!box_in_col(x-(sprite_width/2),y-(sprite_height/2),z-1,x+(sprite_height/2),y+(sprite_height/2),z+zheight))
+{
+    mode = 4;
+}
+switch(mode)
+{
+    case 0: //idle
+        //don't apply to x/yspeed
+        headz = (headz+56)/2;
+        break;
+    case 1: //walking
+        xspeed += bxspeed;
+        yspeed += byspeed;
+        headz = (headz+56)/2;
+        break;
+    case 2: //running
+        xspeed += bxspeed*1.5;
+        yspeed += byspeed*1.5;
+        headz = (headz+56)/2;
+        break;
+    case 3: //crouch
+        xspeed += bxspeed/3;
+        yspeed += byspeed/3;
+        headz = (headz+28)/2;
+        break;
+    case 4: //airbone
+        //don't affect x/yspeed
+        headz = (headz+56)/2;
+        break;
+}
 zspeed += bzspeed-grav;
 bxspeed = 0;
 byspeed = 0;
 bzspeed = 0;
-xspeed /= speed_factor;
-yspeed /= speed_factor;
+if(mode != 4)
+{
+    xspeed /= speed_factor;
+    yspeed /= speed_factor;
+}
 box_col_dyn(_precision);
 var update_ = false;
 if(x != xprevious || y != yprevious || z != zprevious || dirprev != dir || pitprev != pit)

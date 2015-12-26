@@ -31,7 +31,6 @@ rdir      = 0;
 rpit      = 0;
 adir      = 0;
 apit      = 0;
-zview     = 56;
 viewspeed = 4;
 </string>
           </argument>
