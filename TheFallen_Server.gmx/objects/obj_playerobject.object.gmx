@@ -113,14 +113,14 @@ ds_list_destroy(tempArray[1]);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var _precision = 4; //must be a whole number
+            <string>var _precision = 4; //try to keep above or equal to 4, and preferably at multiples of 4
 if(!box_in_col(x-(sprite_width/2),y-(sprite_height/2),z-1,x+(sprite_height/2),y+(sprite_height/2),z+zheight))
 {
     mode = 4;
 }
 switch(mode)
 {
-    case 0: //idle
+    case 0: //idle, not currently in use though
         //don't apply to x/yspeed
         headz = (headz+56)/2;
         break;
@@ -130,17 +130,18 @@ switch(mode)
         headz = (headz+56)/2;
         break;
     case 2: //running
-        xspeed += bxspeed*1.5;
-        yspeed += byspeed*1.5;
+        xspeed += bxspeed*2;
+        yspeed += byspeed*2;
         headz = (headz+56)/2;
         break;
     case 3: //crouch
-        xspeed += bxspeed/3;
-        yspeed += byspeed/3;
+        xspeed += bxspeed/2;
+        yspeed += byspeed/2;
         headz = (headz+28)/2;
         break;
     case 4: //airbone
-        //don't affect x/yspeed
+        xspeed += bxspeed/3;
+        yspeed += byspeed/3;
         headz = (headz+56)/2;
         break;
 }
@@ -152,6 +153,11 @@ if(mode != 4)
 {
     xspeed /= speed_factor;
     yspeed /= speed_factor;
+}
+else
+{
+    xspeed /= speed_factor/2;
+    yspeed /= speed_factor/2;
 }
 box_col_dyn(_precision);
 var update_ = false;
