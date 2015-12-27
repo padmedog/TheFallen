@@ -185,6 +185,29 @@ switch(as_type)
     draw_set_color(col_);
     draw_set_alpha(alph_);
 }
+else
+{
+    var col_, alph_
+    col_ = draw_get_color();
+    alph_ = draw_get_alpha();
+    draw_set_color(c_dkgray);
+    draw_set_alpha(0.8);
+    draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-16,window_get_height()-16,false);
+    draw_set_color(c_red);
+    draw_set_alpha(1);
+    draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-176+obj_player.hlth,window_get_height()-80,false);
+    draw_set_color(c_yellow);
+    draw_rectangle(window_get_width()-176,window_get_height()-80,window_get_width()-176+obj_player.engy,window_get_height()-64,false);
+    draw_set_color(c_orange);
+    draw_rectangle(window_get_width()-176,window_get_height()-64,window_get_width()-176+obj_player.hngr,window_get_height()-48,false);
+    draw_set_color(c_blue);
+    draw_rectangle(window_get_width()-176,window_get_height()-48,window_get_width()-176+obj_player.hngr,window_get_height()-32,false);
+    //min 170 max 255
+    draw_set_color(make_color_hsv(170+((obj_player.temp/128)*85),255,204));
+    draw_rectangle(window_get_width()-176,window_get_height()-32,window_get_width()-176+obj_player.temp,window_get_height()-16,false);
+    draw_set_color(col_);
+    draw_set_alpha(alph_);
+}
 </string>
           </argument>
         </arguments>

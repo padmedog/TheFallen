@@ -155,6 +155,11 @@ if(sz_ &gt; 0)
         buffer_write(buff_,buffer_f32,id_.x  ); //playerobject x
         buffer_write(buff_,buffer_f32,id_.y  ); //playerobject y
         buffer_write(buff_,buffer_f32,id_.z+id_.headz  ); //playerobject z
+        buffer_write(buff_,buffer_s32,id_.hlth);
+        buffer_write(buff_,buffer_s32,id_.engy);
+        buffer_write(buff_,buffer_s32,id_.hngr);
+        buffer_write(buff_,buffer_s32,id_.thst);
+        buffer_write(buff_,buffer_s32,id_.temp);
         network_send_packet(id_.socket,buff_,buffer_tell(buff_));
         buffer_delete(buff_);
     }
@@ -307,6 +312,11 @@ switch(as_type)
         inst_.xspeed = 0;
         inst_.yspeed = 0;
         inst_.zspeed = 0;
+        inst_.hlth   = 128;
+        inst_.engy   = 96;
+        inst_.hngr   = 96;
+        inst_.thst   = 96;
+        inst_.temp   = 128;
         inst_.socket = as_sock;
         inst_.ip     = as_ip;
         inst_.port   = as_port;

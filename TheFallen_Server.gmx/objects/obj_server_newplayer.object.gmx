@@ -73,12 +73,17 @@ for(i = 0; i &lt; sz_; i++)
 }
 buffer_delete(buff_);
 buff_ = buffer_create(256,buffer_grow,1);
-buffer_write(buff_,buffer_u16,4        );
-buffer_write(buff_,buffer_f32,_inst.dir);
-buffer_write(buff_,buffer_f32,_inst.pit);
-buffer_write(buff_,buffer_f32,_inst.x  );
-buffer_write(buff_,buffer_f32,_inst.y  );
-buffer_write(buff_,buffer_f32,_inst.z  );
+buffer_write(buff_,buffer_u16,4         );
+buffer_write(buff_,buffer_f32,_inst.dir );
+buffer_write(buff_,buffer_f32,_inst.pit );
+buffer_write(buff_,buffer_f32,_inst.x   );
+buffer_write(buff_,buffer_f32,_inst.y   );
+buffer_write(buff_,buffer_f32,_inst.z   );
+buffer_write(buff_,buffer_s32,_inst.hlth);
+buffer_write(buff_,buffer_s32,_inst.engy);
+buffer_write(buff_,buffer_s32,_inst.hngr);
+buffer_write(buff_,buffer_s32,_inst.thst);
+buffer_write(buff_,buffer_s32,_inst.temp);
 tempList[0] = ds_list_create();
 with(obj_playerobject)
 {

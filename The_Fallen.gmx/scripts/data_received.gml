@@ -5,16 +5,26 @@ dat_id   = buffer_read(dat_buff,buffer_u16);
 switch(dat_id)
 {
     case 0: //update player
-        var dir_ = buffer_read(dat_buff,buffer_f32);
-        var pit_ = buffer_read(dat_buff,buffer_f32);
-        var x_   = buffer_read(dat_buff,buffer_f32);
-        var y_   = buffer_read(dat_buff,buffer_f32);
-        var z_   = buffer_read(dat_buff,buffer_f32);
+        var dir_  = buffer_read(dat_buff,buffer_f32);
+        var pit_  = buffer_read(dat_buff,buffer_f32);
+        var x_    = buffer_read(dat_buff,buffer_f32);
+        var y_    = buffer_read(dat_buff,buffer_f32);
+        var z_    = buffer_read(dat_buff,buffer_f32);
+        var hlth_ = buffer_read(dat_buff,buffer_s32);
+        var engy_ = buffer_read(dat_buff,buffer_s32);
+        var hngr_ = buffer_read(dat_buff,buffer_s32);
+        var thst_ = buffer_read(dat_buff,buffer_s32);
+        var temp_ = buffer_read(dat_buff,buffer_s32);
         obj_player.adir = dir_;
         obj_player.apit = pit_;
-        obj_player.x   = x_;
-        obj_player.y   = y_;
-        obj_player.z   = z_;
+        obj_player.x    = x_;
+        obj_player.y    = y_;
+        obj_player.z    = z_;
+        obj_player.hlth = hlth_;
+        obj_player.engy = engy_;
+        obj_player.hngr = hngr_;
+        obj_player.thst = thst_;
+        obj_player.temp = temp_;
         break;
     case 1: //update playerobject
         var socket_ = buffer_read(dat_buff,buffer_s16);
@@ -54,11 +64,20 @@ switch(dat_id)
         var x_    = buffer_read(dat_buff,buffer_f32);
         var y_    = buffer_read(dat_buff,buffer_f32);
         var z_    = buffer_read(dat_buff,buffer_f32);
+        var hlth_ = buffer_read(dat_buff,buffer_s32);
+        var engy_ = buffer_read(dat_buff,buffer_s32);
+        var hngr_ = buffer_read(dat_buff,buffer_s32);
+        var thst_ = buffer_read(dat_buff,buffer_s32);
+        var temp_ = buffer_read(dat_buff,buffer_s32);
         var inst_ = instance_create(x_,y_,obj_player);
-        inst_.dir = dir_;
-        inst_.pit = pit_;
-        inst_.z   = z_;
-        
+        inst_.dir  = dir_;
+        inst_.pit  = pit_;
+        inst_.z    = z_;
+        inst_.hlth = hlth_;
+        inst_.engy = engy_;
+        inst_.hngr = hngr_;
+        inst_.thst = thst_;
+        inst_.temp = temp_;
         //create the players
         var nm_ = buffer_read(dat_buff,buffer_u16);
         for(i = 0; i < nm_; i++)
@@ -69,6 +88,11 @@ switch(dat_id)
             x_           = buffer_read(dat_buff,buffer_f32);
             y_           = buffer_read(dat_buff,buffer_f32);
             z_           = buffer_read(dat_buff,buffer_f32);
+            hlth_        = buffer_read(dat_buff,buffer_s32);
+            engy_        = buffer_read(dat_buff,buffer_s32);
+            hngr_        = buffer_read(dat_buff,buffer_s32);
+            thst_        = buffer_read(dat_buff,buffer_s32);
+            temp_        = buffer_read(dat_buff,buffer_s32);
             inst_        = instance_create(x_,y_,obj_playerobject);
             inst_.socket = socket_;
             inst_.dir    = dir_;
