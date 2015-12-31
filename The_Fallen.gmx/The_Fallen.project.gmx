@@ -103,6 +103,8 @@
     <sprite>sprites\spr_playerobject</sprite>
     <sprite>sprites\spr_graypart</sprite>
     <sprite>sprites\spr_box</sprite>
+    <sprite>sprites\spr_inputbox</sprite>
+    <sprite>sprites\spr_connect</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\tex_whitefloor</background>
@@ -128,6 +130,7 @@
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_subtitle</font>
+    <font>fonts\fnt_input</font>
   </fonts>
   <objects name="objects">
     <object>objects\obj_player</object>
@@ -145,6 +148,9 @@
     <object>objects\obj_menucam</object>
     <object>objects\par_button</object>
     <object>objects\obj_box</object>
+    <object>objects\obj_ipbox</object>
+    <object>objects\obj_portbox</object>
+    <object>objects\obj_connectbutton</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_menu</room>

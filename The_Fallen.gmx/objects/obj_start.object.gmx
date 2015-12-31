@@ -59,7 +59,7 @@ ys     = 0;
 {
     if(mouse_check_button_pressed(mb_left))
     {
-        room_goto(rm_main);
+        obj_menucam.side = 1;
     }
     color  = c_white;
     select = true;

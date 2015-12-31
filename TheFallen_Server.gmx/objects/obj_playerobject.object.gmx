@@ -155,8 +155,6 @@ bxspeed = 0;
 byspeed = 0;
 bzspeed = 0;
 
-temp -= 1;
-
 if(mode != 4)
 {
     xspeed /= speed_factor;
@@ -164,8 +162,8 @@ if(mode != 4)
 }
 else
 {
-    xspeed /= ((speed_factor-1)/2)+1;
-    yspeed /= ((speed_factor-1)/2)+1;
+    xspeed /= ((speed_factor-1)/8)+1;
+    yspeed /= ((speed_factor-1)/8)+1;
 }
 box_col_dyn(_precision);
 var update_ = false;

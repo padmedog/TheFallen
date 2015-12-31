@@ -42,6 +42,13 @@ place_y2      = 0;
 place_z       = 0;
 place_zheight = 32;
 global.boxcol_id = 0;
+grid_enabled  = false;
+grid_w        = 32;
+grid_h        = 32;
+view_movex1   = 0;
+view_movey1   = 0;
+view_movex2   = 0;
+view_movey2   = 0;
 </string>
           </argument>
         </arguments>
@@ -215,24 +222,27 @@ if(mouse_check_button(mb_left))
             break;
     }
 }
+if(grid_enabled)
+{
+    place_x1 = floor(place_x1/grid_w)*grid_w;
+    place_y1 = floor(place_y1/grid_h)*grid_h;
+    place_x2 = floor(place_x2/grid_w)*grid_w;
+    place_y2 = floor(place_y2/grid_h)*grid_h;
+}
 if(mouse_check_button_released(mb_left))
 {
     switch(place_mode)
     {
         case -2: //tool zheight change
-            place_y2 = mouse_y;
             is_placing = false;
             place_zheight = place_y2-place_y1;
             break;
         case -1: //tool z change
-            place_y2 = mouse_y;
             is_placing = false;
             place_z = place_y2-place_y1;
             break;
         case 0: //object whitewall
             is_placing = false;
-            place_x2   = mouse_x;
-            place_y2   = mouse_y;
             if(place_x1 != place_x2 &amp;&amp; place_y1 != place_y2)
             {
                 var x1_ = min(place_x1,place_x2);
@@ -251,8 +261,6 @@ if(mouse_check_button_released(mb_left))
             break;
         case 1: //object grass
             is_placing = false;
-            place_x2   = mouse_x;
-            place_y2   = mouse_y;
             if(place_x1 != place_x2 &amp;&amp; place_y1 != place_y2)
             {
                 var x1_ = min(place_x1,place_x2);
@@ -273,6 +281,19 @@ if(mouse_check_button_released(mb_left))
             break;
     }
 }
+if(mouse_check_button_pressed(mb_middle))
+{
+    view_movex1 = window_mouse_get_x();
+    view_movey1 = window_mouse_get_y();
+}
+if(mouse_check_button_released(mb_middle))
+{
+    view_movex2 = window_mouse_get_x();
+    view_movey2 = window_mouse_get_y();
+    view_xview[0] -= view_movex2-view_movex1;
+    view_yview[0] -= view_movey2-view_movey1;
+}
+if(keyboard_check_pressed(ord("V"))) grid_enabled = !grid_enabled;
 </string>
           </argument>
         </arguments>
@@ -378,7 +399,15 @@ switch(place_mode)
         text_ += "{" + string(place_mode) + "}";
         break;
 }
+text_ += "#press v to toggle grid";
 draw_text(0,0,text_);
+if(grid_enabled)
+{
+    draw_grid(floor(view_xview[0]/grid_w)*grid_w,floor(view_yview[0]/grid_h)*grid_h
+        ,view_wview[0]+grid_w,view_hview[0]+grid_h
+        ,ceil((view_xview[0]+view_wview[0])/grid_w)*grid_w
+        ,ceil((view_yview[0]+view_hview[0])/grid_h)*grid_h);
+}
 if(is_placing)
 {
     draw_rectangle(min(place_x1,place_x2),min(place_y1,place_y2),max(place_x1,place_x2),max(place_y1,place_y2),true);

@@ -17,6 +17,7 @@
     <script>scripts\box_in_box.gml</script>
     <script>scripts\box_in_col.gml</script>
     <script>scripts\box_col_dyn.gml</script>
+    <script>scripts\draw_grid.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_playerobject</object>

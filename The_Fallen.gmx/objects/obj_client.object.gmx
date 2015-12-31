@@ -31,9 +31,8 @@ if(client_socket &lt; 0)
     show_message("failed to create socket");
     game_end();
 }
-client_server = network_connect(client_socket,
-    get_string("Type in the ip to connect to,# without the port","127.0.0.1"),
-    get_integer("Type in the port to connect to",5524));
+client_server = network_connect(client_socket,obj_connectbutton.ip,obj_connectbutton.port);
+with(obj_connectbutton) instance_destroy();
 if(client_server &lt; 0)
 {
     show_message("failed to connect to server");
@@ -110,6 +109,20 @@ prev_can_look = false;
         buffer_delete(buff_);
     }
 }
+
+if(!can_look)
+{
+    var wd_ = window_get_width()/2;
+    var ht_ = window_get_height()/2;
+    if(mouse_check_button_pressed(mb_left))
+    {
+        if(point_in_rectangle(mouse_x,mouse_y,wd_-94,ht_+59,wd_+95,ht_+124))
+        {
+            room_goto(rm_menu);
+        }
+    }
+}
+
 //end
 prev_can_look = can_look;
 </string>
@@ -150,6 +163,29 @@ switch(as_type)
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>network_destroy(client_socket);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -182,6 +218,12 @@ switch(as_type)
     draw_set_color(c_dkgray);
     draw_set_alpha(0.9);
     draw_rectangle(wd2_-96,ht2_-128,wd2_+96,ht2_+128,false);
+    draw_set_color(c_red);
+    draw_set_font(fnt_input);
+    draw_rectangle(wd2_-94,ht2_+59,wd2_+94,ht2_+124,false);
+    draw_set_color(c_black);
+    draw_text(wd2_-94,ht2_+59,"Quit");
+    draw_set_color(c_black);
     draw_set_color(col_);
     draw_set_alpha(alph_);
 }
