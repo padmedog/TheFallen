@@ -25,8 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.texture_whitefloor = background_get_texture(tex_whitefloor);
-global.texture_grass      = background_get_texture(tex_grass     );
+            <string>global.texture_whitefloor         = background_get_texture(tex_whitefloor    );
+global.texture_grass              = background_get_texture(tex_grass         );
+global.texture_sky_bl_blue2_left  = background_get_texture(sky_bl_blue2_left );
+global.texture_sky_bl_blue2_right = background_get_texture(sky_bl_blue2_right);
+global.texture_sky_bl_blue2_back  = background_get_texture(sky_bl_blue2_back );
+global.texture_sky_bl_blue2_front = background_get_texture(sky_bl_blue2_front);
+global.texture_sky_bl_blue2_top   = background_get_texture(sky_bl_blue2_top  );
 </string>
           </argument>
         </arguments>

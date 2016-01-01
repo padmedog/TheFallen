@@ -115,6 +115,13 @@
     <background>background\bg_abandoned</background>
     <background>background\bg_autoshop</background>
     <background>background\ef_vignette</background>
+    <backgrounds name="skyboxes">
+      <background>background\sky_bl_blue2_left</background>
+      <background>background\sky_bl_blue2_front</background>
+      <background>background\sky_bl_blue2_right</background>
+      <background>background\sky_bl_blue2_back</background>
+      <background>background\sky_bl_blue2_top</background>
+    </backgrounds>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">

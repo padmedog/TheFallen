@@ -125,6 +125,10 @@ for(i = 0; i &lt; nm_; i++)
     buffer_write(buff_,buffer_u16,id_.tex         );
 }
 ds_list_destroy(tempList[0]);
+buffer_write(buff_,buffer_bool,obj_server.fog_enabled);
+buffer_write(buff_,buffer_s32 ,obj_server.fog_color  );
+buffer_write(buff_,buffer_s32 ,obj_server.fog_start  );
+buffer_write(buff_,buffer_s32 ,obj_server.fog_end    );
 network_send_packet(_inst.socket,buff_,buffer_tell(buff_));
 buffer_delete(buff_);
 ds_list_destroy(tempArray[0]);

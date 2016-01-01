@@ -120,6 +120,15 @@ switch(dat_id)
             inst_.tex          = tex_;
             inst_.obj_id       = id_;
         }
+        //set the environment
+        var e_ = buffer_read(dat_buff,buffer_bool);
+        var c_ = buffer_read(dat_buff,buffer_s32 );
+        var s_ = buffer_read(dat_buff,buffer_s32 );
+        var d_ = buffer_read(dat_buff,buffer_s32 );
+        obj_control.fog_enabled = e_;
+        obj_control.fog_color   = c_;
+        obj_control.fog_start   = s_;
+        obj_control.fog_end     = d_;
         
     case 5: //new object
         var id_  = buffer_read(dat_buff,buffer_u32);
@@ -147,6 +156,16 @@ switch(dat_id)
                 instance_destroy();
             }
         }
+        break;
+    case 7: //environment update
+        var e_ = buffer_read(dat_buff,buffer_bool);
+        var c_ = buffer_read(dat_buff,buffer_s32 );
+        var s_ = buffer_read(dat_buff,buffer_s32 );
+        var d_ = buffer_read(dat_buff,buffer_s32 );
+        obj_control.fog_enabled = e_;
+        obj_control.fog_color   = c_;
+        obj_control.fog_start   = s_;
+        obj_control.fog_end     = d_;
         break;
     default:
         break;

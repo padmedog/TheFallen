@@ -31,24 +31,32 @@ if(server &lt; 0)
     show_message("failed to create server");
     game_end();
 }
-tempArray[7]  = -1;
-tempList[4]   = -1;
-place_mode    = 0;
-is_placing    = false;
-place_x1      = 0;
-place_y1      = 0;
-place_x2      = 0;
-place_y2      = 0;
-place_z       = 0;
-place_zheight = 32;
+tempArray[7]     = -1;
+tempList[4]      = -1;
+place_mode       = 0;
+is_placing       = false;
+place_x1         = 0;
+place_y1         = 0;
+place_x2         = 0;
+place_y2         = 0;
+place_z          = 0;
+place_zheight    = 32;
 global.boxcol_id = 0;
-grid_enabled  = false;
-grid_w        = 32;
-grid_h        = 32;
-view_movex1   = 0;
-view_movey1   = 0;
-view_movex2   = 0;
-view_movey2   = 0;
+grid_enabled     = false;
+grid_w           = 32;
+grid_h           = 32;
+view_movex1      = 0;
+view_movey1      = 0;
+view_movex2      = 0;
+view_movey2      = 0;
+fog_enabled      = true;
+fog_color        = c_white;
+fog_start        = 512;
+fog_end          = 128;
+pfog_enabled     = !fog_enabled;
+pfog_color       = fog_color;
+pfog_start       = fog_start;
+pfog_end         = fog_end;
 </string>
           </argument>
         </arguments>
@@ -161,7 +169,7 @@ if(sz_ &gt; 0)
         buffer_write(buff_,buffer_f32,id_.pit); //playerobject pit
         buffer_write(buff_,buffer_f32,id_.x  ); //playerobject x
         buffer_write(buff_,buffer_f32,id_.y  ); //playerobject y
-        buffer_write(buff_,buffer_f32,id_.z+id_.headz  ); //playerobject z
+        buffer_write(buff_,buffer_f32,id_.z+id_.headz); //playerobject z
         buffer_write(buff_,buffer_s32,id_.hlth);
         buffer_write(buff_,buffer_s32,id_.engy);
         buffer_write(buff_,buffer_s32,id_.hngr);
@@ -170,8 +178,8 @@ if(sz_ &gt; 0)
         network_send_packet(id_.socket,buff_,buffer_tell(buff_));
         buffer_delete(buff_);
     }
-    
 }
+
 
 if(mouse_wheel_up())   place_mode += 1;
 if(mouse_wheel_down()) place_mode -= 1;
@@ -179,6 +187,13 @@ if(mouse_check_button_pressed(mb_left))
 {
     switch(place_mode)
     {
+        case -4: //tool fog end change
+            place_y1   = mouse_y;
+            is_placing = true;
+            break;
+        case -3: //tool fog start change
+            place_y1   = mouse_y;
+            is_placing = true;
         case -2: //tool zheight change
             place_y1   = mouse_y;
             is_placing = true;
@@ -204,6 +219,12 @@ if(mouse_check_button(mb_left))
 {
     switch(place_mode)
     {
+        case -4: //tool fog end change
+            place_y2 = mouse_y;
+            break;
+        case -3: //tool fog start change
+            place_y2 = mouse_y;
+            break;
         case -2: //tool zheight change
             place_y2 = mouse_y;
             break;
@@ -233,6 +254,14 @@ if(mouse_check_button_released(mb_left))
 {
     switch(place_mode)
     {
+        case -4: //tool fog end change
+            is_placing = false;
+            fog_end = max(abs(place_y2-place_y1),fog_start);
+            break;
+        case -3: //tool fog start change
+            is_placing = false;
+            fog_start = min(abs(place_y2-place_y1),fog_end);
+            break;
         case -2: //tool zheight change
             is_placing = false;
             place_zheight = place_y2-place_y1;
@@ -281,6 +310,28 @@ if(mouse_check_button_released(mb_left))
             break;
     }
 }
+
+if(fog_enabled != pfog_enabled || fog_color != pfog_color || fog_start != pfog_start || fog_end != pfog_end)
+{
+    var buff_ = buffer_create(256,buffer_grow,1);
+    buffer_write(buff_,buffer_u16 ,7          );
+    buffer_write(buff_,buffer_bool,fog_enabled);
+    buffer_write(buff_,buffer_s32 ,fog_color  );
+    buffer_write(buff_,buffer_s32 ,fog_start  );
+    buffer_write(buff_,buffer_s32 ,fog_end    );
+    tempList[1] = ds_list_create();
+    with(obj_playerobject)
+    {
+        ds_list_add(other.tempList[1],socket);
+    }
+    sz_ = ds_list_size(tempList[1]);
+    var tll_ = buffer_tell(buff_);
+    for(i = 0; i &lt; sz_; i++)
+    {
+        network_send_packet(ds_list_find_value(tempList[1],i),buff_,tll_);
+    }
+}
+
 if(mouse_check_button_pressed(mb_middle))
 {
     view_movex1 = window_mouse_get_x();
@@ -294,6 +345,12 @@ if(mouse_check_button_released(mb_middle))
     view_yview[0] -= view_movey2-view_movey1;
 }
 if(keyboard_check_pressed(ord("V"))) grid_enabled = !grid_enabled;
+
+//end
+pfog_enabled = fog_enabled;
+pfog_color   = fog_color;
+pfog_start   = fog_start;
+pfog_end     = fog_end;
 </string>
           </argument>
         </arguments>
@@ -383,6 +440,12 @@ switch(as_type)
             <string>var text_ = "[scroll wheel] mode: ";
 switch(place_mode)
 {
+    case -4: //tool fog end change
+        text_ += "tool: fog end change [" + string(place_y2-place_y1) + "]";
+        break;
+    case -3: //tool fog start change
+        text_ += "tool: fog start change [" + string(place_y2-place_y1) + "]";
+        break;
     case -2: //tool zheight change
         text_ += "tool: zheight change [" + string(place_y2-place_y1) + "]";
         break;
