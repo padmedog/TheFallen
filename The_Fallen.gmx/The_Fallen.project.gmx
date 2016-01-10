@@ -105,6 +105,7 @@
     <sprite>sprites\spr_box</sprite>
     <sprite>sprites\spr_inputbox</sprite>
     <sprite>sprites\spr_connect</sprite>
+    <sprite>sprites\spr_goback</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\tex_whitefloor</background>

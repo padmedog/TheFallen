@@ -48,6 +48,11 @@ pengy        = 96;
 phngr        = 96;
 pthst        = 96;
 ptemp        = 128;
+max_hlth     = 128;
+max_engy     = 96;
+max_hngr     = 96;
+max_thst     = 96;
+max_temp     = 128;
 /*  modes:
 0 = idle;
 1 = walking;
@@ -123,37 +128,61 @@ if(!box_in_col(x-(sprite_width/2),y-(sprite_height/2),z-1,x+(sprite_height/2),y+
 {
     mode = 4;
 }
+if(bxspeed == 0 &amp;&amp; byspeed == 0) engy += 3;
+var br_ = false;
+var br2_ = false;
+if(alarm[0] &gt; 0) br2_ = true;
+if(mode == 3 &amp;&amp; engy &lt; 1)
+{
+    br_ = true;
+    alarm[0] = 60;
+}
 switch(mode)
 {
-    case 0: //idle, not currently in use though
+    case 0: //idle, not currently in use
         //don't apply to x/yspeed
         headz = (headz+56)/2;
+        if(br2_)
+            engy += 3;
         break;
     case 1: //walking
         xspeed += bxspeed;
         yspeed += byspeed;
         headz = (headz+56)/2;
+        if(br2_)
+            engy += 1;
         break;
     case 2: //running
+        if(br_) break;
         xspeed += bxspeed*2;
         yspeed += byspeed*2;
         headz = (headz+56)/2;
+        engy -= 1;
         break;
     case 3: //crouch
         xspeed += bxspeed/2;
         yspeed += byspeed/2;
         headz = (headz+28)/2;
+        if(br2_)
+            engy += 3;
         break;
     case 4: //airbone
         xspeed += bxspeed/3;
         yspeed += byspeed/3;
         headz = (headz+56)/2;
+        //engy += 0;
         break;
 }
 zspeed += bzspeed-grav;
 bxspeed = 0;
 byspeed = 0;
 bzspeed = 0;
+
+hlth = clamp(hlth,0,max_hlth);
+engy = clamp(engy,0,max_engy);
+hngr = clamp(hngr,0,max_hngr);
+thst = clamp(thst,0,max_thst);
+temp = clamp(temp,0,max_temp);
 
 if(mode != 4)
 {

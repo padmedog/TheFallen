@@ -26,9 +26,16 @@ switch(dat_id)
             var ht_ = pl_.sprite_height/2;
             if(box_in_col(pl_.x-wd_,pl_.y-ht_,pl_.z-1,pl_.x+wd_,pl_.y+ht_,pl_.z+pl_.zheight-1))
             {
-                pl_.bzspeed = 4;
+                if(pl_.engy >= 8)
+                {
+                    pl_.bzspeed = 4;
+                    pl_.engy -= 8;
+                    pl_.alarm[0] = 60;
+                }
             }
         }
+        break;
+    case 1: //ping
         break;
     default:
         break;
