@@ -106,6 +106,10 @@
     <sprite>sprites\spr_inputbox</sprite>
     <sprite>sprites\spr_connect</sprite>
     <sprite>sprites\spr_goback</sprite>
+    <sprite>sprites\spr_gobackmenu</sprite>
+    <sprite>sprites\spr_leavegame</sprite>
+    <sprite>sprites\spr_checkbox</sprite>
+    <sprite>sprites\spr_sliderbox</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\tex_whitefloor</background>
@@ -123,6 +127,7 @@
       <background>background\sky_bl_blue2_back</background>
       <background>background\sky_bl_blue2_top</background>
     </backgrounds>
+    <background>background\bg_black</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -135,6 +140,8 @@
     </scripts>
     <script>scripts\draw_text_outline.gml</script>
     <script>scripts\get_tex.gml</script>
+    <script>scripts\menu_secondary.gml</script>
+    <script>scripts\room_goto_fade.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_subtitle</font>
@@ -150,6 +157,7 @@
     <object>objects\obj_title</object>
     <object>objects\obj_start</object>
     <object>objects\obj_quit</object>
+    <object>objects\obj_options</object>
     <object>objects\obj_control_fonts</object>
     <object>objects\obj_graypart</object>
     <object>objects\obj_snowgen</object>
@@ -159,9 +167,21 @@
     <object>objects\obj_ipbox</object>
     <object>objects\obj_portbox</object>
     <object>objects\obj_connectbutton</object>
+    <object>objects\obj_goback</object>
+    <object>objects\obj_optionback</object>
+    <object>objects\obj_gobackmenu</object>
+    <object>objects\obj_leavegame</object>
+    <object>objects\par_secondarymenu</object>
+    <object>objects\obj_fadeto_</object>
+    <object>objects\obj_startup</object>
+    <object>objects\obj_control_options</object>
+    <object>objects\obj_options_fullscreen</object>
+    <object>objects\obj_options_fov</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_startup</room>
     <room>rooms\rm_menu</room>
+    <room>rooms\rm_options</room>
     <room>rooms\rm_main</room>
   </rooms>
   <help>

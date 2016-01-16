@@ -81,7 +81,7 @@ pit = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>d3d_set_projection(x,y,z,x+d3d_lengthdir_x(1,-dir,pit),y+d3d_lengthdir_y(1,-dir,pit),z+d3d_lengthdir_z(1,-dir,pit),0,0,1);
+            <string>d3d_set_projection_ext(x,y,z,x+d3d_lengthdir_x(1,-dir,pit),y+d3d_lengthdir_y(1,-dir,pit),z+d3d_lengthdir_z(1,-dir,pit),0,0,1,obj_control_options.view_fov,window_get_width()/window_get_height(),1,32768);
 </string>
           </argument>
         </arguments>

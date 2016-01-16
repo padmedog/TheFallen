@@ -81,7 +81,7 @@ prev_can_look = false;
     {
         var wd_ = window_get_width() /2;
         var ht_ = window_get_height()/2;
-        var am_ = 4;
+        var am_ = obj_control_options.mouse_sense;
         if(prev_can_look == can_look)
         {
             obj_player.rdir -= (window_mouse_get_x()-wd_)/am_;

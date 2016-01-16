@@ -58,7 +58,7 @@ else if(side == 1)
     x = ((x*spd)+1024)/(spd+1);
 }
 view_xview[0] = x;
-if(keyboard_check_pressed(vk_space)) side = !side;
+//if(keyboard_check_pressed(vk_space)) side = !side;
 </string>
           </argument>
         </arguments>

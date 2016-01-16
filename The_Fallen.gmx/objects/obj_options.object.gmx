@@ -3,9 +3,9 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>1</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>par_button</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,13 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>version   = "0.0.9a"
-rx        = mouse_x;
-ry        = mouse_y;
-prx       = mouse_x;
-pry       = mouse_y;
-js        = true;
-viewspeed = 6;
+            <string>color  = c_ltgray;
+width  = 128;
+height = 64;
+text   = "Options";
+select = false;
+psel   = false;
+xs     = 0;
+ys     = 0;
 </string>
           </argument>
         </arguments>
@@ -54,70 +55,32 @@ viewspeed = 6;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>rx = ((rx*viewspeed)+(window_get_width() /2-mouse_x))/(viewspeed+1);
-ry = ((ry*viewspeed)+(window_get_height()/2-mouse_y))/(viewspeed+1);
-background_x[0] = (rx/24)-170+obj_menucam.x;
-background_x[1] = (rx/8) -170;
-background_x[2] = (rx/6) -128;
-background_x[3] = (rx/12)+768;
-background_y[0] = (ry/24)-170;
-background_y[1] = (ry/8) -170;
-background_y[2] = (ry/6) -128;
-background_y[3] = (ry/12)-128;
-with(obj_graypart)
+            <string>if(point_in_rectangle(mouse_x,mouse_y,x+xs,y+ys,x+width+xs,y+height+ys))
 {
-    xs += (obj_title.rx-obj_title.prx)/(7-(size*4));
-    ys += (obj_title.ry-obj_title.pry)/(7-(size*4));
+    if(mouse_check_button_pressed(mb_left))
+    {
+        room_goto_fade(rm_options,1);
+    }
+    color  = c_white;
+    select = true;
 }
-with(par_button)
+else
 {
-    if(other.js)
-    {
-        xs -= (obj_title.rx-obj_title.prx)/12;
-        ys -= (obj_title.ry-obj_title.pry)/12;
-    }
-    else
-    {
-        xs += (obj_title.rx-obj_title.prx)/24;
-        ys += (obj_title.ry-obj_title.pry)/24;
-    }
+    color  = c_ltgray;
+    select = false;
 }
-if(js) js = false;
 
-if(!audio_is_playing(snd_ambience_wind0))
+if(select == 1 &amp;&amp; psel == 0)
 {
-    audio_play_sound(snd_ambience_wind0,2,true);
+    audio_play_sound(snd_clickon ,6,false);
+}
+else if(select == 0 &amp;&amp; psel == 1)
+{
+    audio_play_sound(snd_clickoff,5,false);
 }
 
 //end
-prx = rx;
-pry = ry;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(audio_is_playing(snd_ambience_wind0))
-{
-    audio_stop_sound(snd_ambience_wind0);
-}
+psel = select;
 </string>
           </argument>
         </arguments>
@@ -140,28 +103,14 @@ pry = ry;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_background(ef_vignette,view_xview[0],0);
-var col_  = draw_get_color();
-var alph_ = draw_get_alpha();
+            <string>draw_set_font(global.font_waste_of_time_b52);
 draw_set_halign(fa_left);
-var y_ = y+92+(ry/18);
-var x_ = x+16+(rx/16);
-draw_set_font(global.font_cfgrandnord_regular_b100);
-var sz_ = string_height("The Fallen");
-var wt_ = string_width( "The Fallen");
-draw_set_color(c_black);
-draw_set_alpha(0.6);
-draw_rectangle(view_xview[0],y_-96,view_xview[0]+view_wview[0],sz_+y_-92,false);
-draw_set_alpha(1);
-draw_set_font(global.font_everything_is_possible_b30);
-draw_set_color(c_gray);
-draw_text(x_+(rx/14)+wt_,y_,version);
-draw_set_font(global.font_cfgrandnord_regular_b100);
-draw_set_color(c_ltgray);
-draw_text(x_,y+16+(ry/16),"The Fallen");
+var col_ = draw_get_color();
+draw_set_color(color);
+draw_text(x+xs,y+ys,text);
+width  = string_width( text);
+height = string_height(text);
 draw_set_color(col_);
-draw_set_alpha(alph_);
-
 </string>
           </argument>
         </arguments>

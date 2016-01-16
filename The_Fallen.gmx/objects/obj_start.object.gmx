@@ -60,6 +60,7 @@ ys     = 0;
     if(mouse_check_button_pressed(mb_left))
     {
         obj_menucam.side = 1;
+        menu_secondary(0);
     }
     color  = c_white;
     select = true;
