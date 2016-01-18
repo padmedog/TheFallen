@@ -101,7 +101,7 @@ switch(dat_id)
         }
         
         //create the objects
-        nm_ = buffer_read(dat_buff,buffer_s32);
+        nm_ = buffer_read(dat_buff,buffer_u32);
         for(i = 0; i < nm_; i++)
         {
             var id_  = buffer_read(dat_buff,buffer_u32);
@@ -166,6 +166,9 @@ switch(dat_id)
         obj_control.fog_color   = c_;
         obj_control.fog_start   = s_;
         obj_control.fog_end     = d_;
+        break;
+    case 8: //it be a ping
+        
         break;
     default:
         break;

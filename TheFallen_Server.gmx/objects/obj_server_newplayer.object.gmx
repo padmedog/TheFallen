@@ -103,6 +103,11 @@ for(i = 0; i &lt; nm_; i++)
     buffer_write(buff_,buffer_f32,id_.x     );
     buffer_write(buff_,buffer_f32,id_.y     );
     buffer_write(buff_,buffer_f32,id_.z     );
+    buffer_write(buff_,buffer_s32,id_.hlth  );
+    buffer_write(buff_,buffer_s32,id_.engy  );
+    buffer_write(buff_,buffer_s32,id_.hngr  );
+    buffer_write(buff_,buffer_s32,id_.thst  );
+    buffer_write(buff_,buffer_s32,id_.temp  );
 }
 ds_list_destroy(tempList[0]);
 tempList[0] = ds_list_create();
