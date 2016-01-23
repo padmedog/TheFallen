@@ -177,6 +177,7 @@
     <object>objects\obj_control_options</object>
     <object>objects\obj_options_fullscreen</object>
     <object>objects\obj_options_fov</object>
+    <object>objects\obj_options_sense</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_startup</room>

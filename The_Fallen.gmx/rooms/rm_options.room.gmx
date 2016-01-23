@@ -54,6 +54,7 @@
     <instance objName="obj_optionback" x="896" y="736" name="inst_1648BC88" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_options_fullscreen" x="224" y="96" name="inst_8867E630" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_options_fov" x="160" y="160" name="inst_00EFE8B4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_options_sense" x="160" y="256" name="inst_2BE6B9AE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

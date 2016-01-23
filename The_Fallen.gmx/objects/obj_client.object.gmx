@@ -85,8 +85,8 @@ prev_can_look = false;
         var am_ = obj_control_options.mouse_sense;
         if(prev_can_look == can_look)
         {
-            obj_player.rdir -= (window_mouse_get_x()-wd_)/am_;
-            obj_player.rpit -= (window_mouse_get_y()-ht_)/am_;
+            obj_player.rdir -= (window_mouse_get_x()-wd_)*am_;
+            obj_player.rpit -= (window_mouse_get_y()-ht_)*am_;
         }
         window_mouse_set(wd_,ht_);
         window_set_cursor(cr_none);

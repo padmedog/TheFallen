@@ -54,8 +54,10 @@ maxposition = 476;
 {
     if(mouse_check_button(mb_left))
     {
-        position = clamp(mouse_x-(x+2),0,sprite_width-4);
-        obj_control_options.view_fov = floor(position/3.9);
+        position = clamp(mouse_x-(x+2),0.2,sprite_width-4);
+        var tmp_ = position/5;
+        tmp_ *= tmp_;
+        obj_control_options.mouse_sense = tmp_/1536;
     }
 }
 </string>
@@ -87,7 +89,7 @@ draw_rectangle(x+2,y+2,x+2+position,y+sprite_height-2,false);
 draw_set_color(c_ltgray);
 draw_set_font(fnt_input);
 draw_set_halign(fa_middle);
-var txt_ = "FOV: {" + string(obj_control_options.view_fov) + "}";
+var txt_ = "MOUSE SENSITIVITY: {" + string(obj_control_options.mouse_sense*3) + "}";
 var md_ = string_height(txt_);
 draw_text(x+(sprite_width/2),y+(sprite_height/2)-(md_/2),txt_);
 draw_set_color(_col);
