@@ -25,9 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>enabled = false;
+            <string>enabled = obj_control_options.fullscreen;
 image_speed = 0;
-image_index = 0;
+image_index = enabled;
 text = "Fullscreen";
 </string>
           </argument>

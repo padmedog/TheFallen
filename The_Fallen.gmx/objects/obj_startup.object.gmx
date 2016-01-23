@@ -26,6 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>room_goto_fade(rm_menu,2);
+/*var w_ = display_get_width();
+var h_ = display_get_height();
+var r_ = w_/h_;
+window_set_size(1280,1280/r_);*/
 </string>
           </argument>
         </arguments>

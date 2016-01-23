@@ -84,7 +84,7 @@ with(par_button)
 }
 if(js) js = false;
 
-if(!audio_is_playing(snd_ambience_wind0))
+if(!audio_is_playing(snd_ambience_wind0) &amp;&amp; obj_control_options.backsounds)
 {
     audio_play_sound(snd_ambience_wind0,2,true);
 }

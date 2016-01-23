@@ -176,6 +176,7 @@
     <object>objects\obj_startup</object>
     <object>objects\obj_control_options</object>
     <object>objects\obj_options_fullscreen</object>
+    <object>objects\obj_options_backsounds</object>
     <object>objects\obj_options_fov</object>
     <object>objects\obj_options_sense</object>
   </objects>

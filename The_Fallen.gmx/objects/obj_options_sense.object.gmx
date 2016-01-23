@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>position = obj_control_options.view_fov*3.9;
+            <string>position = sqrt(obj_control_options.mouse_sense*1536)*5;
 maxposition = 476;
 
 </string>
