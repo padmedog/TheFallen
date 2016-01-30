@@ -25,9 +25,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>z   = 0;
-dir = 0;
-pit = 0;
+            <string>z           = 0;
+dir         = 0;
+pit         = 0;
+prevsurface = -1;
+mainsurface = -1;
 </string>
           </argument>
         </arguments>
@@ -64,6 +66,45 @@ pit = 0;
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="75">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var alph = 0.1;
+if(!surface_exists(mainsurface))
+{
+    mainsurface = surface_create(window_get_width(),window_get_height());
+    alph = 1;
+}
+if(alph == 1)
+{
+    draw_clear_alpha(c_black,1);
+    d3d_set_lighting(false);
+    surface_set_target(mainsurface);
+    draw_surface(mainsurface,0,0);
+    draw_surface_ext(application_surface,0,0,1,1,0,c_white,alph);
+    surface_reset_target();
+    draw_surface(mainsurface,0,0);
+    d3d_set_lighting(obj_control.light_enabled);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -82,6 +123,7 @@ pit = 0;
           <argument>
             <kind>1</kind>
             <string>d3d_set_projection_ext(x,y,z,x+d3d_lengthdir_x(1,-dir,pit),y+d3d_lengthdir_y(1,-dir,pit),z+d3d_lengthdir_z(1,-dir,pit),0,0,1,obj_control_options.view_fov,window_get_width()/window_get_height(),1,32768);
+
 </string>
           </argument>
         </arguments>

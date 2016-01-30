@@ -41,7 +41,12 @@ if(client_server &lt; 0)
 tempArray[4]  = -1;
 can_look      = false;
 prev_can_look = false;
-
+current_item  = 0;
+/*items:
+0 = nothing
+1 = glock
+2 = ...
+*/
 </string>
           </argument>
         </arguments>
@@ -220,6 +225,7 @@ switch(as_type)
     ht_   = window_get_height();
     wd2_  = wd_/2;
     ht2_  = ht_/2;
+    d3d_set_lighting(false);
     draw_set_color(c_black);
     draw_set_alpha(0.6);
     draw_rectangle(0,0,wd_,ht_,false);
@@ -234,12 +240,14 @@ switch(as_type)
     draw_set_color(c_black);
     draw_set_color(col_);
     draw_set_alpha(alph_);
+    d3d_set_lighting(obj_control.light_enabled);
 }
 else
 {
     var col_, alph_
     col_ = draw_get_color();
     alph_ = draw_get_alpha();
+    d3d_set_lighting(false);
     draw_set_color(c_dkgray);
     draw_set_alpha(0.8);
     draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-16,window_get_height()-16,false);
@@ -257,6 +265,7 @@ else
     draw_rectangle(window_get_width()-176,window_get_height()-32,window_get_width()-176+obj_player.temp,window_get_height()-16,false);
     draw_set_color(col_);
     draw_set_alpha(alph_);
+    d3d_set_lighting(obj_control.light_enabled);
 }
 </string>
           </argument>

@@ -30,7 +30,7 @@ draw_set_color(c_white);
 skybox = 0;
 /* skyboxes:
 0 = default;
-1 = nothing here yet...
+1 = ...
 */
 sky_left  = -1;
 sky_right = -1;
@@ -44,6 +44,20 @@ fog_start   = 128;
 fog_end     = 512;
 
 zbuff_enabled = true;
+light_enabled = true;
+
+//we need some lighting
+d3d_set_lighting(light_enabled);
+d3d_light_define_ambient(c_gray);
+
+d3d_light_define_direction(1,0.2,0.5,0.9,c_white);
+d3d_light_enable(1,true);
+
+//application surface
+if(!application_surface_is_enabled())
+{
+    application_surface_enable(true);
+}
 </string>
           </argument>
         </arguments>
@@ -107,6 +121,7 @@ zbuff_enabled = true;
             <kind>1</kind>
             <string>d3d_end();
 d3d_set_fog(false,-1,-1,-1);
+d3d_set_lighting(false);
 </string>
           </argument>
         </arguments>
@@ -131,6 +146,7 @@ d3d_set_fog(false,-1,-1,-1);
             <kind>1</kind>
             <string>d3d_set_depth(-499);
 //d3d_set_zwriteenable(false);
+d3d_set_lighting(false);
 d3d_set_fog(false,fog_color,fog_start,fog_end);
 d3d_draw_wall(obj_camera.x-fog_end,obj_camera.y-fog_end,obj_camera.z+fog_end,obj_camera.x+fog_end,obj_camera.y-fog_end,obj_camera.z-fog_end,sky_left ,1,1);
 d3d_draw_wall(obj_camera.x+fog_end,obj_camera.y-fog_end,obj_camera.z+fog_end,obj_camera.x+fog_end,obj_camera.y+fog_end,obj_camera.z-fog_end,sky_front,1,1);
@@ -139,6 +155,7 @@ d3d_draw_wall(obj_camera.x-fog_end,obj_camera.y+fog_end,obj_camera.z+fog_end,obj
 d3d_draw_floor(obj_camera.x+fog_end,obj_camera.y-fog_end,obj_camera.z+fog_end,obj_camera.x-fog_end,obj_camera.y+fog_end,obj_camera.z+fog_end,sky_top ,1,1);
 d3d_set_fog(fog_enabled,fog_color,fog_start,fog_end);
 //d3d_set_zwriteenable(zbuff_enabled);
+d3d_set_lighting(light_enabled);
 d3d_set_depth(0);
 </string>
           </argument>

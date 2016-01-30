@@ -32,6 +32,8 @@ rpit      = 0;
 adir      = 0;
 apit      = 0;
 viewspeed = 4;
+item_dir  = 0;
+item_pit  = 0;
 </string>
           </argument>
         </arguments>
@@ -78,7 +80,9 @@ prev_pit = pit;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dir += angle_difference(rdir,dir)/viewspeed;
+            <string>item_dir += angle_difference(dir,item_dir)/2;
+item_pit += angle_difference(pit,item_pit)/2;
+dir += angle_difference(rdir,dir)/viewspeed;
 pit += angle_difference(rpit,pit)/viewspeed;
 while(dir  &lt;  0  ) dir  += 360;
 while(dir  &gt;= 360) dir  -= 360;
@@ -108,7 +112,12 @@ rpit = clamp(rpit,-89,89);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//
+            <string>d3d_transform_set_identity();
+d3d_transform_add_rotation_y(item_pit);
+d3d_transform_add_rotation_z(item_dir);
+d3d_transform_add_translation(obj_camera.x,obj_camera.y,obj_camera.z);
+d3d_model_draw(global.model_glock,32,16,-16,global.texture_col_gray);
+d3d_transform_set_identity();
 </string>
           </argument>
         </arguments>

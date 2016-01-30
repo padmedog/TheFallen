@@ -128,7 +128,7 @@ if(!box_in_col(x-(sprite_width/2),y-(sprite_height/2),z-1,x+(sprite_height/2),y+
 {
     mode = 4;
 }
-if(bxspeed == 0 &amp;&amp; byspeed == 0) engy += 3;
+if(bxspeed == 0 &amp;&amp; byspeed == 0) engy += 0.5;
 var br_ = false;
 var br2_ = false;
 if(alarm[0] &gt; 0) br2_ = true;
@@ -143,28 +143,29 @@ switch(mode)
         //don't apply to x/yspeed
         headz = (headz+56)/2;
         if(br2_)
-            engy += 3;
+            engy += 0.2;
         break;
     case 1: //walking
         xspeed += bxspeed;
         yspeed += byspeed;
         headz = (headz+56)/2;
-        if(br2_)
-            engy += 1;
+        //if(br2_)
+            engy += 0.5;
         break;
     case 2: //running
         if(br_) break;
         xspeed += bxspeed*2;
         yspeed += byspeed*2;
         headz = (headz+56)/2;
-        engy -= 1;
+        //if(br2_)
+            engy -= 1.5;
         break;
     case 3: //crouch
         xspeed += bxspeed/2;
         yspeed += byspeed/2;
         headz = (headz+28)/2;
-        if(br2_)
-            engy += 3;
+        //if(br2_)
+            engy += 0.75;
         break;
     case 4: //airbone
         xspeed += bxspeed/3;
