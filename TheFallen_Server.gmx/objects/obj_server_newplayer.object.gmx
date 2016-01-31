@@ -59,13 +59,14 @@ with(obj_playerobject)
     }
 }
 var buff_ = buffer_create(256,buffer_grow,1);
-buffer_write(buff_,buffer_u16,2           );
-buffer_write(buff_,buffer_s16,_inst.socket);
-buffer_write(buff_,buffer_f32,_inst.dir   );
-buffer_write(buff_,buffer_f32,_inst.pit   );
-buffer_write(buff_,buffer_f32,_inst.x     );
-buffer_write(buff_,buffer_f32,_inst.y     );
-buffer_write(buff_,buffer_f32,_inst.z     );
+buffer_write(buff_,buffer_u16,2                 );
+buffer_write(buff_,buffer_s16,_inst.socket      );
+buffer_write(buff_,buffer_f32,_inst.dir         );
+buffer_write(buff_,buffer_f32,_inst.pit         );
+buffer_write(buff_,buffer_f32,_inst.x           );
+buffer_write(buff_,buffer_f32,_inst.y           );
+buffer_write(buff_,buffer_f32,_inst.z           );
+buffer_write(buff_,buffer_u16,_inst.current_item);
 var sz_ = ds_list_size(tempArray[0]);
 for(i = 0; i &lt; sz_; i++)
 {
@@ -79,6 +80,7 @@ buffer_write(buff_,buffer_f32,_inst.pit );
 buffer_write(buff_,buffer_f32,_inst.x   );
 buffer_write(buff_,buffer_f32,_inst.y   );
 buffer_write(buff_,buffer_f32,_inst.z   );
+buffer_write(buff_,buffer_u16,_inst.current_item);
 buffer_write(buff_,buffer_s32,_inst.hlth);
 buffer_write(buff_,buffer_s32,_inst.engy);
 buffer_write(buff_,buffer_s32,_inst.hngr);
@@ -103,6 +105,7 @@ for(i = 0; i &lt; nm_; i++)
     buffer_write(buff_,buffer_f32,id_.x     );
     buffer_write(buff_,buffer_f32,id_.y     );
     buffer_write(buff_,buffer_f32,id_.z     );
+    buffer_write(buff_,buffer_u16,id_.current_item);
     buffer_write(buff_,buffer_s32,id_.hlth  );
     buffer_write(buff_,buffer_s32,id_.engy  );
     buffer_write(buff_,buffer_s32,id_.hngr  );

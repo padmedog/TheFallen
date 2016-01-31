@@ -25,15 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>prev_dir  = 0;
-prev_pit  = 0;
-rdir      = 0;
-rpit      = 0;
-adir      = 0;
-apit      = 0;
-viewspeed = 4;
-item_dir  = 0;
-item_pit  = 0;
+            <string>prev_dir    = 0;
+prev_pit    = 0;
+rdir        = 0;
+rpit        = 0;
+adir        = 0;
+apit        = 0;
+viewspeed   = 4;
+item_dir    = 0;
+item_pit    = 0;
+currentitem = -1;
 </string>
           </argument>
         </arguments>
@@ -112,12 +113,15 @@ rpit = clamp(rpit,-89,89);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>d3d_transform_set_identity();
-d3d_transform_add_rotation_y(item_pit);
-d3d_transform_add_rotation_z(item_dir);
-d3d_transform_add_translation(obj_camera.x,obj_camera.y,obj_camera.z);
-d3d_model_draw(global.model_glock,32,16,-16,global.texture_col_gray);
-d3d_transform_set_identity();
+            <string>if(global.item_data[current_item,0] != -1)
+{
+    d3d_transform_set_identity();
+    d3d_transform_add_rotation_y(item_pit);
+    d3d_transform_add_rotation_z(item_dir);
+    d3d_transform_add_translation(obj_camera.x,obj_camera.y,obj_camera.z);
+    d3d_model_draw(global.item_data[current_item,0],32,16,-16,global.item_data[current_item,1]);
+    d3d_transform_set_identity();
+}
 </string>
           </argument>
         </arguments>

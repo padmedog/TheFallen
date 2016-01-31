@@ -8,6 +8,7 @@
   <sprites name="sprites">
     <sprite>sprites\spr_playerobject</sprite>
     <sprite>sprites\spr_boxcollider</sprite>
+    <sprite>sprites\spr_item</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -24,6 +25,7 @@
     <object>objects\obj_server</object>
     <object>objects\obj_server_newplayer</object>
     <object>objects\obj_boxcollider</object>
+    <object>objects\obj_item</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

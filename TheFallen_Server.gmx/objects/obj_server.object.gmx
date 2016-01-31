@@ -57,6 +57,7 @@ pfog_enabled     = !fog_enabled;
 pfog_color       = fog_color;
 pfog_start       = fog_start;
 pfog_end         = fog_end;
+global.item_id   = 0;
 </string>
           </argument>
         </arguments>
@@ -136,13 +137,14 @@ if(sz_ &gt; 0)
     {
         id_ = ds_list_find_value(tempList[0],i);
         var buff_ = buffer_create(256,buffer_grow,1);
-        buffer_write(buff_,buffer_u16,1         ); //data id
-        buffer_write(buff_,buffer_s16,id_.socket); //socket
-        buffer_write(buff_,buffer_f32,id_.dir   ); //playerobject dir
-        buffer_write(buff_,buffer_f32,id_.pit   ); //playerobject pit
-        buffer_write(buff_,buffer_f32,id_.x     ); //playerobject x
-        buffer_write(buff_,buffer_f32,id_.y     ); //playerobject y
-        buffer_write(buff_,buffer_f32,id_.z     ); //playerobject z
+        buffer_write(buff_,buffer_u16,1               ); //data id
+        buffer_write(buff_,buffer_s16,id_.socket      ); //socket
+        buffer_write(buff_,buffer_f32,id_.dir         ); //playerobject dir
+        buffer_write(buff_,buffer_f32,id_.pit         ); //playerobject pit
+        buffer_write(buff_,buffer_f32,id_.x           ); //playerobject x
+        buffer_write(buff_,buffer_f32,id_.y           ); //playerobject y
+        buffer_write(buff_,buffer_f32,id_.z           ); //playerobject z
+        buffer_write(buff_,buffer_u16,id_.current_item); //current item
         tempList[1] = ds_list_create();
         tempArray[0] = id_;
         with(obj_playerobject)
@@ -170,7 +172,8 @@ if(sz_ &gt; 0)
         buffer_write(buff_,buffer_f32,id_.x  ); //playerobject x
         buffer_write(buff_,buffer_f32,id_.y  ); //playerobject y
         buffer_write(buff_,buffer_f32,id_.z+id_.headz); //playerobject z
-        buffer_write(buff_,buffer_s32,id_.hlth);
+        buffer_write(buff_,buffer_u16,id_.current_item); //current item
+        buffer_write(buff_,buffer_s32,id_.hlth); //playerobject hlth
         buffer_write(buff_,buffer_s32,id_.engy);
         buffer_write(buff_,buffer_s32,id_.hngr);
         buffer_write(buff_,buffer_s32,id_.thst);
@@ -211,6 +214,12 @@ if(mouse_check_button_pressed(mb_left))
             place_x1   = mouse_x;
             place_y1   = mouse_y;
             is_placing = true;
+            break;
+        case 2: //object item
+            place_x1   = mouse_x;
+            place_y1   = mouse_y;
+            is_placing = true;
+            break;
         default:
             break;
     }
@@ -237,6 +246,9 @@ if(mouse_check_button(mb_left))
             break;
         case 1: //object grass
             place_x2 = mouse_x;
+            place_y2 = mouse_y;
+            break;
+        case 2: //object item
             place_y2 = mouse_y;
             break;
         default:
@@ -306,6 +318,17 @@ if(mouse_check_button_released(mb_left))
                 inst_.tex          = 1;
             }
             break;
+        case 2: //object item
+            is_placing = false;
+            if(place_y1 != place_y2)
+            {
+                var y1_ = min(place_y1,place_y2);
+                var y2_ = max(place_y1,place_y2);
+                var ht_ = y2_-y1_;
+                var inst_ = instance_create(place_x1,place_y1,obj_item);
+                inst_.item = ht_;
+                inst_.z    = place_z;
+            }
         default:
             break;
     }
@@ -457,6 +480,9 @@ switch(place_mode)
         break;
     case 1: //object grass
         text_ += "object: grass";
+        break;
+    case 2: //object item
+        text_ += "object: item [" + string(place_y2-place_y1) + "]";
         break;
     default:
         text_ += "{" + string(place_mode) + "}";

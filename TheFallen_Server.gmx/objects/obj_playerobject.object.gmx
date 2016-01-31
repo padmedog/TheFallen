@@ -25,34 +25,36 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>xspeed       = 0;
-yspeed       = 0;
-zspeed       = 0;
-bxspeed      = 0;
-byspeed      = 0;
-bzspeed      = 0;
-z            = 0;
-zprevious    = 0;
-zheight      = 64;
-headz        = 56;
-dir          = 0;
-pit          = 0;
-dirprev      = 0;
-pitprev      = 0;
-speed_factor = 1.6;
-tempArray[7] = -1;
-grav         = 0.25;
-mode         = 1;
-phlth        = 128;
-pengy        = 96;
-phngr        = 96;
-pthst        = 96;
-ptemp        = 128;
-max_hlth     = 128;
-max_engy     = 96;
-max_hngr     = 96;
-max_thst     = 96;
-max_temp     = 128;
+            <string>xspeed        = 0;
+yspeed        = 0;
+zspeed        = 0;
+bxspeed       = 0;
+byspeed       = 0;
+bzspeed       = 0;
+z             = 0;
+zprevious     = 0;
+zheight       = 64;
+headz         = 56;
+dir           = 0;
+pit           = 0;
+dirprev       = 0;
+pitprev       = 0;
+speed_factor  = 1.6;
+tempArray[7]  = -1;
+grav          = 0.25;
+mode          = 1;
+phlth         = 128;
+pengy         = 96;
+phngr         = 96;
+pthst         = 96;
+ptemp         = 128;
+max_hlth      = 128;
+max_engy      = 96;
+max_hngr      = 96;
+max_thst      = 96;
+max_temp      = 128;
+current_item  = 0;
+pcurrent_item = 0;
 /*  modes:
 0 = idle;
 1 = walking;
@@ -196,10 +198,21 @@ else
     yspeed /= ((speed_factor-1)/8)+1;
 }
 box_col_dyn(_precision);
+
+tempArray[4] = false;
+with(obj_item)
+{
+    if(point_distance_3d(x,y,z,other.x,other.y,other.z))
+    {
+        
+    }
+}
+
 var update_ = false;
 if(x != xprevious || y != yprevious || z != zprevious
     || dirprev != dir || pitprev != pit || phlth != hlth
-    || pengy != engy || phngr != hngr || pthst != thst || ptemp != temp)
+    || pengy != engy || phngr != hngr || pthst != thst || ptemp != temp
+    || pcurrent_item != current_item)
 {
     update_ = true;
 }
@@ -210,14 +223,15 @@ if(update_)
 
 
 //end
-zprevious = z;
-dirprev   = dir;
-pitprev   = pit;
-phlth     = hlth;
-pengy     = engy;
-phngr     = hngr;
-pthst     = thst;
-ptemp     = temp;
+zprevious     = z;
+dirprev       = dir;
+pitprev       = pit;
+pcurrent_item = current_item;
+phlth         = hlth;
+pengy         = engy;
+phngr         = hngr;
+pthst         = thst;
+ptemp         = temp;
 </string>
           </argument>
         </arguments>
