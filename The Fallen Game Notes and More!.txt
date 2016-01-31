@@ -1,0 +1,145 @@
+The Fallen 0.10.0 - Future Notes
+--------------------------------
+
+NOTES:
++Options: Controls, Video, Audio, etc.
+ 
+ -Fullscreen Option(s): 
+ 
+ -Sensitivity: 0-200
+ 
+ -Graphics: 
+   -Window Settings - 
+    Resolution: 640x480 4:3, 800x600 4:3, 1024x768 4:3, 1280x720 16:9, 
+                                  1280x768 5:3, 1360x768 85:48, 1366x768
+    Window Mode: Fullscreen, Fullscreen Windowed, Windowed
+    Vertical Sync: (Check Box)
+   
+   -Basic Settings - 
+    Ani Alias: Off, FXAA Low, FXAA Medium, FXAA High, MLAA
+    Render Quality: Very Low, Low, Medium, High, Very High, Ultra
+		     
+   -Advanced Settings - 
+    Ambient Occlusion, Depth of Field, Bloom, Dynamic Shadows, Motion Blur
+
++Exit Game: Quits The Fallen
+
++Summary: Singleplayer
+          Multiplayer
+	  Options
+	  Exit Game
+
+Unturned Notes - (Better Settings than the ones listed above):
+--------------
+
+Configuration: Options:
+		-FPS/Debug
+		-Music
+		-Physics
+		-Blood
+		-Hints
+	        -FOV 0-120
+		-Volume 0-100
+
+               Display:
+		-Fullscreen
+		-VSync
+		-640x480
+		-800x600
+		-1024x768
+		-1280x720
+		-1280x768
+		-1360x768
+		-1366x768			
+               
+	       Graphics:
+		-Draw Distance 0-100
+	        -Motion Blur
+		-Bloom
+		-Clouds
+		-Backdrop
+		-Fog
+		-Anti-Aliasing
+		-Debris Quality (Low, Med, High, Ultra)
+		-Foliage Density (Low, Med, High, Ultra)
+		-Sun Shafts Quality (Low, Med, High, Ultra)
+		-Lighting Quality (Low, Med, High, Ultra)
+		-Ambient Occlusion Quality (Low, Med, High, Ultra)
+		-Water Quality (Low, Med, High, Ultra)
+		-Scope Resolution (Low, Med, High, Ultra)
+
+               Controls:
+		-Invert Look
+		-Invert Flight
+		-Sensitivity 0-10 --> (Regular for Unturned) or 0-100
+		 
+		 - HOLD or TOGGLE:
+    	           -Aiming
+		   -Crouching
+		   -Proning
+		   -Sprinting
+	
+ 	       Movement - !!CUSTOMIZABLE CONTROLS!!
+		-Up
+		-Down
+		-Left
+		-Right
+		-Jump
+		-Sprint
+
+	       Stance - !!CUSTOMIZABLE CONTROLS!!
+		-Crouch
+		-Prone
+		-Stance
+		-Lean Left
+		-Lean Right
+		-Swap Perspective
+		-Gesture
+
+	       Use - !!CUSTOMIZABLE CONTROLS!!
+		-Interact
+		-Primary
+		-Secondary
+
+	       Items - !!CUSTOMIZABLE CONTROLS!!
+		-Reload
+		-Attach
+		-Firemode
+		-Toggle Tactical
+		-Toggle Vision
+		-Dequip
+
+	       Communication - !!CUSTOMIZABLE CONTROLS!!
+		-Voice
+		-World Chat
+		-Area Chat
+		-Group Chat
+
+	       Interface - !!CUSTOMIZABLE CONTROLS!!
+		-HUD
+		-Other
+		-Dashboard
+		-Inventory
+		-Crafting
+		-Skills
+		-Map
+		-Players
+
+	       Vehicle - !!CUSTOMIZABLE CONTROLS!!
+		-Roll Left
+		-Roll Right
+		-Pitch Up
+		-Pitch Down
+		
+	       Editor - !!CUSTOMIZABLE CONTROLS!!
+
+NOTE: Will be used later on in the development of The Fallen!
+
+Summary: UNTURNED by Nelson Sexton // Version 3.14.2.1
+
+-----------------
+- Play          |  (Version #) Update Notes
+- Survivors     |  (Date) (Time) - (Name of Person)
+- Configuration |  Additions, Improvements, Tweaks, Fixes
+- Workshop      |
+-----------------	
