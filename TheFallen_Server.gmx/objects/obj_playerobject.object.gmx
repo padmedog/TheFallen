@@ -53,7 +53,6 @@ max_engy      = 96;
 max_hngr      = 96;
 max_thst      = 96;
 max_temp      = 128;
-current_item  = 0;
 pcurrent_item = 0;
 /*  modes:
 0 = idle;
@@ -202,9 +201,9 @@ box_col_dyn(_precision);
 tempArray[4] = false;
 with(obj_item)
 {
-    if(point_distance_3d(x,y,z,other.x,other.y,other.z))
+    if(point_distance_3d(x,y,z,other.x,other.y,other.z) &lt; 24)
     {
-        
+        other.current_item = item;
     }
 }
 

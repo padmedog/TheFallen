@@ -55,7 +55,7 @@ pit    = 0;
 d3d_transform_add_rotation_y(pit);
 d3d_transform_add_rotation_z(dir);
 d3d_transform_add_translation(x,y,z);
-d3d_draw_block(-16,-16,0,16,16,64,global.texture_whitefloor,1,1);
+d3d_draw_block(-10,-16,0,10,16,64,global.texture_whitefloor,1,1);
 d3d_model_draw(global.item_data[current_item,0],0,16,32,global.item_data[current_item,1]);
 d3d_transform_set_identity();
 </string>

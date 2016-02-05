@@ -130,8 +130,8 @@ switch(dat_id)
             var inst_ = instance_create(x_,y_,obj_box);
             inst_.z = z_;
             inst_.image_xscale = wd_;
-            inst_.image_yscale = ht_;
             inst_.zheight      = zh_;
+            inst_.image_yscale = ht_;
             inst_.tex          = tex_;
             inst_.obj_id       = id_;
         }
@@ -144,6 +144,21 @@ switch(dat_id)
         obj_control.fog_color   = c_;
         obj_control.fog_start   = s_;
         obj_control.fog_end     = d_;
+        
+        //create the item objects
+        nm_ = buffer_read(dat_buff,buffer_u16);
+        for(i = 0; i < nm_; i++)
+        {
+            var id_   = buffer_read(dat_buff,buffer_u16);
+            x_        = buffer_read(dat_buff,buffer_s32);
+            y_        = buffer_read(dat_buff,buffer_s32);
+            z_        = buffer_read(dat_buff,buffer_s32);
+            item_     = buffer_read(dat_buff,buffer_u16);
+            var inst_ = instance_create(x_,y_,obj_item);
+            inst_.z    = z_;
+            inst_._id_ = id_;
+            inst_.item = item_;
+        }
         
     case 5: //new object
         var id_  = buffer_read(dat_buff,buffer_u32);
@@ -184,6 +199,27 @@ switch(dat_id)
         break;
     case 8: //it be a ping
         
+        break;
+    case 9: //item object creation
+        var id_   = buffer_read(dat_buff,buffer_u16);
+        var x_    = buffer_read(dat_buff,buffer_s32);
+        var y_    = buffer_read(dat_buff,buffer_s32);
+        var z_    = buffer_read(dat_buff,buffer_s32);
+        var item_ = buffer_read(dat_buff,buffer_u16);
+        var inst_ = instance_create(x_,y_,obj_item);
+        inst_.z    = z_;
+        inst_._id_ = id_;
+        inst_.item = item_;
+        break;
+    case 10: //item object delete
+        tempArray[0] = buffer_read(dat_buff,buffer_u16);
+        with(obj_item)
+        {
+            if(_id_ == other.tempArray[0])
+            {
+                instance_destroy();
+            }
+        }
         break;
     default:
         break;

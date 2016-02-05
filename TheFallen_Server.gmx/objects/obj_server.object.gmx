@@ -320,11 +320,11 @@ if(mouse_check_button_released(mb_left))
             break;
         case 2: //object item
             is_placing = false;
-            if(place_y1 != place_y2)
+            //if(place_y1 != place_y2)
             {
                 var y1_ = min(place_y1,place_y2);
                 var y2_ = max(place_y1,place_y2);
-                var ht_ = y2_-y1_;
+                var ht_ = abs(y2_-y1_);
                 var inst_ = instance_create(place_x1,place_y1,obj_item);
                 inst_.item = ht_;
                 inst_.z    = place_z;
@@ -418,6 +418,7 @@ switch(as_type)
         inst_.hngr   = 96;
         inst_.thst   = 96;
         inst_.temp   = 128;
+        inst_.current_item = 1;
         inst_.socket = as_sock;
         inst_.ip     = as_ip;
         inst_.port   = as_port;

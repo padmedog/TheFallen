@@ -137,6 +137,17 @@ buffer_write(buff_,buffer_bool,obj_server.fog_enabled);
 buffer_write(buff_,buffer_s32 ,obj_server.fog_color  );
 buffer_write(buff_,buffer_s32 ,obj_server.fog_start  );
 buffer_write(buff_,buffer_s32 ,obj_server.fog_end    );
+
+tempList[0] = buff_;
+buffer_write(buff_,buffer_u16,instance_number(obj_item));
+with(obj_item)
+{
+    buffer_write(buff_,buffer_u16,_id_);
+    buffer_write(buff_,buffer_s32,x   );
+    buffer_write(buff_,buffer_s32,y   );
+    buffer_write(buff_,buffer_s32,z   );
+    buffer_write(buff_,buffer_u16,item);
+}
 network_send_packet(_inst.socket,buff_,buffer_tell(buff_));
 buffer_delete(buff_);
 ds_list_destroy(tempArray[0]);

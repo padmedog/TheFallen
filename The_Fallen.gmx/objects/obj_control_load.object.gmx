@@ -39,13 +39,13 @@ global.texture_unknown            = background_get_texture(tex_unknown        );
 //models
 global.model_glock = d3d_model_create();
 
-d3d_model_load(global.model_glock,"glock.d3d");
+d3d_model_load(global.model_glock,"glocku.d3d");
 
 //items; [x,0] = model, [x,1] = texture
 global.item_data[0,0] = -1; // - - - - - - - - - nothing
 global.item_data[0,1] = -1;
 global.item_data[1,0] = global.model_glock; // - glock
-global.item_data[0,1] = global.texture_col_gray;
+global.item_data[1,1] = global.texture_col_gray;
 
 </string>
           </argument>
