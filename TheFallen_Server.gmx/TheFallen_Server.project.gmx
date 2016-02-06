@@ -9,6 +9,7 @@
     <sprite>sprites\spr_playerobject</sprite>
     <sprite>sprites\spr_boxcollider</sprite>
     <sprite>sprites\spr_item</sprite>
+    <sprite>sprites\spr_bullet</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -19,6 +20,12 @@
     <script>scripts\box_in_col.gml</script>
     <script>scripts\box_col_dyn.gml</script>
     <script>scripts\draw_grid.gml</script>
+    <scripts name="3d positions">
+      <script>scripts\d3d_lengthdir_x.gml</script>
+      <script>scripts\d3d_lengthdir_y.gml</script>
+      <script>scripts\d3d_lengthdir_z.gml</script>
+    </scripts>
+    <script>scripts\network_play_sound.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_playerobject</object>
@@ -26,6 +33,7 @@
     <object>objects\obj_server_newplayer</object>
     <object>objects\obj_boxcollider</object>
     <object>objects\obj_item</object>
+    <object>objects\obj_bullet</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

@@ -76,6 +76,7 @@ current_item  = 0;
     var ju_   = keyboard_check(vk_space);
     var sh_   = keyboard_check(vk_shift);
     var ct_   = keyboard_check(vk_control);
+    var lb_   = mouse_check_button_pressed(mb_left)*can_look;
     var trig_ = false;
     if(keyboard_check_pressed(vk_escape)) trig_ = true;
     if(trig_)
@@ -111,6 +112,7 @@ current_item  = 0;
         buffer_write(buff_,buffer_bool,ju_           );
         buffer_write(buff_,buffer_bool,sh_           );
         buffer_write(buff_,buffer_bool,ct_           );
+        buffer_write(buff_,buffer_bool,lb_           );
         network_send_packet(client_server,buff_,buffer_tell(buff_));
         buffer_delete(buff_);
     }

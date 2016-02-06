@@ -221,6 +221,19 @@ switch(dat_id)
             }
         }
         break;
+    case 11: //sound create
+        var x_  = buffer_read(dat_buff,buffer_s32 );
+        var y_  = buffer_read(dat_buff,buffer_s32 );
+        var z_  = buffer_read(dat_buff,buffer_s32 );
+        var id_ = buffer_read(dat_buff,buffer_s16 );
+        var pr_ = buffer_read(dat_buff,buffer_u8  );
+        var lp_ = buffer_read(dat_buff,buffer_bool);
+        var inst_ = instance_create(x_,y_,obj_soundemitter);
+        inst_.z          = z_;
+        inst_.sound_id   = id_;
+        inst_._priority_ = pr_;
+        inst_._loop_     = lp_;
+        break;
     default:
         break;
 }

@@ -47,6 +47,8 @@ global.item_data[0,1] = -1;
 global.item_data[1,0] = global.model_glock; // - glock
 global.item_data[1,1] = global.texture_col_gray;
 
+//sounds
+global.sound_data[0] = snd_glock_gunshot;
 </string>
           </argument>
         </arguments>

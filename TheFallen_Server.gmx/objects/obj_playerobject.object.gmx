@@ -54,6 +54,7 @@ max_hngr      = 96;
 max_thst      = 96;
 max_temp      = 128;
 pcurrent_item = 0;
+lb_trig       = false;
 /*  modes:
 0 = idle;
 1 = walking;
@@ -207,6 +208,16 @@ with(obj_item)
     }
 }
 
+if(lb_trig &amp;&amp; current_item == 1)
+{
+    var inst_ = instance_create(x+lengthdir_x(32,dir),y+lengthdir_y(32,dir),obj_bullet);
+    inst_.z      = z+(headz/2);
+    inst_.xspeed = d3d_lengthdir_x(4,-dir,pit);
+    inst_.yspeed = d3d_lengthdir_y(4,-dir,pit);
+    inst_.zspeed = d3d_lengthdir_z(4,-dir,pit);
+    inst_.dmg    = 8;
+}
+
 var update_ = false;
 if(x != xprevious || y != yprevious || z != zprevious
     || dirprev != dir || pitprev != pit || phlth != hlth
@@ -219,6 +230,7 @@ if(update_)
 {
     ds_list_add(obj_server.tempList[0],id);
 }
+
 
 
 //end

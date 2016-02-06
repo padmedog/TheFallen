@@ -131,6 +131,7 @@
     <sound>sound\snd_ambience_wind0</sound>
     <sound>sound\snd_clickon</sound>
     <sound>sound\snd_clickoff</sound>
+    <sound>sound\snd_glock_gunshot</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_player</sprite>
@@ -145,6 +146,7 @@
     <sprite>sprites\spr_checkbox</sprite>
     <sprite>sprites\spr_sliderbox</sprite>
     <sprite>sprites\spr_item</sprite>
+    <sprite>sprites\spr_soundemitter</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\tex_whitefloor</background>
@@ -217,6 +219,7 @@
     <object>objects\obj_options_fov</object>
     <object>objects\obj_options_sense</object>
     <object>objects\obj_item</object>
+    <object>objects\obj_soundemitter</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_startup</room>

@@ -12,6 +12,7 @@ switch(dat_id)
         var ju_  =  buffer_read(dat_buff,buffer_bool);
         var sh_  =  buffer_read(dat_buff,buffer_bool);
         var ct_  =  buffer_read(dat_buff,buffer_bool);
+        var lb_  =  buffer_read(dat_buff,buffer_bool);
         var pl_  =  get_playerobject(dat_sock);
         pl_.dir = dir_;
         pl_.pit = pit_;
@@ -34,8 +35,10 @@ switch(dat_id)
                 }
             }
         }
+        pl_.lb_trig = lb_;
         break;
     case 1: //ping
+        
         break;
     default:
         break;
