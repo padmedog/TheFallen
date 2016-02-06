@@ -122,7 +122,14 @@ if(!can_look)
     var ht_ = window_get_height()/2;
     if(mouse_check_button_pressed(mb_left))
     {
-        if(point_in_rectangle(mouse_x,mouse_y,wd_-94,ht_+59,wd_+95,ht_+124))
+        if(point_in_rectangle(mouse_x,mouse_y,wd_-94,ht_-124,wd_+94,ht_-65))
+        {
+            var wd_ = window_get_width() /2;
+            var ht_ = window_get_height()/2;
+            window_mouse_set(wd_,ht_);
+            can_look = true;
+        }
+        if(point_in_rectangle(mouse_x,mouse_y,wd_-94,ht_+59,wd_+94,ht_+124)) //quit button
         {
             room_goto(rm_menu);
         }
@@ -228,16 +235,19 @@ switch(as_type)
     d3d_set_lighting(false);
     draw_set_color(c_black);
     draw_set_alpha(0.6);
+    draw_set_font(fnt_input);
     draw_rectangle(0,0,wd_,ht_,false);
     draw_set_color(c_dkgray);
     draw_set_alpha(0.9);
     draw_rectangle(wd2_-96,ht2_-128,wd2_+96,ht2_+128,false);
+    draw_set_color(c_gray);
+    draw_rectangle(wd2_-94,ht2_-124,wd2_+94,ht2_-65,false);
     draw_set_color(c_red);
-    draw_set_font(fnt_input);
     draw_rectangle(wd2_-94,ht2_+59,wd2_+94,ht2_+124,false);
     draw_set_color(c_black);
+    draw_text(wd2_-94,ht2_-124,"Resume");
     draw_text(wd2_-94,ht2_+59,"Quit");
-    draw_set_color(c_black);
+    //draw_set_color(c_black);
     draw_set_color(col_);
     draw_set_alpha(alph_);
     d3d_set_lighting(obj_control.light_enabled);

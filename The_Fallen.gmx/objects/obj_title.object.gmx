@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>version   = "0.0.9a"
+            <string>version   = "0.0.11a"
 rx        = mouse_x;
 ry        = mouse_y;
 prx       = mouse_x;
@@ -145,7 +145,7 @@ var col_  = draw_get_color();
 var alph_ = draw_get_alpha();
 draw_set_halign(fa_left);
 var y_ = y+92+(ry/18);
-var x_ = x+16+(rx/16);
+var x_ = x+16+(rx/20);
 draw_set_font(global.font_cfgrandnord_regular_b100);
 var sz_ = string_height("The Fallen");
 var wt_ = string_width( "The Fallen");
@@ -155,9 +155,10 @@ draw_rectangle(view_xview[0],y_-96,view_xview[0]+view_wview[0],sz_+y_-92,false);
 draw_set_alpha(1);
 draw_set_font(global.font_everything_is_possible_b30);
 draw_set_color(c_gray);
-draw_text(x_+(rx/14)+wt_,y_,version);
+draw_text(x_+wt_,y_,version);
 draw_set_font(global.font_cfgrandnord_regular_b100);
 draw_set_color(c_ltgray);
+x_ = x+16+(rx/16);
 draw_text(x_,y+16+(ry/16),"The Fallen");
 draw_set_color(col_);
 draw_set_alpha(alph_);
