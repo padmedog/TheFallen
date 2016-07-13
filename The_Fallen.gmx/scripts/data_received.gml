@@ -2,6 +2,8 @@ var dat_sock, dat_buff, dat_id;
 dat_sock = argument0;
 dat_buff = argument1;
 dat_id   = buffer_read(dat_buff,buffer_u16);
+dat_tell = buffer_tell(dat_buff);
+//show_message_async(dat_tell);
 switch(dat_id)
 {
     case 0: //update player
@@ -233,6 +235,24 @@ switch(dat_id)
         inst_.sound_id   = id_;
         inst_._priority_ = pr_;
         inst_._loop_     = lp_;
+        break;
+    case 12: //emitter create
+        var type_   = buffer_read(dat_buff,buffer_u16);
+        var x_      = buffer_read(dat_buff,buffer_s32);
+        var y_      = buffer_read(dat_buff,buffer_s32);
+        var z_      = buffer_read(dat_buff,buffer_s32);
+        var decay_  = buffer_read(dat_buff,buffer_u32);
+        var width_  = buffer_read(dat_buff,buffer_s32);
+        var height_ = buffer_read(dat_buff,buffer_s32);
+        var length_ = buffer_read(dat_buff,buffer_s32);
+        var dir_    = buffer_read(dat_buff,buffer_f32);
+        var pit_    = buffer_read(dat_buff,buffer_f32);
+        var inst_ = instance_create(x_,y_,obj_emitter);
+        inst_.type         = type_
+        inst_.z            = z_;
+        inst_.alarm[0]     = decay_;
+        inst_.image_xscale = width_;
+        inst_.image_yscale = height_;
         break;
     default:
         break;

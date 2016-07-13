@@ -25,10 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>temp = -1;
-tempArray[0] = -1;
-alarm[0] = 60;
+            <string>alarm[0] = 1800;
 alarm[1] = 1;
+zprevious = 0;
 </string>
           </argument>
         </arguments>
@@ -51,7 +50,8 @@ alarm[1] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>network_play_sound(x,y,z,0,2,false);
+            <string>zprevious = z;
+network_play_sound(x,y,z,0,2,false);
 </string>
           </argument>
         </arguments>
@@ -100,18 +100,18 @@ alarm[1] = 1;
             <string>x += xspeed;
 y += yspeed;
 z += zspeed;
-temp = noone;
+global.array[2] = noone
 with(obj_playerobject)
 {
     if(box_in_box(other.x-2,other.y-2,other.z-2,other.x+2,other.y+2,other.z+2,
         x-16,y-16,z,x+16,y+16,z+zheight))
     {
-        other.temp = id;
+        global.array[2] = id;
     }
 }
-if(temp != noone)
+if(global.array[2] != noone)
 {
-    temp.hlth -= dmg;
+    global.array[2].hlth -= dmg;
     instance_destroy();
 }
 else
@@ -121,17 +121,23 @@ else
         if(box_in_box(other.x-2,other.y-2,other.z-2,other.x+2,other.y+2,other.z+2,
             x,y,z,x+sprite_width,y+sprite_height,z+zheight))
         {
-            other.temp = id;
+            global.array[2].temp = id;
         }
     }
-    if(temp != noone)
+    if(global.array[2] != noone)
     {
         instance_destroy();
     }
 }
 
+for(i = 0; i &lt;= 8; i++)
+{
+    var tmp_ = 8-i;
+    network_create_emitter(0,((tmp_*x)+(i*xprevious))/8,((tmp_*y)+(i*yprevious))/8,((tmp_*z)+(i*zprevious))/8,2,2,20);
+}
+
 //end
-//zprevious = z;
+zprevious = z;
 </string>
           </argument>
         </arguments>

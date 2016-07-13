@@ -32,13 +32,19 @@
     ini_write_real("options","mouse_sense",2);
     ini_write_real("options","view_fov",70);
     ini_write_real("options","backsounds",true);
+    ini_write_real("crosshair","color",c_gray);
+    ini_write_real("crosshair","alpha",0.8);
+    ini_write_real("crosshair","size",1);
     ini_close();
 }
 ini_open("options.ini");
-fullscreen = ini_read_real("options","fullscreen",false);
+fullscreen  = ini_read_real("options","fullscreen",false);
 mouse_sense = ini_read_real("options","mouse_sense",2);
 view_fov    = ini_read_real("options","view_fov",70);
-backsounds = ini_read_real("options","backsounds",true);
+backsounds  = ini_read_real("options","backsounds",true);
+crs_color   = ini_read_real("crosshair","color",c_gray);
+crs_alpha   = ini_read_real("crosshair","alpha",0.8);
+crs_size    = 20//ini_read_real("crosshair","size",1);
 ini_close();
 pfullscreen = fullscreen;
 pmouse_sense = mouse_sense;
@@ -80,7 +86,6 @@ if(pfullscreen != fullscreen || pmouse_sense != mouse_sense || pview_fov != view
 
 if(trig_)
 {
-    ini_open("options.ini");
     ini_open("options.ini");
     ini_write_real("options","fullscreen",fullscreen);
     ini_write_real("options","mouse_sense",mouse_sense);

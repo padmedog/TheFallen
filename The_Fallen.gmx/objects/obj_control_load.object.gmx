@@ -34,7 +34,8 @@ global.texture_sky_bl_blue2_back  = background_get_texture(sky_bl_blue2_back );
 global.texture_sky_bl_blue2_front = background_get_texture(sky_bl_blue2_front);
 global.texture_sky_bl_blue2_top   = background_get_texture(sky_bl_blue2_top  );
 global.texture_col_gray           = background_get_texture(tex_gray          );
-global.texture_unknown            = background_get_texture(tex_unknown        );
+global.texture_unknown            = background_get_texture(tex_unknown       );
+global.texture_col_yellow         = background_get_texture(tex_yellow        );
 
 //models
 global.model_glock = d3d_model_create();
@@ -49,6 +50,9 @@ global.item_data[1,1] = global.texture_col_gray;
 
 //sounds
 global.sound_data[0] = snd_glock_gunshot;
+
+//sprites
+global.sprite_crosshair = sprite_add("crosshair.png",0,true,false,8,8);
 </string>
           </argument>
         </arguments>

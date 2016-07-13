@@ -26,7 +26,6 @@
           <argument>
             <kind>1</kind>
             <string>alarm[0] = 1;
-tempArray[4] = -1;
 </string>
           </argument>
         </arguments>
@@ -49,13 +48,14 @@ tempArray[4] = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>tempArray[0] = ds_list_create();
-tempArray[1] = _inst.socket;
+            <string>show_debug_message("-start sending player join data");
+global.array[3] = ds_list_create();
+global.array[4] = _inst.socket;
 with(obj_playerobject)
 {
-    if(socket != other.tempArray[1])
+    if(socket != global.array[4])
     {
-        ds_list_add(other.tempArray[0],socket);
+        ds_list_add(global.array[3],socket);
     }
 }
 var buff_ = buffer_create(256,buffer_grow,1);
@@ -67,10 +67,11 @@ buffer_write(buff_,buffer_f32,_inst.x           );
 buffer_write(buff_,buffer_f32,_inst.y           );
 buffer_write(buff_,buffer_f32,_inst.z           );
 buffer_write(buff_,buffer_u16,_inst.current_item);
-var sz_ = ds_list_size(tempArray[0]);
+var sz_ = ds_list_size(global.array[3]);
+show_debug_message("send playerobject data to each socket");
 for(i = 0; i &lt; sz_; i++)
 {
-    network_send_packet(ds_list_find_value(tempArray[0],i),buff_,buffer_tell(buff_));
+    network_send_packet(ds_list_find_value(global.array[3],i),buff_,buffer_tell(buff_));
 }
 buffer_delete(buff_);
 buff_ = buffer_create(256,buffer_grow,1);
@@ -86,19 +87,19 @@ buffer_write(buff_,buffer_s32,_inst.engy);
 buffer_write(buff_,buffer_s32,_inst.hngr);
 buffer_write(buff_,buffer_s32,_inst.thst);
 buffer_write(buff_,buffer_s32,_inst.temp);
-tempList[0] = ds_list_create();
+global.array[2] = ds_list_create();
 with(obj_playerobject)
 {
-    if(socket != other._inst.socket)
+    if(socket != global.array[4])
     {
-        ds_list_add(other.tempList[0],id);
+        ds_list_add(global.array[2],id);
     }
 }
-var nm_ = ds_list_size(tempList[0]);
+var nm_ = ds_list_size(global.array[2]);
 buffer_write(buff_,buffer_u16,nm_);
 for(i = 0; i &lt; nm_; i++)
 {
-    var id_ = ds_list_find_value(tempList[0],i);
+    var id_ = ds_list_find_value(global.array[2],i);
     buffer_write(buff_,buffer_s16,id_.socket);
     buffer_write(buff_,buffer_f32,id_.dir   );
     buffer_write(buff_,buffer_f32,id_.pit   );
@@ -112,17 +113,17 @@ for(i = 0; i &lt; nm_; i++)
     buffer_write(buff_,buffer_s32,id_.thst  );
     buffer_write(buff_,buffer_s32,id_.temp  );
 }
-ds_list_destroy(tempList[0]);
-tempList[0] = ds_list_create();
+ds_list_destroy(global.array[2]);
+global.array[2] = ds_list_create();
 with(obj_boxcollider)
 {
-    ds_list_add(other.tempList[0],id);
+    ds_list_add(global.array[2],id);
 }
-nm_ = ds_list_size(tempList[0]);
+nm_ = ds_list_size(global.array[2]);
 buffer_write(buff_,buffer_u32,nm_);
 for(i = 0; i &lt; nm_; i++)
 {
-    var id_ = ds_list_find_value(tempList[0],i);
+    var id_ = ds_list_find_value(global.array[2],i);
     buffer_write(buff_,buffer_u32,id_.col_id);
     buffer_write(buff_,buffer_s32,id_.x           );
     buffer_write(buff_,buffer_s32,id_.y           );
@@ -132,13 +133,13 @@ for(i = 0; i &lt; nm_; i++)
     buffer_write(buff_,buffer_s32,id_.zheight     );
     buffer_write(buff_,buffer_u16,id_.tex         );
 }
-ds_list_destroy(tempList[0]);
+ds_list_destroy(global.array[2]);
 buffer_write(buff_,buffer_bool,obj_server.fog_enabled);
 buffer_write(buff_,buffer_s32 ,obj_server.fog_color  );
 buffer_write(buff_,buffer_s32 ,obj_server.fog_start  );
 buffer_write(buff_,buffer_s32 ,obj_server.fog_end    );
 
-tempList[0] = buff_;
+global.array[2] = buff_;
 buffer_write(buff_,buffer_u16,instance_number(obj_item));
 with(obj_item)
 {
@@ -148,9 +149,10 @@ with(obj_item)
     buffer_write(buff_,buffer_s32,z   );
     buffer_write(buff_,buffer_u16,item);
 }
+show_debug_message("send player data to joined player");
 network_send_packet(_inst.socket,buff_,buffer_tell(buff_));
 buffer_delete(buff_);
-ds_list_destroy(tempArray[0]);
+ds_list_destroy(global.array[3]);
 </string>
           </argument>
         </arguments>

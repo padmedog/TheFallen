@@ -1,9 +1,11 @@
-tempArray[0] = argument0;
+///get_playerobject(socket);
+global.array[0] = argument0;
 with(obj_playerobject)
 {
-    if(other.tempArray[0] == socket)
-    {
-        other.tempArray[1] = id;
-    }
+    if(global.array[0] > 0)
+        if(global.array[0] == socket)
+        {
+            global.array[0] = -id;
+        }
 }
-return tempArray[1];
+return -global.array[0];

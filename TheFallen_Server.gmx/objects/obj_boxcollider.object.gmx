@@ -72,6 +72,7 @@ with(obj_playerobject)
     ds_list_add(other.temp_list,socket);
 }
 var sz_ = ds_list_size(temp_list);
+show_debug_message("sending box destruction data");
 for(i = 0; i &lt; sz_; i++)
 {
     network_send_packet(ds_list_find_value(temp_list,i),buff_,tll_);
@@ -111,18 +112,19 @@ buffer_write(buff_,buffer_f32,image_xscale    );
 buffer_write(buff_,buffer_f32,image_yscale    );
 buffer_write(buff_,buffer_s32,zheight         );
 buffer_write(buff_,buffer_u16,tex             );
-var tll_ = buffer_tell(buff_);
-temp_list = ds_list_create();
+global.array[2] = ds_list_create();
 with(obj_playerobject)
 {
-    ds_list_add(other.temp_list,socket);
+    ds_list_add(global.array[2],socket);
 }
-var sz_ = ds_list_size(temp_list);
+var sz_ = ds_list_size(global.array[2]);
+var tll_ = buffer_tell(buff_);
+show_debug_message("sending box creation data " + string(tll_));
 for(i = 0; i &lt; sz_; i++)
 {
-    network_send_packet(ds_list_find_value(temp_list,i),buff_,tll_);
+    show_debug_message("hi: " + string(network_send_packet(ds_list_find_value(global.array[2],i),buff_,tll_)));
 }
-ds_list_destroy(temp_list);
+ds_list_destroy(global.array[2]);
 buffer_delete(buff_);
 </string>
           </argument>

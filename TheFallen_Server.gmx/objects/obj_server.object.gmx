@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>self</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -58,6 +58,12 @@ pfog_color       = fog_color;
 pfog_start       = fog_start;
 pfog_end         = fog_end;
 global.item_id   = 0;
+global.array[15]  = -1;/*
+global array static usage (meaning you shouldn't use this anywhere else*):
+    0 = temporary data for anything
+    1 = server playerobject updates
+*/// *make sure you know what you're doing
+
 </string>
           </argument>
         </arguments>
@@ -80,9 +86,9 @@ global.item_id   = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(ds_exists(tempList[0],ds_type_list))
+            <string>if(ds_exists(global.array[1],ds_type_list))
 {
-    ds_list_destroy(tempList[0]);
+    ds_list_destroy(global.array[1]);
 }
 </string>
           </argument>
@@ -106,7 +112,7 @@ global.item_id   = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>tempList[0] = ds_list_create();
+            <string>global.array[1] = ds_list_create();
 </string>
           </argument>
         </arguments>
@@ -129,13 +135,13 @@ global.item_id   = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var sz_ = ds_list_size(tempList[0]);
+            <string>var sz_ = ds_list_size(global.array[1]);
 if(sz_ &gt; 0)
 {
     var id_;
     for(i = 0; i &lt; sz_; i++)
     {
-        id_ = ds_list_find_value(tempList[0],i);
+        id_ = ds_list_find_value(global.array[1],i);
         var buff_ = buffer_create(256,buffer_grow,1);
         buffer_write(buff_,buffer_u16,1               ); //data id
         buffer_write(buff_,buffer_s16,id_.socket      ); //socket
@@ -145,25 +151,26 @@ if(sz_ &gt; 0)
         buffer_write(buff_,buffer_f32,id_.y           ); //playerobject y
         buffer_write(buff_,buffer_f32,id_.z           ); //playerobject z
         buffer_write(buff_,buffer_u16,id_.current_item); //current item
-        tempList[1] = ds_list_create();
-        tempArray[0] = id_;
+        global.array[2] = ds_list_create();
+        global.array[3] = id_;
         with(obj_playerobject)
         {
-            if(other.tempArray[0] != id)
+            if(global.array[3] != id)
             {
-                ds_list_add(obj_server.tempList[1],socket)
+                ds_list_add(global.array[2],socket)
             }
         }
-        var nm_ = ds_list_size(tempList[1]);
+        var nm_ = ds_list_size(global.array[2]);
+        show_debug_message("sending updated playerobject " + string(id_));
         for(j = 0; j &lt; nm_; j++)
         {
-            id2_ = ds_list_find_value(tempList[1],j);
+            id2_ = ds_list_find_value(global.array[2],j);
             if(id2_ != id_)
             {
                 network_send_packet(id2_,buff_,buffer_tell(buff_));
             }
         }
-        ds_list_destroy(tempList[1]);
+        ds_list_destroy(global.array[1]);
         buffer_delete(buff_);
         var buff_ = buffer_create(256,buffer_grow,1);
         buffer_write(buff_,buffer_u16,0      ); //data id
@@ -178,6 +185,7 @@ if(sz_ &gt; 0)
         buffer_write(buff_,buffer_s32,id_.hngr);
         buffer_write(buff_,buffer_s32,id_.thst);
         buffer_write(buff_,buffer_s32,id_.temp);
+        show_debug_message("sending updated playerdata to player");
         network_send_packet(id_.socket,buff_,buffer_tell(buff_));
         buffer_delete(buff_);
     }
@@ -342,13 +350,14 @@ if(fog_enabled != pfog_enabled || fog_color != pfog_color || fog_start != pfog_s
     buffer_write(buff_,buffer_s32 ,fog_color  );
     buffer_write(buff_,buffer_s32 ,fog_start  );
     buffer_write(buff_,buffer_s32 ,fog_end    );
-    tempList[1] = ds_list_create();
+    global.array[2] = ds_list_create();
     with(obj_playerobject)
     {
         ds_list_add(other.tempList[1],socket);
     }
     sz_ = ds_list_size(tempList[1]);
     var tll_ = buffer_tell(buff_);
+    show_debug_message("sending environment data");
     for(i = 0; i &lt; sz_; i++)
     {
         network_send_packet(ds_list_find_value(tempList[1],i),buff_,tll_);
@@ -427,10 +436,10 @@ switch(as_type)
         break;
     case network_type_disconnect:
         var as_sock = ds_map_find_value(async_load,"socket");
-        tempArray[0] = as_sock;
+        global.array[2] = as_sock;
         with(obj_playerobject)
         {
-            if(socket == other.tempArray[0])
+            if(socket == global.array[2])
             {
                 instance_destroy();
             }

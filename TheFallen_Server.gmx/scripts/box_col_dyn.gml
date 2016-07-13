@@ -1,3 +1,4 @@
+///box_col_dyn(precision);
 var prec_, swd_, sht_, ox_, oy_, oz_;
 prec_ = 1/argument0;
 swd_  = sprite_width/2;

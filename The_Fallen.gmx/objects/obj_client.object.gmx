@@ -275,6 +275,10 @@ else
     //min 170 max 255
     draw_set_color(make_color_hsv(170+((obj_player.temp/128)*85),255,204));
     draw_rectangle(window_get_width()-176,window_get_height()-32,window_get_width()-176+obj_player.temp,window_get_height()-16,false);
+    
+    //crosshair
+    draw_sprite_ext(spr_crosshair,0,window_get_width()/2,window_get_height(),obj_control_options.crs_size,obj_control_options.crs_size,0,obj_control_options.crs_color,obj_control_options.crs_alpha);
+    
     draw_set_color(col_);
     draw_set_alpha(alph_);
     d3d_set_lighting(obj_control.light_enabled);

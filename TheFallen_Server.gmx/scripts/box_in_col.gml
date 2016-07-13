@@ -1,4 +1,4 @@
-//box_in_col(x1, y1, z1, x2, y2, z2);
+///box_in_col(x1, y1, z1, x2, y2, z2);
 var x1, y1, z1, x2, y2, z2, _res;
 x1 = argument0;
 y1 = argument1;

@@ -97,6 +97,7 @@ var buff_ = buffer_create(256,buffer_grow,1);
 buffer_write(buff_,buffer_u16,3);
 buffer_write(buff_,buffer_s16,socket);
 var sz_ = ds_list_size(tempArray[1]);
+show_debug_message("send player destroy data");
 for(i = 0; i &lt; sz_; i++)
 {
     network_send_packet(ds_list_find_value(tempArray[1],i),buff_,buffer_tell(buff_));
@@ -212,9 +213,10 @@ if(lb_trig &amp;&amp; current_item == 1)
 {
     var inst_ = instance_create(x+lengthdir_x(32,dir),y+lengthdir_y(32,dir),obj_bullet);
     inst_.z      = z+(headz/2);
-    inst_.xspeed = d3d_lengthdir_x(4,-dir,pit);
-    inst_.yspeed = d3d_lengthdir_y(4,-dir,pit);
-    inst_.zspeed = d3d_lengthdir_z(4,-dir,pit);
+    var spd_ = 24;
+    inst_.xspeed = d3d_lengthdir_x(spd_,-dir,pit);
+    inst_.yspeed = d3d_lengthdir_y(spd_,-dir,pit);
+    inst_.zspeed = d3d_lengthdir_z(spd_,-dir,pit);
     inst_.dmg    = 8;
 }
 
@@ -228,7 +230,8 @@ if(x != xprevious || y != yprevious || z != zprevious
 }
 if(update_)
 {
-    ds_list_add(obj_server.tempList[0],id);
+    show_debug_message(string(id) + " has updated!");
+    ds_list_add(global.array[1],id);
 }
 
 

@@ -1,4 +1,4 @@
-//box_in_box(sx1, sy1, sz1, sx2, sy2, sz2, dx1, dy1, dz1, dx2, dy2, dz2);
+///box_in_box(sx1, sy1, sz1, sx2, sy2, sz2, dx1, dy1, dz1, dx2, dy2, dz2);
 var x11, y11, z11, x21, y21, z21, x12, y12, z12, x22, y22, z22;
 x11 = argument0;
 y11 = argument1;

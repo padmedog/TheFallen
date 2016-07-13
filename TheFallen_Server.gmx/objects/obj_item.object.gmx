@@ -61,6 +61,7 @@ with(obj_playerobject)
     ds_list_add(other.temp_list,socket);
 }
 var sz_ = ds_list_size(temp_list);
+show_debug_message("sending item destruction data");
 for(i = 0; i &lt; sz_; i++)
 {
     network_send_packet(ds_list_find_value(temp_list,i),buff_,tll_);
@@ -103,6 +104,7 @@ with(obj_playerobject)
     ds_list_add(other.temp_list,socket);
 }
 var sz_ = ds_list_size(temp_list);
+show_debug_message("sending item creation data");
 for(i = 0; i &lt; sz_; i++)
 {
     network_send_packet(ds_list_find_value(temp_list,i),buff_,tll_);

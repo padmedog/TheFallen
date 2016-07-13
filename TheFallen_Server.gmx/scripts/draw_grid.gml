@@ -1,4 +1,4 @@
-//draw_grid(x,y,width,height,space x, space y);
+///draw_grid(x,y,width,height,space x, space y);
 var _x, _y, _w, _h, _xw, _yh;
 _x = argument0;
 _y = argument1;
