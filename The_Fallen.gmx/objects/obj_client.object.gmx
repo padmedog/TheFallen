@@ -39,7 +39,7 @@ if(client_server &lt; 0)
     game_end();
 }
 tempArray[4]  = -1;
-can_look      = false;
+can_look      = true;
 prev_can_look = false;
 current_item  = 0;
 /*items:
@@ -175,7 +175,9 @@ switch(as_type)
 {
     case network_type_data:
         var as_buffer = ds_map_find_value(async_load,"buffer");
-        data_received(as_id,as_buffer);
+        buffer_seek(as_buffer,buffer_seek_start,0);
+        if(buffer_sizeof(as_buffer) &lt;= 0) show_debug_message("got blank packet; will not continue"); else
+            data_received(as_id,as_buffer);
         break;
     default:
         break;
@@ -260,22 +262,24 @@ else
     col_ = draw_get_color();
     alph_ = draw_get_alpha();
     d3d_set_lighting(false);
-    draw_set_color(c_dkgray);
-    draw_set_alpha(0.8);
-    draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-16,window_get_height()-16,false);
-    draw_set_color(c_red);
-    draw_set_alpha(1);
-    draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-176+obj_player.hlth,window_get_height()-80,false);
-    draw_set_color(c_yellow);
-    draw_rectangle(window_get_width()-176,window_get_height()-80,window_get_width()-176+obj_player.engy,window_get_height()-64,false);
-    draw_set_color(c_orange);
-    draw_rectangle(window_get_width()-176,window_get_height()-64,window_get_width()-176+obj_player.hngr,window_get_height()-48,false);
-    draw_set_color(c_blue);
-    draw_rectangle(window_get_width()-176,window_get_height()-48,window_get_width()-176+obj_player.hngr,window_get_height()-32,false);
-    //min 170 max 255
-    draw_set_color(make_color_hsv(170+((obj_player.temp/128)*85),255,204));
-    draw_rectangle(window_get_width()-176,window_get_height()-32,window_get_width()-176+obj_player.temp,window_get_height()-16,false);
-    
+    if(instance_exists(obj_player))
+    {
+        draw_set_color(c_dkgray);
+        draw_set_alpha(0.8);
+        draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-16,window_get_height()-16,false);
+        draw_set_color(c_red);
+        draw_set_alpha(1);
+        draw_rectangle(window_get_width()-176,window_get_height()-96,window_get_width()-176+obj_player.hlth,window_get_height()-80,false);
+        draw_set_color(c_yellow);
+        draw_rectangle(window_get_width()-176,window_get_height()-80,window_get_width()-176+obj_player.engy,window_get_height()-64,false);
+        draw_set_color(c_orange);
+        draw_rectangle(window_get_width()-176,window_get_height()-64,window_get_width()-176+obj_player.hngr,window_get_height()-48,false);
+        draw_set_color(c_blue);
+        draw_rectangle(window_get_width()-176,window_get_height()-48,window_get_width()-176+obj_player.hngr,window_get_height()-32,false);
+        //min 170 max 255
+        draw_set_color(make_color_hsv(170+((obj_player.temp/128)*85),255,204));
+        draw_rectangle(window_get_width()-176,window_get_height()-32,window_get_width()-176+obj_player.temp,window_get_height()-16,false);
+    }
     //crosshair
     draw_sprite_ext(spr_crosshair,0,window_get_width()/2,window_get_height(),obj_control_options.crs_size,obj_control_options.crs_size,0,obj_control_options.crs_color,obj_control_options.crs_alpha);
     

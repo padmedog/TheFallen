@@ -142,7 +142,8 @@ if(sz_ &gt; 0)
     for(i = 0; i &lt; sz_; i++)
     {
         id_ = ds_list_find_value(global.array[1],i);
-        var buff_ = buffer_create(256,buffer_grow,1);
+        var buff_ = buffer_create(26,buffer_fixed,2);
+        buffer_seek(buff_,buffer_seek_start,0);
         buffer_write(buff_,buffer_u16,1               ); //data id
         buffer_write(buff_,buffer_s16,id_.socket      ); //socket
         buffer_write(buff_,buffer_f32,id_.dir         ); //playerobject dir
@@ -172,7 +173,8 @@ if(sz_ &gt; 0)
         }
         ds_list_destroy(global.array[1]);
         buffer_delete(buff_);
-        var buff_ = buffer_create(256,buffer_grow,1);
+        var buff_ = buffer_create(44,buffer_fixed,2);
+        buffer_seek(buff_,buffer_seek_start,0);
         buffer_write(buff_,buffer_u16,0      ); //data id
         buffer_write(buff_,buffer_f32,id_.dir); //playerobject dir
         buffer_write(buff_,buffer_f32,id_.pit); //playerobject pit
@@ -344,7 +346,7 @@ if(mouse_check_button_released(mb_left))
 
 if(fog_enabled != pfog_enabled || fog_color != pfog_color || fog_start != pfog_start || fog_end != pfog_end)
 {
-    var buff_ = buffer_create(256,buffer_grow,1);
+    var buff_ = buffer_create(15,buffer_fixed,1);
     buffer_write(buff_,buffer_u16 ,7          );
     buffer_write(buff_,buffer_bool,fog_enabled);
     buffer_write(buff_,buffer_s32 ,fog_color  );

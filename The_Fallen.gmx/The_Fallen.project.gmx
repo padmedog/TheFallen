@@ -216,34 +216,36 @@
     <object>objects\obj_control</object>
     <object>objects\obj_camera</object>
     <object>objects\obj_control_load</object>
-    <object>objects\obj_title</object>
-    <object>objects\obj_start</object>
-    <object>objects\obj_quit</object>
-    <object>objects\obj_options</object>
     <object>objects\obj_control_fonts</object>
-    <object>objects\obj_graypart</object>
-    <object>objects\obj_snowgen</object>
-    <object>objects\obj_menucam</object>
-    <object>objects\par_button</object>
     <object>objects\obj_box</object>
-    <object>objects\obj_ipbox</object>
-    <object>objects\obj_portbox</object>
-    <object>objects\obj_connectbutton</object>
-    <object>objects\obj_goback</object>
-    <object>objects\obj_optionback</object>
-    <object>objects\obj_gobackmenu</object>
-    <object>objects\obj_leavegame</object>
-    <object>objects\par_secondarymenu</object>
     <object>objects\obj_fadeto_</object>
-    <object>objects\obj_startup</object>
     <object>objects\obj_control_options</object>
-    <object>objects\obj_options_fullscreen</object>
-    <object>objects\obj_options_backsounds</object>
-    <object>objects\obj_options_fov</object>
-    <object>objects\obj_options_sense</object>
     <object>objects\obj_item</object>
     <object>objects\obj_soundemitter</object>
     <object>objects\obj_emitter</object>
+    <objects name="menu">
+      <object>objects\obj_title</object>
+      <object>objects\obj_quit</object>
+      <object>objects\obj_start</object>
+      <object>objects\obj_options</object>
+      <object>objects\obj_graypart</object>
+      <object>objects\obj_snowgen</object>
+      <object>objects\obj_menucam</object>
+      <object>objects\par_button</object>
+      <object>objects\obj_ipbox</object>
+      <object>objects\obj_portbox</object>
+      <object>objects\obj_connectbutton</object>
+      <object>objects\obj_goback</object>
+      <object>objects\obj_optionback</object>
+      <object>objects\obj_gobackmenu</object>
+      <object>objects\par_secondarymenu</object>
+      <object>objects\obj_startup</object>
+      <object>objects\obj_options_fullscreen</object>
+      <object>objects\obj_options_backsounds</object>
+      <object>objects\obj_options_fov</object>
+      <object>objects\obj_options_sense</object>
+      <object>objects\obj_leavegame</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_startup</room>

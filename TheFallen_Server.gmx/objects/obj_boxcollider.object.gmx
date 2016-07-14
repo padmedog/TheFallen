@@ -62,7 +62,7 @@ image_alpha = 0.1;
           <argument>
             <kind>1</kind>
             <string>//networking
-var buff_ = buffer_create(256,buffer_grow,1);
+var buff_ = buffer_create(6,buffer_fixed,2);
 buffer_write(buff_,buffer_u16,6               );
 buffer_write(buff_,buffer_u32,global.boxcol_id);
 var tll_ = buffer_tell(buff_);
@@ -102,7 +102,7 @@ buffer_delete(buff_);
           <argument>
             <kind>1</kind>
             <string>//networking
-var buff_ = buffer_create(256,buffer_grow,1);
+var buff_ = buffer_create(32,buffer_fixed,2);
 buffer_write(buff_,buffer_u16,5               );
 buffer_write(buff_,buffer_u32,global.boxcol_id);
 buffer_write(buff_,buffer_s32,x               );

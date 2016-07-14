@@ -58,7 +58,8 @@ with(obj_playerobject)
         ds_list_add(global.array[3],socket);
     }
 }
-var buff_ = buffer_create(256,buffer_grow,1);
+var buff_ = buffer_create(26,buffer_fixed,16);
+buffer_seek(buff_,buffer_seek_start,0);
 buffer_write(buff_,buffer_u16,2                 );
 buffer_write(buff_,buffer_s16,_inst.socket      );
 buffer_write(buff_,buffer_f32,_inst.dir         );
@@ -149,7 +150,7 @@ with(obj_item)
     buffer_write(buff_,buffer_s32,z   );
     buffer_write(buff_,buffer_u16,item);
 }
-show_debug_message("send player data to joined player");
+show_debug_message("send player data to new player");
 network_send_packet(_inst.socket,buff_,buffer_tell(buff_));
 buffer_delete(buff_);
 ds_list_destroy(global.array[3]);

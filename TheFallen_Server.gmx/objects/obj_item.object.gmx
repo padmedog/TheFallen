@@ -51,7 +51,7 @@ temp_list = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var buff_ = buffer_create(256,buffer_grow,1);
+            <string>var buff_ = buffer_create(4,buffer_fixed,1);
 buffer_write(buff_,buffer_u16,10  );
 buffer_write(buff_,buffer_u16,_id_);
 var tll_ = buffer_tell(buff_);
@@ -90,7 +90,7 @@ buffer_delete(buff_);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var buff_ = buffer_create(256,buffer_grow,1);
+            <string>var buff_ = buffer_create(18,buffer_fixed,1);
 buffer_write(buff_,buffer_u16,9);
 buffer_write(buff_,buffer_u16,_id_);
 buffer_write(buff_,buffer_s32,x   );

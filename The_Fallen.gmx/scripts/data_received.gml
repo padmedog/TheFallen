@@ -3,6 +3,12 @@ dat_sock = argument0;
 dat_buff = argument1;
 dat_id   = buffer_read(dat_buff,buffer_u16);
 dat_tell = buffer_tell(dat_buff);
+if(buffer_sizeof(dat_buff) <= 2)
+{
+    show_debug_message("got packet with id, yet nothing else; will not continue; len: " + string(buffer_sizeof(dat_buff)));
+    //every action below reads from the buffer, so theres no point in continuing
+    exit;
+}
 //show_message_async(dat_tell);
 switch(dat_id)
 {
