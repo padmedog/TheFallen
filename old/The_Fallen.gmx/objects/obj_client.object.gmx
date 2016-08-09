@@ -176,7 +176,7 @@ switch(as_type)
     case network_type_data:
         var as_buffer = ds_map_find_value(async_load,"buffer");
         buffer_seek(as_buffer,buffer_seek_start,0);
-        if(buffer_sizeof(as_buffer) &lt;= 0) show_debug_message("got blank packet; will not continue"); else
+        if(buffer_sizeof(as_buffer) &lt;= 0) show_debug_message("got blank packet; will not continue: " + string(buffer_sizeof(as_buffer))); else
             data_received(as_id,as_buffer);
         break;
     default:
@@ -204,7 +204,8 @@ switch(as_type)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>network_destroy(client_socket);
+            <string>//network_destroy(client_socket);
+//holy crap this might solve the problem
 </string>
           </argument>
         </arguments>
