@@ -2,7 +2,6 @@ D:\Main\General Programming\csharp\sharpserver_test0_0\sharpserver_test0_0\bin\D
 D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\bin\Debug\sharpserver_test0_0.exe.config
 D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\bin\Debug\sharpserver_test0_0.exe
 D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\bin\Debug\sharpserver_test0_0.pdb
-D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\bin\Debug\SharpServer.dll
 D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\obj\Debug\GMS_Server.csprojResolveAssemblyReference.cache
 D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\obj\Debug\sharpserver_test0_0.exe
 D:\Main\GithubRepositories\TheFallen\v0.0.0.2\server\GMS_Server\obj\Debug\sharpserver_test0_0.pdb

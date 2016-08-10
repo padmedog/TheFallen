@@ -36,26 +36,12 @@ namespace sharpserver_test0_0
         }
         public static bool[] parse_binary(ulong value, byte size)
         {
-            /*
-            bool[] output_ = new bool[size];
-            for( int i = size-1; i >= 0; i -= 1 )
-            {
-                ulong tmp_ = 2 ^ (ulong)i;
-                if (value >= tmp_)
-                {
-                    output_[size - i - 1] = true;
-                    value -= tmp_;
-                }
-                else output_[size - i - 1] = false;
-            }
-            return output_;*/
-
             bool[] output_ = new bool[size];
             for( int i = 0; i < size; i += 1 )
             {
                 byte tmp_ = (byte)(value % 2);
                 output_[i] = (tmp_ == 1) ? true : false;
-                value = (value - tmp_) >> 1;
+                value >>= 1;
             }
             return output_;
         }

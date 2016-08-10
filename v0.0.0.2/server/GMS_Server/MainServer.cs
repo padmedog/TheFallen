@@ -14,10 +14,13 @@ namespace sharpserver_test0_0
         1 - create object
         2 - destroy object
         3 - on player join
+        4 - entity created
+        5 - entity destroyed
+        6 - ping
         */
 
         //global game variables
-        static int port = 64000, maxConnections = 8, alignment = 4;
+        static int port = 5524, maxConnections = 8, alignment = 4;
         static uint timeout = 4096;
         static GameWorld gameWorld;
         public static void Main()
@@ -25,7 +28,7 @@ namespace sharpserver_test0_0
             //make the socketbinder
             SocketBinder binder = new SocketBinder();
             //lets make the server too
-            TcpServerHandler game_server = new TcpServerHandler(binder, port, maxConnections, alignment, timeout, null);
+            TcpServerHandler game_server = new TcpServerHandler(binder, port, maxConnections, alignment, timeout, IPAddress.Parse("192.168.0.18"));
             //start the server
             game_server.Start();
             //now lets set the methods for event stuff
@@ -79,14 +82,20 @@ namespace sharpserver_test0_0
         private static void event_disconnected(TcpClientHandler client)
         {
             Console.WriteLine("Client " + client.Socket.ToString() + " disconnected from " + getIp(client).ToString());
+            int id_ = gameWorld.getPlayer(client.Socket);
+            gameWorld.removeEntity(id_);
+            gameWorld.clientMap.Remove(id_);
         }
 
         private static void event_connected(TcpClientHandler client)
         {
             Console.WriteLine("Client connected from " + getIp(client).ToString());
             //we'll put our code to initiate the player client here
-            BufferStream buff = new BufferStream(12+(gameWorld.entityMap.Count*52)+(gameWorld.objectMap.Count*52), 1);
+            int entid_ = gameWorld.createPlayer(new GamePoint3D(0d, 0d, 64d), client);
+            int sz_ = 16 + (gameWorld.entityMap.Count * 52) + (gameWorld.objectMap.Count * 52);
+            BufferStream buff = new BufferStream(sz_, 1);
             buff.Write((ushort)3);
+            buff.Write(entid_);
             buff.Write((uint)gameWorld.entityMap.Count);
             foreach(KeyValuePair<int,GameEntity> pair in gameWorld.entityMap)
             {
@@ -112,7 +121,6 @@ namespace sharpserver_test0_0
             }
             PacketStream.SendAsync(client.Stream, buff);
             buff.Deallocate();
-            gameWorld.createPlayer(new GamePoint3D(0d, 0d, 64d), client);
             Console.WriteLine("World and client data sent to socket " + client.Socket.ToString());
         }
 
@@ -132,7 +140,7 @@ namespace sharpserver_test0_0
                 string = string
                 byte[] has no equivalent. Instead read out the number of bytes individually.
             */
-            Console.WriteLine("Received packet from " + getIp(client).ToString() + ", socket" + client.Socket.ToString());
+            //Console.WriteLine("Received packet from " + getIp(client).ToString() + ", socket" + client.Socket.ToString());
             int plid = gameWorld.getPlayer(client.Socket);
 
             //this following line is probably absolutely essential to deal with the GMS packets
@@ -173,6 +181,18 @@ namespace sharpserver_test0_0
                         gameWorld.clientMap[plid].inputMap.setInput("view_y", pit_);
                     }
                     break;
+                case 2: //client requested a ping
+                    BufferStream buff = new BufferStream(3, 1);
+                    buff.Write((ushort)6);
+                    PacketStream.SendAsync(client.Stream, buff);
+                    buff.Deallocate();
+                    break;
+                case 3: //client is disconnecting
+                    client.Connected = false;
+                    break;
+                default:
+                    Console.WriteLine("invalid packet received");
+                    break;
             }
         }
 
@@ -208,7 +228,15 @@ namespace sharpserver_test0_0
 
         static IPAddress getIp(TcpClientHandler client)
         {
-            return ((IPEndPoint)client.Receiver.Client.RemoteEndPoint).Address;
+            return getIPEndPoint(client).Address;
+        }
+        static int getPort(TcpClientHandler client)
+        {
+            return getIPEndPoint(client).Port;
+        }
+        static IPEndPoint getIPEndPoint(TcpClientHandler client)
+        {
+            return ((IPEndPoint)client.Receiver.Client.RemoteEndPoint);
         }
     }
 }

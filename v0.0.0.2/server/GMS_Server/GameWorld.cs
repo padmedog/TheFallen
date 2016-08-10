@@ -19,6 +19,7 @@ namespace sharpserver_test0_0
             maxObjects = 256;
             entityMap = new Dictionary<int, GameEntity>();
             clientMap = new Dictionary<int, GameClient>(gameServer.MaxConnections);
+            objectMap = new Dictionary<int, GameObject>();
         }
 
         public bool createEntity(GamePoint3D position)
@@ -32,7 +33,7 @@ namespace sharpserver_test0_0
                 for(int i = 0; i < maxEntities; i += 1)
                     if(!entityMap.ContainsKey(i))
                     {
-                        entityMap.Add(i, new GameEntity(position, size, i));
+                        entityMap.Add(i, new GameEntity(position, size, i, this));
                         return true;
                     }
             return false;
@@ -43,6 +44,13 @@ namespace sharpserver_test0_0
             if(entityMap.ContainsKey(Id))
             {
                 entityMap.Remove(Id);
+
+                BufferStream buff = new BufferStream(1024, 1);
+                buff.Write((ushort)5);
+                buff.Write((uint)Id);
+                foreach(KeyValuePair<int,GameClient> pair in clientMap)
+                    PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+                buff.Deallocate();
                 return true;
             }
             return false;
@@ -63,28 +71,34 @@ namespace sharpserver_test0_0
             if(objectMap.ContainsKey(id))
             {
                 objectMap.Remove(id);
+
+                BufferStream buff = new BufferStream(1024, 1);
+                buff.Write((ushort)2);
+                buff.Write((uint)id);
+                foreach (KeyValuePair<int, GameClient> pair in clientMap)
+                    PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+                buff.Deallocate();
                 return true;
             }
             return false;
         }
-        public bool createPlayer(GamePoint3D position, TcpClientHandler client)
+        public int createPlayer(GamePoint3D position, TcpClientHandler client)
         {
             return createPlayer(position, new GamePoint2D(16d, 64d), client);
         }
-        public bool createPlayer(GamePoint3D position, GamePoint2D size, TcpClientHandler client)
+        public int createPlayer(GamePoint3D position, GamePoint2D size, TcpClientHandler client)
         {
             //this will ignore the max entity limit, however cannot ignore the max connection limit
             //returns if successful
+            int i = 0;
             if (clientMap.Count < gameServer.MaxConnections)
             {
-                int i = 0;
                 while (entityMap.ContainsKey(i)) //looks to find the lowest open slot to make an entity
                     i += 1;
-                entityMap.Add(i, new GameEntity(position, size, i));
+                entityMap.Add(i, new GameEntity(position, size, i, this));
                 clientMap.Add(i, new GameClient(client, i, this));
-                return true;
             }
-            return false;
+            return i;
         }
         public void update()
         {
@@ -106,6 +120,8 @@ namespace sharpserver_test0_0
                 buff.Write(entity.pos.Z);
                 buff.Write(entity.size.X);
                 buff.Write(entity.size.Y);
+                buff.Write(entity.direction);
+                buff.Write(entity.pitch);
             }
             foreach(KeyValuePair<int,GameClient> client in clientMap)
                 PacketStream.SendAsync(client.Value.clientHandler.Stream,buff);
@@ -139,23 +155,38 @@ namespace sharpserver_test0_0
         public GamePoint3D spd;
         public GamePoint3D frc;
         public GamePoint2D size;
-        public float direction, pitch, precision;
+        public float direction, pitch, precision, pdir = 0f, ppit = 0f;
         public int id { get; private set; }
-        public GameEntity(GamePoint3D Position, GamePoint2D Size, int Id)
+        public GameEntity(GamePoint3D Position, GamePoint2D Size, int Id, GameWorld gameWorld)
         {
             pos = Position;
             id = Id;
             spd = new GamePoint3D();
             frc = new GamePoint3D(); //friction system needs to be changed to support different areas, like just going through air or walking on something, which have different frictions
-                                     //; you won't be able to directly set it
-            direction = 0f;
+            direction = 0f;          //; you won't be able to directly set it
             pitch = 0f;
             size = Size;
-            precision = 1; //higher number = chunkier collision checks (in other words: faster but crappier)
+            precision = 1; //higher number = chunkier collision checks (faster but crappier)
+
+            BufferStream buff = new BufferStream(1024, 1);
+            buff.Write((ushort)4);
+            buff.Write(id);
+            buff.Write(pos.X);
+            buff.Write(pos.Y);
+            buff.Write(pos.Z);
+            buff.Write(size.X);
+            buff.Write(size.Y);
+            buff.Write(direction);
+            buff.Write(pitch);
+            foreach (KeyValuePair<int, GameClient> pair in gameWorld.clientMap)
+            {
+                PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+            }
+            buff.Deallocate();
         }
         public bool update(GameWorld gameWorld)
         {
-            foreach(KeyValuePair<int,GameObject> pair in gameWorld.objectMap)
+            /*foreach(KeyValuePair<int,GameObject> pair in gameWorld.objectMap)
             {
                 while (GameGeometry.cube_in_cube(pair.Value.position, GamePoint3D.Add(pair.Value.position, pair.Value.size),
                     GamePoint3D.Subtract(pos, new GamePoint3D(size.X - spd.X, size.X, size.Y)), GamePoint3D.Add(pos, new GamePoint3D(size.X + spd.X, size.X, size.Y))))
@@ -190,11 +221,11 @@ namespace sharpserver_test0_0
                         break;
                     }
                 }
-            }
+            }*/
             pos.Add(spd);
             spd.Divide(frc);
             bool ret_ = false;
-            if(pos != ppos)
+            if(pos != ppos || pdir != direction || ppit != pitch)
             {
                 ret_ = true;
             }
