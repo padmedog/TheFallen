@@ -27,6 +27,7 @@ switch(_msgid)
             d_ = buffer_read(_buff,buffer_f32);
             p_ = buffer_read(_buff,buffer_f32);
             e_ = get_entity(id_);
+            if(e_ == noone) break;
             e_.x = x_;
             e_.y = y_;
             e_.z = z_;
@@ -45,6 +46,7 @@ switch(_msgid)
         w_ = buffer_read(_buff,buffer_f64); //x
         h_ = buffer_read(_buff,buffer_f64); //y
         l_ = buffer_read(_buff,buffer_f64); //z
+        if(id_ == noone) break;
         inst_ = instance_create(x_,y_,obj_object);
         inst_.objId = id_;
         inst_.z = z_;
@@ -53,8 +55,9 @@ switch(_msgid)
         inst_.length = l_;
         break;
     case 2: //destroy object
-        var id_ = buffer_read(_buff,buffer_u32);
-        with(get_object(id_)) instance_destroy();
+        var obj_ = get_object(buffer_read(_buff,buffer_u32));
+        if(obj_ == noone) break;
+        with(obj_) instance_destroy();
         break;
     case 3: //on player join
         obj_client.entId = buffer_read(_buff,buffer_s32);
@@ -71,13 +74,16 @@ switch(_msgid)
             h_ = buffer_read(_buff,buffer_f64);
             d_ = buffer_read(_buff,buffer_f32);
             p_ = buffer_read(_buff,buffer_f32);
-            inst_ = instance_create(x_,y_,obj_entity);
-            inst_.entityId = id_;
-            inst_.z = z_;
-            inst_.width = w_;
-            inst_.height = h_;
-            inst_.dir = d_;
-            inst_.pit = p_;
+            if(id_ != noone)
+            {
+                inst_ = instance_create(x_,y_,obj_entity);
+                inst_.entityId = id_;
+                inst_.z = z_;
+                inst_.width = w_;
+                inst_.height = h_;
+                inst_.dir = d_;
+                inst_.pit = p_;
+            }
         }
         num_ = buffer_read(_buff,buffer_u32);
         for(i = 0; i < num_; i += 1 )
@@ -88,13 +94,16 @@ switch(_msgid)
                 z_ = buffer_read(_buff,buffer_f64),
                 w_ = buffer_read(_buff,buffer_f64),
                 h_ = buffer_read(_buff,buffer_f64),
-                l_ = buffer_read(_buff,buffer_f64),
-                inst_ = instance_create(x_,y_,obj_object);
-            inst_.entityId = id_;
-            inst_.z = z_;
-            inst_.width = w_;
-            inst_.height = h_;
-            inst_.length = l_;
+                l_ = buffer_read(_buff,buffer_f64);
+            if(id_ != noone)
+            {
+                var inst_ = instance_create(x_,y_,obj_object);
+                inst_.entityId = id_;
+                inst_.z = z_;
+                inst_.width = w_;
+                inst_.height = h_;
+                inst_.length = l_;
+            }
         }
         break;
     case 4: //entity created
@@ -124,5 +133,13 @@ switch(_msgid)
         ping = timeout-obj_client.alarm[0];
         obj_client.alarm[0] = 1;
         show_debug_message(ping);
+        break;
+    case 7: //we can cancel the connection now
+        network_destroy(socket);
+        global.tempArray[2] = true;
+        game_end();
+        break;
+    case 8: //server wants updated input
+        obj_client.sendInput = true;
         break;
 }

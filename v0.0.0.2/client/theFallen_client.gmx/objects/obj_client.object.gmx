@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ip = "192.168.0.18";
-port = 5524;
+            <string>ip = get_string("ip to connect to","192.168.0.15");
+port = get_integer("port to use","5424");
 socket = network_create_socket(network_socket_tcp);
 connection = network_connect_raw(socket,ip,port);
 if(connection &lt; 0)
@@ -36,6 +36,10 @@ if(connection &lt; 0)
 timeout = 60;
 //ping = 0;
 entId = -1;
+mouseSensitivity = 4; //higher = slower
+dir = 0;
+pit = 0;
+sendInput = false;
 
 //controls and stuff
 pleft = false;
@@ -110,13 +114,14 @@ var left = keyboard_check(key_left),
     backward = keyboard_check(key_backward),
     up = keyboard_check(key_up),
     down = keyboard_check(key_down);
-if(left != pleft || right != pright || forward != pforward || backward != pbackward || up != pup || down != pdown)
+if(left != pleft || right != pright || forward != pforward || backward != pbackward || up != pup || down != pdown || sendInput)
 {
     var _buff = buffer_create(4,buffer_fixed,1);
     buffer_write(_buff,buffer_u16,0);
-    buffer_write(_buff,buffer_u8,bin_to_int(forward,backward,left,right,up,down));
+    buffer_write(_buff,buffer_u8,bin_to_int(down,up,right,left,backward,forward));
     network_send_packet(socket,_buff,buffer_tell(_buff));
     buffer_delete(_buff);
+    sendInput = false;
 }
 
 //looking
@@ -135,8 +140,8 @@ if(can_look)
     {
         var _buff = buffer_create(256,buffer_fixed,1);
         buffer_write(_buff,buffer_u16,1);
-        buffer_write(_buff,buffer_f32,view_x);
-        buffer_write(_buff,buffer_f32,view_y);
+        buffer_write(_buff,buffer_f32,view_x/mouseSensitivity);
+        buffer_write(_buff,buffer_f32,view_y/mouseSensitivity);
         network_send_packet(socket,_buff,buffer_tell(_buff));
         buffer_delete(_buff);
         window_mouse_set(wid_,hgt_);
@@ -214,11 +219,39 @@ switch(msgtype)
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>if(global.tempArray[2] != true)
+{
+    var buff_ = buffer_create(8,buffer_fixed,1);
+    buffer_write(buff_,buffer_u16,3);
+    network_send_packet(socket,buff_,buffer_tell(buff_));
+    buffer_delete(buff_);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="27">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>var buff_ = buffer_create(8,buffer_fixed,1);
 buffer_write(buff_,buffer_u16,3);
 network_send_packet(socket,buff_,buffer_tell(buff_));
 buffer_delete(buff_);
-network_destroy(socket);
 </string>
           </argument>
         </arguments>

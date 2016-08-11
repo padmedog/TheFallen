@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SharpServer.Sockets;
 using SharpServer.Buffers;
 
-namespace sharpserver_test0_0
+namespace GMS_Server
 {
     public class GameWorld
     {
@@ -16,10 +16,11 @@ namespace sharpserver_test0_0
         {
             gameServer = _gameServer;
             maxEntities = 32;
-            maxObjects = 256;
+            maxObjects = 64;
             entityMap = new Dictionary<int, GameEntity>();
             clientMap = new Dictionary<int, GameClient>(gameServer.MaxConnections);
             objectMap = new Dictionary<int, GameObject>();
+            createObject(new GamePoint3D(0d, 0d, -32d), new GamePoint3D(1024d, 1024d, 32d));
         }
 
         public bool createEntity(GamePoint3D position)
@@ -49,7 +50,7 @@ namespace sharpserver_test0_0
                 buff.Write((ushort)5);
                 buff.Write((uint)Id);
                 foreach(KeyValuePair<int,GameClient> pair in clientMap)
-                    PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+                    PacketStream.SendAsync(pair.Value.clientHandler, buff);
                 buff.Deallocate();
                 return true;
             }
@@ -76,7 +77,7 @@ namespace sharpserver_test0_0
                 buff.Write((ushort)2);
                 buff.Write((uint)id);
                 foreach (KeyValuePair<int, GameClient> pair in clientMap)
-                    PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+                    PacketStream.SendAsync(pair.Value.clientHandler, buff);
                 buff.Deallocate();
                 return true;
             }
@@ -102,13 +103,14 @@ namespace sharpserver_test0_0
         }
         public void update()
         {
+            if (clientMap.Count <= 0) return;
             foreach(KeyValuePair<int,GameClient> pair in clientMap)
                 pair.Value.update(this);
             List<GameEntity> updateList = new List<GameEntity>();
             foreach(KeyValuePair<int,GameEntity> pair in entityMap)
                 if(pair.Value.update(this))
                     updateList.Add(pair.Value);
-            BufferStream buff = new BufferStream(12 + (updateList.Count*44),1);
+            BufferStream buff = new BufferStream(12 + (updateList.Count*52),1);
             buff.Seek(0);
             buff.Write((ushort)0);
             buff.Write(updateList.Count);
@@ -124,7 +126,7 @@ namespace sharpserver_test0_0
                 buff.Write(entity.pitch);
             }
             foreach(KeyValuePair<int,GameClient> client in clientMap)
-                PacketStream.SendAsync(client.Value.clientHandler.Stream,buff);
+                PacketStream.SendAsync(client.Value.clientHandler,buff);
             buff.Deallocate();
         }
         public int getPlayer(int socket)
@@ -153,6 +155,7 @@ namespace sharpserver_test0_0
         public GamePoint3D pos;
         private GamePoint3D ppos;
         public GamePoint3D spd;
+        public GamePoint3D base_spd;
         public GamePoint3D frc;
         public GamePoint2D size;
         public float direction, pitch, precision, pdir = 0f, ppit = 0f;
@@ -162,8 +165,9 @@ namespace sharpserver_test0_0
             pos = Position;
             id = Id;
             spd = new GamePoint3D();
-            frc = new GamePoint3D(); //friction system needs to be changed to support different areas, like just going through air or walking on something, which have different frictions
-            direction = 0f;          //; you won't be able to directly set it
+            frc = new GamePoint3D(1.4d,1.4d,1.05d); //friction system needs to be changed to support different areas, like just going through air 
+            base_spd = new GamePoint3D(1d, 0.5d, 0.75d); //or walking on something, which have different frictions; you won't be able to directly set it
+            direction = 0f;
             pitch = 0f;
             size = Size;
             precision = 1; //higher number = chunkier collision checks (faster but crappier)
@@ -180,7 +184,7 @@ namespace sharpserver_test0_0
             buff.Write(pitch);
             foreach (KeyValuePair<int, GameClient> pair in gameWorld.clientMap)
             {
-                PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+                PacketStream.SendAsync(pair.Value.clientHandler, buff);
             }
             buff.Deallocate();
         }
@@ -224,6 +228,10 @@ namespace sharpserver_test0_0
             }*/
             pos.Add(spd);
             spd.Divide(frc);
+            while (direction < 0f) direction += 360f; direction %= 360f;
+            if (pitch >= 89f) pitch = 89f;
+            else if (pitch <= -89f) pitch = -89f;
+            //Console.WriteLine("x" + pos.X.ToString() + ",y" + pos.Y.ToString() + ",z" + pos.Z.ToString()+",d"+direction.ToString());
             bool ret_ = false;
             if(pos != ppos || pdir != direction || ppit != pitch)
             {
@@ -241,35 +249,37 @@ namespace sharpserver_test0_0
         public GameClient(TcpClientHandler tcpclient, int entityid, GameWorld gameWorld)
         {
             entityId = entityid;
-            gameWorld.entityMap[entityId].frc = new GamePoint3D(1.4d, 1.4d, 1.01d);
             clientHandler = tcpclient;
             inputMap = new InputMap();
         }
         public void update(GameWorld gameWorld)
         {
-            float dir = gameWorld.entityMap[entityId].direction;
-            if (inputMap.getInput("left") == 1f) //strafe left
+            if (gameWorld.entityMap.ContainsKey(entityId))
             {
-                gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(1, dir - 90));
+                float dir = gameWorld.entityMap[entityId].direction;
+                if (inputMap.getInput("left") == 1f) //strafe left
+                {
+                    gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(Convert.ToSingle(gameWorld.entityMap[entityId].base_spd.Y), dir - 90));
+                }
+                if (inputMap.getInput("right") == 1f) //strafe right
+                {
+                    gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(Convert.ToSingle(gameWorld.entityMap[entityId].base_spd.Y), dir + 90));
+                }
+                if (inputMap.getInput("forward") == 1f) //forward
+                {
+                    gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(Convert.ToSingle(gameWorld.entityMap[entityId].base_spd.X), dir));
+                }
+                if (inputMap.getInput("backward") == 1f) //backward
+                {
+                    gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(Convert.ToSingle(gameWorld.entityMap[entityId].base_spd.Z), dir + 180));
+                }
+                if (inputMap.getInput("up") == 1f) //jump
+                {
+                    gameWorld.entityMap[entityId].spd.Z -= 4d;
+                }
+                gameWorld.entityMap[entityId].direction += inputMap.getInput("view_x"); inputMap.setInput("view_x", 0f);
+                gameWorld.entityMap[entityId].pitch -= inputMap.getInput("view_y"); inputMap.setInput("view_y", 0f);
             }
-            if (inputMap.getInput("right") == 1f) //strafe right
-            {
-                gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(-1, dir - 90));
-            }
-            if (inputMap.getInput("forward") == 1f) //forward
-            {
-                gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(1, dir));
-            }
-            if (inputMap.getInput("backward") == 1f) //backward
-            {
-                gameWorld.entityMap[entityId].spd.Add(GameGeometry.lengthdir(-1, dir));
-            }
-            if(inputMap.getInput("up") == 1f) //jump
-            {
-                gameWorld.entityMap[entityId].spd.Z -= 8d;
-            }
-            gameWorld.entityMap[entityId].direction += inputMap.getInput("view_x");
-            gameWorld.entityMap[entityId].pitch += inputMap.getInput("view_y");
         }
     }
     public class InputMap
@@ -283,11 +293,21 @@ namespace sharpserver_test0_0
         {
             setInput(key, state ? 1f : 0f);
         }
-        public void setInput(string key, float state)
+        public bool setInput(string key, float state)
         {
+            //returns if successful
             while (map.ContainsKey(key))
                 map.Remove(key);
-            map.Add(key,state);
+            try
+            {
+                map.Add(key, state);
+            }
+            catch
+            {
+                Console.WriteLine("error setting input");
+                return false;
+            }
+            return true;
         }
         public float getInput(string key)
         {
@@ -318,7 +338,7 @@ namespace sharpserver_test0_0
             buff.Write(size.Z);
             foreach(KeyValuePair<int,GameClient> pair in gameWorld.clientMap)
             {
-                PacketStream.SendAsync(pair.Value.clientHandler.Stream, buff);
+                PacketStream.SendAsync(pair.Value.clientHandler, buff);
             }
             buff.Deallocate();
         }

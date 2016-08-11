@@ -4,8 +4,10 @@ using SharpServer.Sockets;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+//using System.ComponentModel;
+using System.Threading.Tasks;
 
-namespace sharpserver_test0_0
+namespace GMS_Server
 {
     class mainProgram
     {
@@ -17,18 +19,64 @@ namespace sharpserver_test0_0
         4 - entity created
         5 - entity destroyed
         6 - ping
+        7 - we got disconnect request
+        8 - server wants updated input
         */
 
         //global game variables
         static int port = 5524, maxConnections = 8, alignment = 4;
         static uint timeout = 4096;
         static GameWorld gameWorld;
+        static IPAddress address;
+        static TcpServerHandler game_server;
         public static void Main()
         {
             //make the socketbinder
             SocketBinder binder = new SocketBinder();
             //lets make the server too
-            TcpServerHandler game_server = new TcpServerHandler(binder, port, maxConnections, alignment, timeout, IPAddress.Parse("192.168.0.18"));
+            //first we need to get the server options from the host user
+            Console.WriteLine("Enter the IP your server runs on (leave an invalid ip for null):");
+            string addr_ = Console.ReadLine();
+            try
+            {
+                address = IPAddress.Parse(addr_);
+            }
+            catch
+            {
+                Console.WriteLine("Probably an invalid ip, using null");
+                address = null;
+            }
+            while (true)
+            {
+                Console.WriteLine("Enter the port the server runs on:");
+                string in_ = Console.ReadLine();
+                if (Convert.ToInt32(in_).ToString() == in_)
+                {
+                    port = Convert.ToInt32(in_);
+                    break;
+                }
+            }
+            while (true)
+            {
+                Console.WriteLine("Enter the maximum amount of connections:");
+                string in_ = Console.ReadLine();
+                if (Convert.ToInt32(in_).ToString() == in_)
+                {
+                    maxConnections = Convert.ToInt32(in_);
+                    break;
+                }
+            }
+            while (true)
+            {
+                Console.WriteLine("Enter the maximum timeout for clients:");
+                string in_ = Console.ReadLine();
+                if (Convert.ToInt32(in_).ToString() == in_)
+                {
+                    timeout = Convert.ToUInt32(in_);
+                    break;
+                }
+            }
+            game_server = new TcpServerHandler(binder, port, maxConnections, alignment, timeout, address);
             //start the server
             game_server.Start();
             //now lets set the methods for event stuff
@@ -45,11 +93,11 @@ namespace sharpserver_test0_0
             
             //and now for the main game loop
             int sleepJump = 0;
-            int sleepNum = 0;
+            //int sleepNum = 0;
             //anything after here is not accessible until the server ends
             while (game_server.Status)
             {
-                Thread.Sleep(1);
+                /*Thread.Sleep(1);
                 if (sleepJump == 2 && sleepNum == 16)
                 {
                     sleepJump = 0;
@@ -62,6 +110,21 @@ namespace sharpserver_test0_0
                     sleepNum = 0;
                     event_step();
                 }
+                sleepNum += 1;
+                */
+                if(sleepJump == 2)
+                {
+                    sleepJump = 0;
+                    event_step();
+                    Thread.Sleep(16);
+                }
+                else
+                {
+                    sleepJump++;
+                    event_step();
+                    Thread.Sleep(17);
+                }
+                sleepJump++;
             }
             //whatever after the loop is triggered here when the server is disabled
             Thread.Sleep(1000);
@@ -119,7 +182,7 @@ namespace sharpserver_test0_0
                 buff.Write(pair.Value.size.Y);
                 buff.Write(pair.Value.size.Z);
             }
-            PacketStream.SendAsync(client.Stream, buff);
+            PacketStream.SendAsync(client, buff);
             buff.Deallocate();
             Console.WriteLine("World and client data sent to socket " + client.Socket.ToString());
         }
@@ -145,9 +208,9 @@ namespace sharpserver_test0_0
 
             //this following line is probably absolutely essential to deal with the GMS packets
             readBuffer.Seek(12);
-
+            BufferStream buff_ = null;
             //get the message id, so we know what to do with the packet
-            byte msgid; readBuffer.Read(out msgid);
+            ushort msgid; readBuffer.Read(out msgid);
             switch(msgid)
             {
                 case 0: //client controls update
@@ -161,6 +224,7 @@ namespace sharpserver_test0_0
                     */
                     byte in_; readBuffer.Read(out in_);
                     bool[] actions = GameGeometry.parse_binary(in_);
+                    //Console.WriteLine(in_.ToString() + "-" + actions[5].ToString() + actions[4].ToString() + actions[3].ToString() + actions[2].ToString() + actions[1].ToString() + actions[0].ToString());
                     if (plid >= 0)
                     {
                         gameWorld.clientMap[plid].inputMap.setInput("forward", actions[0]);
@@ -182,18 +246,22 @@ namespace sharpserver_test0_0
                     }
                     break;
                 case 2: //client requested a ping
-                    BufferStream buff = new BufferStream(3, 1);
-                    buff.Write((ushort)6);
-                    PacketStream.SendAsync(client.Stream, buff);
-                    buff.Deallocate();
+                    buff_ = new BufferStream(3, 1);
+                    buff_.Write((ushort)6);
+                    PacketStream.SendAsync(client, buff_);
                     break;
                 case 3: //client is disconnecting
+                    buff_ = new BufferStream(2, 1);
+                    buff_.Write((ushort)7);
+                    PacketStream.SendSync(client.Stream, buff_);
                     client.Connected = false;
                     break;
                 default:
                     Console.WriteLine("invalid packet received");
                     break;
             }
+            if(buff_ != null)
+                buff_.Deallocate();
         }
 
         private static void event_closed(TcpServerHandler host)
@@ -221,9 +289,21 @@ namespace sharpserver_test0_0
             Console.WriteLine("Server is now running");
         }
 
-        private static void event_step()
+        private static async void event_step()
         {
-            gameWorld.update();
+            /*BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(
+            delegate (object o, DoWorkEventArgs args)
+            {
+                BackgroundWorker b = o as BackgroundWorker;
+                gameWorld.update();
+            });
+            bw.RunWorkerAsync();*/
+            if(game_server.ClientMap.Count > 0)
+                await Task.Run(() =>
+                {
+                    gameWorld.update();
+                });
         }
 
         static IPAddress getIp(TcpClientHandler client)

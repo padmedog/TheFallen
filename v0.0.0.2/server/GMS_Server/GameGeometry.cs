@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace sharpserver_test0_0
+namespace GMS_Server
 {
     public static class GameGeometry //didn't know what to call it, so I called it the only thing that I could think of for it
     {
@@ -39,9 +39,7 @@ namespace sharpserver_test0_0
             bool[] output_ = new bool[size];
             for( int i = 0; i < size; i += 1 )
             {
-                byte tmp_ = (byte)(value % 2);
-                output_[i] = (tmp_ == 1) ? true : false;
-                value >>= 1;
+                output_[i] = ((value >> i) & 1) == 1;
             }
             return output_;
         }
@@ -63,61 +61,81 @@ namespace sharpserver_test0_0
         }
         public static GamePoint2D lengthdir(float length, float direction)
         {
-            return new GamePoint2D(Math.Cos(direction) * length, Math.Cos(direction) * length);
+            double dir = direction * (Math.PI / 180);
+            return new GamePoint2D(Math.Cos(dir) * length, Math.Sin(dir) * length);
         }
         public static GamePoint2D lengthdir(int length, float direction)
         {
-            return new GamePoint2D(Math.Cos(direction) * length, Math.Cos(direction) * length);
+            double dir = direction * (Math.PI / 180);
+            return new GamePoint2D(Math.Cos(dir) * length, Math.Sin(dir) * length);
         }
         public static GamePoint3D lengthdir(float length, float direction, float pitch)
         {
-            double len = Math.Cos(pitch) * length;
-            return new GamePoint3D(Math.Cos(direction) * len, Math.Cos(direction) * len, Math.Sin(pitch) * length);
+            double dir = direction * (Math.PI / 180);
+            double pit = pitch * (Math.PI / 180);
+            double len = Math.Cos(pit) * length;
+            return new GamePoint3D(Math.Cos(dir) * len, Math.Sin(dir) * len, Math.Sin(pit) * length);
         }
         public static GamePoint3D lengthdir(int length, float direction, float pitch)
         {
-            double len = Math.Cos(pitch) * length;
-            return new GamePoint3D(Math.Cos(direction) * len, Math.Cos(direction) * len, Math.Sin(pitch) * length);
+            double dir = direction * (Math.PI / 180);
+            double pit = pitch * (Math.PI / 180);
+            double len = Math.Cos(pit) * length;
+            return new GamePoint3D(Math.Cos(dir) * len, Math.Sin(dir) * len, Math.Sin(pit) * length);
         }
         public static float lengthdir_x(float length, float direction)
         {
-            return (float)Math.Cos(direction) * length;
+            double dir = direction * (Math.PI / 180);
+            return (float)Math.Cos(dir) * length;
         }
         public static float lengthdir_y(float length, float direction)
         {
-            return (float)Math.Sin(direction) * length;
+            double dir = direction * (Math.PI / 180);
+            return (float)Math.Sin(dir) * length;
         }
         public static float lengthdir_x(int length, float direction)
         {
-            return (float)Math.Cos(direction) * length;
+            double dir = direction * (Math.PI / 180);
+            return (float)Math.Cos(dir) * length;
         }
         public static float lengthdir_y(int length, float direction)
         {
-            return (float)Math.Sin(direction) * length;
+            double dir = direction * (Math.PI / 180);
+            return (float)Math.Sin(dir) * length;
         }
         public static float lengthdir_x(float length, float direction, float pitch)
         {
-            return (float)Math.Cos(direction) * (float)Math.Cos(pitch) * length;
+            double dir = direction * (Math.PI / 180);
+            double pit = pitch * (Math.PI / 180);
+            return (float)Math.Cos(dir) * (float)Math.Cos(pit) * length;
         }
         public static float lengthdir_y(float length, float direction, float pitch)
         {
-            return (float)Math.Sin(direction) * (float)Math.Cos(pitch) * length;
+            double dir = direction * (Math.PI / 180);
+            double pit = pitch * (Math.PI / 180);
+            return (float)Math.Sin(dir) * (float)Math.Cos(pit) * length;
         }
         public static float lengthdir_z(float length, float pitch)
         {
-            return (float)Math.Sin(pitch) * length;
+            double pit = pitch * (Math.PI / 180);
+            return (float)Math.Sin(pit) * length;
         }
         public static float lengthdir_x(int length, float direction, float pitch)
         {
-            return (float)Math.Cos(direction) * (float)Math.Cos(pitch) * length;
+            double dir = direction * (Math.PI / 180);
+            double pit = pitch * (Math.PI / 180);
+            return (float)Math.Cos(dir) * (float)Math.Cos(pit) * length;
         }
         public static float lengthdir_y(int length, float direction, float pitch)
         {
-            return (float)Math.Sin(direction) * (float)Math.Cos(pitch) * length;
+            double dir = direction * (Math.PI / 180);
+            double pit = pitch * (Math.PI / 180);
+            return (float)Math.Sin(dir) * (float)Math.Cos(pit) * length;
         }
         public static float lengthdir_z(int length, float pitch)
         {
-            return (float)Math.Sin(pitch) * length;
+            double pit = pitch * (Math.PI / 180);
+            return (float)Math.Sin(pit) * length;
         }
     }
 
@@ -264,7 +282,7 @@ namespace sharpserver_test0_0
         }
         public static GamePoint3D Divide(GamePoint3D a, GamePoint3D b)
         {
-            return new GamePoint3D(a.X / b.X, a.Y / b.Y, a.Z + b.Z);
+            return new GamePoint3D(a.X / b.X, a.Y / b.Y, a.Z / b.Z);
         }
         public static GamePoint3D Add(GamePoint3D a, GamePoint2D b)
         {

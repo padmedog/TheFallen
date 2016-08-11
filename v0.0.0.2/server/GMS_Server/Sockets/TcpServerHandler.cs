@@ -229,16 +229,17 @@ namespace SharpServer.Sockets {
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
-            while( client.Connected ) {
+            while( client.Connected) {
                 if ( watch.ElapsedMilliseconds >= client.Timeout ) {
                     if ( AttemptReconnectEvent != null ) AttemptReconnectEvent( client );
                     client.Connected = client.Receiver.Connected;
                 }
 
-                if ( client.Stream.DataAvailable ) {
+                if ( client.Stream.DataAvailable) {
                     int packet = client.Receiver.Available;
                     BufferStream buffer = new BufferStream( packet, 1 );
-                    client.Stream.Read( buffer.Memory, 0, packet );
+                    if(client.Receiver.Connected)
+                        client.Stream.Read(buffer.Memory, 0, packet);
                     if ( ReceivedEvent != null ) ReceivedEvent( client, buffer );
                 }
 

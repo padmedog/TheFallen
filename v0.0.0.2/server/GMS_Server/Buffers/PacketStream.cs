@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using SharpServer.Sockets;
 
@@ -21,10 +22,20 @@ namespace SharpServer.Buffers {
             stream.Write( buffer.Memory, 0 , buffer.Iterator );
             await stream.FlushAsync();
         }
-        public static async void SendAsync(NetworkStream stream, BufferStream buffer, int size)
+        public static async void SendAsync(TcpClientHandler client, BufferStream buffer)
         {
-            stream.Write(buffer.Memory, 0, size);
-            await stream.FlushAsync();
+            if (client.Connected && client.Receiver.Connected)
+            {
+                try
+                {
+                    client.Stream.Write(buffer.Memory, 0, buffer.Iterator);
+                    await client.Stream.FlushAsync();
+                }
+                catch(System.IO.IOException e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
         }
 
         /// <summary>
