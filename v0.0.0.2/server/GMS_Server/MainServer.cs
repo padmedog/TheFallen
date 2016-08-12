@@ -76,6 +76,7 @@ namespace GMS_Server
                     break;
                 }
             }
+            Console.Clear();
             game_server = new TcpServerHandler(binder, port, maxConnections, alignment, timeout, address);
             //start the server
             game_server.Start();
@@ -255,6 +256,20 @@ namespace GMS_Server
                     buff_.Write((ushort)7);
                     PacketStream.SendSync(client.Stream, buff_);
                     client.Connected = false;
+                    break;
+                case 4: //client requested an entity
+                    int entId; readBuffer.Read(out entId);
+                    buff_ = new BufferStream(64, 1);
+                    buff_.Write((ushort)4);
+                    buff_.Write(gameWorld.entityMap[entId].id);
+                    buff_.Write(gameWorld.entityMap[entId].pos.X);
+                    buff_.Write(gameWorld.entityMap[entId].pos.Y);
+                    buff_.Write(gameWorld.entityMap[entId].pos.Z);
+                    buff_.Write(gameWorld.entityMap[entId].size.X);
+                    buff_.Write(gameWorld.entityMap[entId].size.Y);
+                    buff_.Write(gameWorld.entityMap[entId].direction);
+                    buff_.Write(gameWorld.entityMap[entId].pitch);
+                    PacketStream.SendAsync(client.Stream, buff_);
                     break;
                 default:
                     Console.WriteLine("invalid packet received");

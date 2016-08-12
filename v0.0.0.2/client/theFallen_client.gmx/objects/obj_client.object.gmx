@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ip = get_string("ip to connect to","192.168.0.15");
-port = get_integer("port to use","5424");
+            <string>ip = get_string("ip to connect to","192.168.0.18");
+port = get_integer("port to use","5524");
 socket = network_create_socket(network_socket_tcp);
 connection = network_connect_raw(socket,ip,port);
 if(connection &lt; 0)

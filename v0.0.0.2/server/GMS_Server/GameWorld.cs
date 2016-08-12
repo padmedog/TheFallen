@@ -107,9 +107,17 @@ namespace GMS_Server
             foreach(KeyValuePair<int,GameClient> pair in clientMap)
                 pair.Value.update(this);
             List<GameEntity> updateList = new List<GameEntity>();
-            foreach(KeyValuePair<int,GameEntity> pair in entityMap)
-                if(pair.Value.update(this))
-                    updateList.Add(pair.Value);
+            try
+            {
+                foreach (KeyValuePair<int, GameEntity> pair in entityMap)
+                    if (pair.Value.update(this))
+                        updateList.Add(pair.Value);
+            }
+            catch
+            {
+                Console.WriteLine("failed to complete client update list");
+                return;
+            }
             BufferStream buff = new BufferStream(12 + (updateList.Count*52),1);
             buff.Seek(0);
             buff.Write((ushort)0);
@@ -190,48 +198,55 @@ namespace GMS_Server
         }
         public bool update(GameWorld gameWorld)
         {
-            /*foreach(KeyValuePair<int,GameObject> pair in gameWorld.objectMap)
+            GamePoint3D sz3_ = new GamePoint3D(size.X, size.X, size.Y);
+            foreach (KeyValuePair<int, GameObject> pair in gameWorld.objectMap)
             {
-                while (GameGeometry.cube_in_cube(pair.Value.position, GamePoint3D.Add(pair.Value.position, pair.Value.size),
-                    GamePoint3D.Subtract(pos, new GamePoint3D(size.X - spd.X, size.X, size.Y)), GamePoint3D.Add(pos, new GamePoint3D(size.X + spd.X, size.X, size.Y))))
-                {
-                    if (spd.X >= precision)
-                        spd.X -= precision * Math.Sign(spd.X);
-                    else
+                if(spd.X != 0d)
+                    while (GameGeometry.cube_in_cube(pair.Value.position, pair.Value.position + pair.Value.size,
+                        (pos - sz3_) + new GamePoint3D(spd.X,0d,0d) , pos + sz3_ + new GamePoint3D(spd.X, 0d, 0d)))
                     {
-                        spd.X = 0;
-                        break;
+                        Console.WriteLine("x collision!");
+                        if (spd.X >= -precision && spd.X <= precision)
+                        {
+                            spd.X = 0;
+                            break;
+                        }
+                        else
+                            spd.X -= precision * Math.Sign(spd.X);
                     }
-                }
-                while (GameGeometry.cube_in_cube(pair.Value.position, GamePoint3D.Add(pair.Value.position, pair.Value.size),
-                    GamePoint3D.Subtract(pos, new GamePoint3D(size.X, size.X - spd.Y, size.Y)), GamePoint3D.Add(pos, new GamePoint3D(size.X, size.X + spd.Y, size.Y))))
-                {
-                    if (spd.Y >= precision)
-                        spd.Y -= precision * Math.Sign(spd.Y);
-                    else
+                if(spd.Y != 0d)
+                    while (GameGeometry.cube_in_cube(pair.Value.position, pair.Value.position + pair.Value.size,
+                        (pos - sz3_) + new GamePoint3D(0d, spd.Y, 0d), pos + sz3_ + new GamePoint3D(0d, spd.Y, 0d)))
                     {
-                        spd.Y = 0;
-                        break;
+                        Console.WriteLine("y collision!");
+                        if(spd.Y >= -precision && spd.Y <= precision)
+                        {
+                            spd.Y = 0;
+                            break;
+                        }
+                        else
+                            spd.Y -= precision * Math.Sign(spd.Y);
                     }
-                }
-                while (GameGeometry.cube_in_cube(pair.Value.position, GamePoint3D.Add(pair.Value.position, pair.Value.size),
-                    GamePoint3D.Subtract(pos, new GamePoint3D(size.X, size.X, size.Y - spd.Z)), GamePoint3D.Add(pos, new GamePoint3D(size.X, size.X, size.Y + spd.Z))))
-                {
-                    if (spd.Z >= precision)
-                        spd.Z -= precision * Math.Sign(spd.Z);
-                    else
+                if(spd.Z != 0d)
+                    while (GameGeometry.cube_in_cube(pair.Value.position, pair.Value.position + pair.Value.size,
+                        (pos - sz3_) + new GamePoint3D(0d, 0d, spd.Z), pos + sz3_ + new GamePoint3D(0d, 0d, spd.Z)))
                     {
-                        spd.Z = 0;
-                        break;
+                        Console.WriteLine("z collision!");
+                        if (spd.Z >= -precision && spd.Z <= precision)
+                        {
+                            spd.Z = 0;
+                            break;
+                        }
+                        else
+                            spd.Z -= precision * Math.Sign(spd.Z);
                     }
-                }
-            }*/
-            pos.Add(spd);
-            spd.Divide(frc);
+            }
+            pos += spd;
+            //spd /= frc;
             while (direction < 0f) direction += 360f; direction %= 360f;
             if (pitch >= 89f) pitch = 89f;
             else if (pitch <= -89f) pitch = -89f;
-            //Console.WriteLine("x" + pos.X.ToString() + ",y" + pos.Y.ToString() + ",z" + pos.Z.ToString()+",d"+direction.ToString());
+            Console.WriteLine("x" + spd.X.ToString() + ",y" + spd.Y.ToString() + ",z" + spd.Z.ToString()+",d"+direction.ToString());
             bool ret_ = false;
             if(pos != ppos || pdir != direction || ppit != pitch)
             {
@@ -275,7 +290,11 @@ namespace GMS_Server
                 }
                 if (inputMap.getInput("up") == 1f) //jump
                 {
-                    gameWorld.entityMap[entityId].spd.Z -= 4d;
+                    gameWorld.entityMap[entityId].spd.Z += 1d;
+                }
+                if (inputMap.getInput("down") == 1f) //crouch
+                {
+                    gameWorld.entityMap[entityId].spd.Z -= 1d;
                 }
                 gameWorld.entityMap[entityId].direction += inputMap.getInput("view_x"); inputMap.setInput("view_x", 0f);
                 gameWorld.entityMap[entityId].pitch -= inputMap.getInput("view_y"); inputMap.setInput("view_y", 0f);
@@ -289,11 +308,15 @@ namespace GMS_Server
         {
             map = new Dictionary<string, float>();
         }
-        public void setInput(string key, bool state)
+        public bool setInput(string key, bool state)
         {
-            setInput(key, state ? 1f : 0f);
+            return setInput(key, state ? 1f : 0f);
         }
         public bool setInput(string key, float state)
+        {
+            return setInput(key, state, 1); //the third argument probably shouldn't be changed
+        }
+        public bool setInput(string key, float state, uint times)
         {
             //returns if successful
             while (map.ContainsKey(key))
@@ -302,18 +325,32 @@ namespace GMS_Server
             {
                 map.Add(key, state);
             }
-            catch
+            catch//(ArgumentException)
             {
-                Console.WriteLine("error setting input");
-                return false;
+                if (times >= 17)
+                {
+                    Console.WriteLine("pretty much failed to set input after 16 attempts");
+                    return false;
+                }
+                if (times > 1)
+                        Console.WriteLine("error setting input, trying again (attempt #" + times.ToString() + ")");
+                return setInput(key, state, times + 1);
             }
             return true;
         }
         public float getInput(string key)
         {
-            if (map.ContainsKey(key))
-                return map[key];
-            return 0f;
+            float val_ = 0f;
+            try
+            {
+                if (map.ContainsKey(key))
+                    val_ = map[key];
+            }
+            catch(KeyNotFoundException)
+            {
+                Console.WriteLine("error getting input");
+            }
+            return val_;
         }
     }
     public class GameObject

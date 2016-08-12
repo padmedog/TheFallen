@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sharpserver_test0_0.exe" size="46544">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sharpserver_test0_0.exe" size="51152">
       <assemblyIdentity name="sharpserver_test0_0" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WNxQOcykdr/R6Zjmg6vqlPvRljSylup+zG6Buatwn8M=</dsig:DigestValue>
+        <dsig:DigestValue>30zjsKqHKMxz5oOcn3W0lmtBUh5ZmUex/E/8KOTtPTg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

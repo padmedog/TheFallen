@@ -22,7 +22,9 @@
       <script>scripts\d3d_lengthdir_y.gml</script>
       <script>scripts\d3d_lengthdir_z.gml</script>
     </scripts>
+    <script>scripts\request_entity.gml</script>
   </scripts>
+  <shaders name="shaders"/>
   <objects name="objects">
     <object>objects\obj_client</object>
     <object>objects\obj_control</object>
